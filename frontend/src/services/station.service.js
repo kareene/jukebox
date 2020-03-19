@@ -1,17 +1,41 @@
 export default {
     query,
-    getById
+    getById,
+    save
 }
 
 var gStations = _createStations();
 
 function query(filterBy = {}) {
-    return Promise.resolve(gStations)
+    return Promise.resolve(JSON.parse(JSON.stringify(gStations)))
 }
 
 function getById(stationId) {
-    const station = gStations.find(station => station._id === stationId);
+    const station = (stationId) ? gStations.find(station => station._id === stationId) : {
+        _id: "",
+        name: "",
+        tags: [],
+        createdBy: {
+            _id: "",
+            fullName: "",
+            urlImg: ""
+        },
+        likedBy: "",
+        songs: null,
+        chatMsgs: "",
+        theme: ""
+    }
+
     return Promise.resolve(station)
+}
+
+function save(station) {
+    const idx = gStations.findIndex(currStation => currStation._id === station._id);
+    // if (toyIdx === -1) throw new Error('toy not found')
+    gStations.splice(idx, 1, station);
+    localStorage.setItem('stations', JSON.stringify(gStations));
+
+
 }
 
 function _createStations() {

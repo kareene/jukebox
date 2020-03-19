@@ -17,18 +17,16 @@ function getById(stationId) {
 function _createStations() {
     var stations = JSON.parse(localStorage.getItem('stations'));
     if (!stations || !stations.length) {
-        stations = [
-            {
+        stations = [{
                 _id: 'oskfdkfo',
-                name: '',
+                name: 'Party on the roff',
                 tags: ['dance', 'happy'],
                 createdBy: {
                     _id: 'eksnfits',
                     fullName: 'Rotem Yehiel',
                     urlImg: 'api.adorable.io/avatars/100/20.png'
                 },
-                likedBy: [
-                    {
+                likedBy: [{
                         _id: 'edfjhfdg',
                         fullName: 'Kareene Komet',
                         urlImg: 'api.adorable.io/avatars/100/3.png'
@@ -39,8 +37,7 @@ function _createStations() {
                         urlImg: 'api.adorable.io/avatars/100/2.png'
                     }
                 ],
-                songs: [
-                    {
+                songs: [{
                         id: 'dfsgdfgsdf',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
@@ -61,8 +58,7 @@ function _createStations() {
                         }
                     }
                 ],
-                chatMsgs: [
-                    {
+                chatMsgs: [{
                         fullName: 'Rotem Yehiel',
                         txt: 'Welcome to the house of fun'
                     },
@@ -75,15 +71,14 @@ function _createStations() {
             },
             {
                 _id: 'lkjfgdiufgypiuyt',
-                name: '',
+                name: 'Night night',
                 tags: ['dance', 'happy'],
                 createdBy: {
                     _id: 'eksnfits',
                     fullName: 'Rotem Yehiel',
                     urlImg: 'api.adorable.io/avatars/100/20.png'
                 },
-                likedBy: [
-                    {
+                likedBy: [{
                         _id: 'edfjhfdg',
                         fullName: 'Kareene Komet',
                         urlImg: 'api.adorable.io/avatars/100/3.png'
@@ -94,8 +89,7 @@ function _createStations() {
                         urlImg: 'api.adorable.io/avatars/100/2.png'
                     }
                 ],
-                songs: [
-                    {
+                songs: [{
                         id: 'dfsgdfgsdf',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
@@ -116,8 +110,7 @@ function _createStations() {
                         }
                     }
                 ],
-                chatMsgs: [
-                    {
+                chatMsgs: [{
                         fullName: 'Rotem Yehiel',
                         txt: 'Welcome to the house of fun'
                     },

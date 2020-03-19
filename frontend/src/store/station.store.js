@@ -23,14 +23,22 @@ export default {
         }
     },
     mutations: {
-        loadStation(state, { station }) {
+        setStations(state, { stations }) {
+            state.stations = stations;
+        },
+        setStation(state, { station }) {
             state.currStation = station;
         }
     },
     actions: {
+        async loadStations(context) {
+            const stations = await stationService.query(context.getters.filterBy);
+            context.commit({ type: 'setStations', stations });
+            return stations;
+        },
         async loadStation(context, { stationId }) {
             const station = await stationService.getById(stationId);
-            context.commit('loadStation', station);
+            context.commit({ type: 'setStation', station });
             return station;
         }
     }

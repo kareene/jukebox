@@ -1,4 +1,4 @@
-# frontend
+# Jukebox
 
 ## Project setup
 ```

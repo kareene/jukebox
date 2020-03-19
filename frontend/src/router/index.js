@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import homePage from '../views/home-page.vue'
 import aboutPage from '../views/about-page.vue'
-import stationPage from '../views/station-page.vue'
+import stationsPage from '../views/stations-page.vue'
 import stationEdit from '../views/station-edit.vue'
 import stationDetails from '../views/station-details.vue'
 import userSignup from '../views/user-signup.vue'
@@ -24,8 +24,8 @@ const routes = [
   },
   {
     path: '/station',
-    name: 'stationPage',
-    component: stationPage
+    name: 'stationsPage',
+    component: stationsPage
   },
   {
     path: '/station/edit/:id?',

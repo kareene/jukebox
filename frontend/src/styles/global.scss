@@ -3,22 +3,19 @@
 @import 'setup/variables';
 @import 'setup/mixins';
 @import 'setup/functions';
-
 // BASICS
 @import 'basics/helpers';
 @import 'basics/base';
 @import 'basics/layout';
-
 // VIEWS
 // @import 'views/home-page';
 // @import 'views/about-page';
 // @import 'views/station-page';
-// @import 'views/station-details';
+@import 'views/station-details';
 // @import 'views/station-edit';
 // @import 'views/user-signup';
 // @import 'views/user-profile';
 // @import 'views/user-management';
-
 // COMPONENTS
 // @import 'cmps/main-header';
 // @import 'cmps/main-footer';

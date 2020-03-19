@@ -1,0 +1,28 @@
+.station-details {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-template-rows: auto auto minmax(700px, auto);
+    gap: 1rem;
+    .station-details-header {
+        grid-column: 1/-1;
+        grid-row: 1/1;
+    }
+    .video-container {
+        grid-column: 1/2;
+        grid-row: 2/3;
+    }
+    .songs-list {
+        grid-column: 1/2;
+        grid-row: 3/4
+    }
+    .station-chat {
+        grid-column: 2/3;
+        grid-row: 2/4;
+        background-color: lightblue;
+    }
+}
+
+.video-container {
+    min-width: 320px;
+    min-height: 320px;
+}

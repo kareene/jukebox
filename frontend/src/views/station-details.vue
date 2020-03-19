@@ -1,22 +1,26 @@
 <template>
   <article v-if="station" class="station-details">
-    <h2>Station Details</h2>
+
+    <section class="station-details-header">
+      <h1>{{station.name}}</h1>
+      <h2>Create by: {{station.createdBy.fullName}}</h2>
+      <h4>{{station.tags.join(", ")}}</h4>
+      <h4>Likes: {{likedCount}}</h4>
+    </section>
 
     <div v-if="currSong" class="video-container">
-        <iframe width="560" height="315" :src="currSong.videoUrl" 
+        <iframe class="video-self" width="100%" :src="currSong.videoUrl" 
         frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
     </div>
 
-    <h1>{{station.name}}</h1>
-    <h2>Create by: {{station.createdBy.fullName}}</h2>
-    <h4>{{station.tags.join(", ")}}</h4>
-    <h4>Likes: {{likedCount}}</h4>
-    <ul>
+    <ul class="songs-list">
       <li :key="song.id" v-for="song in station.songs">
         <h3>{{song.title}}</h3>
       </li>
     </ul>
+
+    <section class="station-chat">Chat will be here</section>
       
   </article>
 </template>

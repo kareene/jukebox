@@ -1,12 +1,12 @@
 <template>
-  <article class="station-edit">
+  <article v-if="currStation" class="station-edit">
     <h2>{{(currStation)? 'Edit' : 'Add'}} station</h2>
 
     <form @submit.prevent="saveStation">
       <label>Enter station name:</label>
-      <input v-if="currStation" type="text" v-model="currStation.name" />
+      <input type="text" v-model="currStation.name" />
 
-      <ul v-if="currStation">
+      <ul>
         Tags:
         <li :key="tag" v-for="tag in currStation.tags">
           <h3>{{tag}}</h3>
@@ -17,7 +17,9 @@
       <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
       <button @click.prevent="addNewTag">Add tag</button>
 
-      <ul v-if="currStation">
+      <songAdd @add-song="addSong" />
+      
+      <ul>
         Songs list:
         <li :key="song.id" v-for="song in currStation.songs">
           <h3>{{song.title}}</h3>
@@ -26,11 +28,13 @@
       </ul>
       <button>{{(currStation)? 'Edit' : 'Add'}}</button>
     </form>
-    <pre v-if="currStation">{{currStation}}</pre>
+    <pre>{{currStation}}</pre>
   </article>
 </template>
 
 <script>
+import songAdd from '@/cmps/song-add.vue'
+
 export default {
   name: "stationEdit",
   data() {
@@ -54,6 +58,11 @@ export default {
     addNewTag() {
       this.currStation.tags.push(this.tagToAdd);
     },
+    addSong(song) {
+      console.log(song)
+      this.currStation.songs.unshift(song);
+      console.log(this.currStation.songs)
+    },
     removeSong(songId) {
       const idx = this.currStation.songs.findIndex(song => song.id === songId);
       this.currStation.songs.splice(idx, 1);
@@ -68,9 +77,12 @@ export default {
     saveStation() {
     const stationToSave=this.currStation;
     this.$store.dispatch({ type: 'saveStation',stationToSave  })
-    clearInputs();
+    this.clearInputs();
     this.loadStation();
     }
+  },
+  components: {
+    songAdd
   }
-};
+}
 </script>

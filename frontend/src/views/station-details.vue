@@ -1,12 +1,12 @@
 <template>
   <article v-if="station" class="station-details">
 
-    <section class="station-details-header">
+    <header class="station-details-header">
       <h1>{{station.name}}</h1>
       <h2>Create by: {{station.createdBy.fullName}}</h2>
       <h4>{{station.tags.join(", ")}}</h4>
       <h4>Likes: {{likedCount}}</h4>
-    </section>
+    </header>
 
     <div v-if="currSong" class="video-container">
         <iframe class="video-self" width="100%" :src="currSong.videoUrl" 

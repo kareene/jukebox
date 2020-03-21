@@ -1,0 +1,42 @@
+.station-preview{
+    font-family: proxima;
+    color:white;
+    background-color: #bfbfbf;
+    .content{
+        padding: rem(10px);
+    }
+    h3{
+        margin-bottom: 0;
+        font-size: 18px;
+        // font-size: rem(20px)
+    }
+    img{
+        mix-blend-mode: multiply;
+    }
+    p{
+        margin-top: 0;
+        margin-bottom: rem(5px);
+        font-size: rem(13px)
+    }
+    small {
+        margin-right: rem(12px);
+
+    }
+    .play{
+        text-shadow: #000000 0px 0px 8px;
+        font-size: 3em;
+        align-self: center;
+        padding-top: rem(15px);
+    }
+    .preview-details{
+        visibility: hidden;
+    } 
+}
+
+.station-preview:hover{
+    cursor: pointer;
+    
+    .preview-details{
+        visibility: visible;
+    }
+}

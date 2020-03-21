@@ -1,10 +1,24 @@
 <template>
-  <li v-if="station" class="station-preview">
-    <pre>{{station}}</pre>
+  <li v-if="station" class="station-preview ratio-square">
     <img v-if="station.imgUrl" :src="station.imgUrl" />
-    <router-link :to="'/station/'+station._id">Details</router-link>
+
+    
+    <div class = "content flex direction-column">
+      <h3 class = "station-name">{{station.name}}</h3>
+      <p class = "station-creator">by {{station.createdBy.fullName}}</p>
+      <div class= "preview-details">
+        <small><i class="fas fa-heart"></i> {{likesCount}}</small>
+        <small><i class="far fa-clock"></i> {{songsCount}} tracks</small>
+      </div>
+      <i class="far fa-play-circle play preview-details"></i>
+
+
+    </div>
+    
+    <!-- <pre>{{station}}</pre> -->
+    <!-- <router-link :to="'/station/'+station._id">Details</router-link>
     <router-link :to="'/station/edit/'+station._id">Edit</router-link>
-    <button @click="$emit('remove', station)">Delete</button>
+    <button @click="$emit('remove', station)">Delete</button> -->
   </li>
 </template>
 
@@ -12,6 +26,14 @@
 export default {
   props: {
     station: Object
+  },
+  computed:{
+    likesCount(){
+      return this.station.likedBy.length
+    },
+    songsCount(){
+      return this.station.songs.length
+    }
   }
 };
 </script>

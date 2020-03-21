@@ -1,8 +1,7 @@
 <template>
+<router-link :to="'/station/'+station._id">
   <li v-if="station" class="station-preview ratio-square">
     <img v-if="station.imgUrl" :src="station.imgUrl" />
-
-    
     <div class = "content flex direction-column">
       <h3 class = "station-name">{{station.name}}</h3>
       <p class = "station-creator">by {{station.createdBy.fullName}}</p>
@@ -11,15 +10,11 @@
         <small><i class="far fa-clock"></i> {{songsCount}} tracks</small>
       </div>
       <i class="far fa-play-circle play preview-details"></i>
-
-
     </div>
-    
-    <!-- <pre>{{station}}</pre> -->
-    <!-- <router-link :to="'/station/'+station._id">Details</router-link>
-    <router-link :to="'/station/edit/'+station._id">Edit</router-link>
+    <!-- <router-link :to="'/station/edit/'+station._id">Edit</router-link>
     <button @click="$emit('remove', station)">Delete</button> -->
   </li>
+   </router-link>
 </template>
 
 <script>

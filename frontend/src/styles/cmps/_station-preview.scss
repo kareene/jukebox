@@ -1,6 +1,5 @@
 .station-preview{
     transition: background-color 500ms linear;
-
     font-family: proxima;
     color:white;
     background-color: #bfbfbf;
@@ -31,6 +30,8 @@
         padding-top: rem(15px);
     }
     .preview-details{
+        opacity: 0;
+        transition: visibility 0s linear 300ms, opacity 300ms;
         visibility: hidden;
     } 
 }
@@ -41,6 +42,8 @@
     
     .preview-details{
         visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0s, opacity 300ms;
     }
 
 }

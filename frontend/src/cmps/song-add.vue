@@ -1,6 +1,6 @@
 <template>
     <article class="song-add">
-        <h2>song add</h2>
+        <h2>Add a great song</h2>
         <form @submit.prevent="searchForSongs">
             <input type="text" v-model="searchStr" />
             <button>Search</button>

@@ -1,4 +1,6 @@
 .station-preview{
+    transition: background-color 500ms linear;
+
     font-family: proxima;
     color:white;
     background-color: #bfbfbf;
@@ -34,9 +36,11 @@
 }
 
 .station-preview:hover{
+    background-color: #6f6e6e;
     cursor: pointer;
     
     .preview-details{
         visibility: visible;
     }
+
 }

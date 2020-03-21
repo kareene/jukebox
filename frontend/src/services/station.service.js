@@ -148,8 +148,8 @@ function _createStations() {
                 theme: 'happy'
             },
             {
-                _id: 'lkjfgdiufgypiuyt',
-                name: 'That Old Scholl Flavor',
+                _id: 'lkjfgdiufgypiu2t',
+                name: 'That Old School Flavor',
                 tags: ['dance', 'happy'],
                 imgUrl: 'https://images.8tracks.com/cover/i/000/074/723/tumblr_m26iguKoGE1qc05pbo1_1280-3201.jpg?rect=0,0,721,721&q=98&fm=jpg&fit=max',
                 createdBy: {

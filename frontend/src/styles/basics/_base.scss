@@ -16,8 +16,9 @@ img {
     width: 100%;
 }
 
-h1 {
-    font-weight: bold;
+h1,h2,h3,h4 {
+    font-family: proxima-bold;
+    // font-weight: bold;
     margin: 0 0 rem(20px);
     // font-family: Baloo2-Bold, sans-serif;
     // font-size: rem(70px);

@@ -3,7 +3,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import './fonts/fontawesome/css/all.css'
+import './assets/fonts/fontawesome/css/all.css'
 import './styles/global.scss';
 
 Vue.config.productionTip = false

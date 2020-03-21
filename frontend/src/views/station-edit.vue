@@ -6,25 +6,23 @@
       <label>Enter station name:</label>
       <input type="text" v-model="currStation.name" />
 
-      <ul>
+      <ul class="tags-list">
         Tags:
-        <li :key="tag" v-for="tag in currStation.tags">
-          <h3>{{tag}}</h3>
-          <button @click.prevent="removeTag(tag)">X</button>
+        <li class="li-tag" :key="tag" v-for="tag in currStation.tags" data-hover="Remove" 
+        @mouseover="isHoverTag = true"
+        @isHoverTag="isHoverTag = false"
+        @click.prevent="removeTag(tag)">
+          {{tag}}
+          <!-- <h3>{{tag}}</h3>
+          <button @click.prevent="removeTag(tag)">X</button> -->
         </li>
       </ul>
 
-      <!-- <form method="addNewTag">Add tags: -->
         Add tags:
           <input @change="addNewTag" list="browsers" name="browser">
             <datalist id="browsers">
             <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
           </datalist>
-          <!-- <input type="submit">
-      </form> -->
-
-      <!-- <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
-      <button @click.prevent="addNewTag">Add tag</button> -->
 
       <songAdd @add-song="addSong" />
 
@@ -45,7 +43,8 @@ export default {
   data() {
     return {
       currStation: null,
-      tagToAdd: ""
+      tagToAdd: "",
+      isHoverTag: null
     };
   },
   created() {
@@ -75,6 +74,7 @@ export default {
       this.currStation.songs.splice(idx, 1);
     },
     removeTag(tagToRemove) {
+      if(this.isHoverTag==='false')return
       const idx = this.currStation.tags.findIndex(tag => tag === tagToRemove);
       this.currStation.tags.splice(idx, 1);
     },

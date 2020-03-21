@@ -1,36 +1,35 @@
 <template>
   <article v-if="currStation" class="station-edit">
-    <h2>{{(currStation)? 'Edit' : 'Add'}} station</h2>
+    <h2>{{(currStation._id)? 'Edit' : 'Add'}} station : <span v-if="currStation._id">{{currStation.name}}</span></h2>
 
-    <form @submit.prevent="saveStation">
-      <label>Enter station name:</label>
-      <input type="text" v-model="currStation.name" />
+    <form class="edit-form" @submit.prevent="saveStation">
 
-      <ul>
-        Tags:
-        <li :key="tag" v-for="tag in currStation.tags">
-          <h3>{{tag}}</h3>
-          <button @click.prevent="removeTag(tag)">X</button>
-        </li>
-      </ul>
+      <section class="change-name">
+        <label>Enter station name:</label>
+        <input type="text" v-model="currStation.name" />
+      </section>
 
-      <!-- <form method="addNewTag">Add tags: -->
+      <section class="change-tags" >
+          <label v-if="currStation._id">Tags:</label>
+        <ul class="tags-list">
+          <li class="li-tag" :key="tag" v-for="tag in currStation.tags" data-hover="Remove" @click.prevent="removeTag(tag)">
+            {{tag}}
+          </li>
+        </ul>
+        <div  class="add-tags">
         Add tags:
           <input @change="addNewTag" list="browsers" name="browser">
             <datalist id="browsers">
             <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
           </datalist>
-          <!-- <input type="submit">
-      </form> -->
-
-      <!-- <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
-      <button @click.prevent="addNewTag">Add tag</button> -->
+          </div>
+        </section>
 
       <songAdd @add-song="addSong" />
 
       <songList :songs="currStation.songs" @remove-song="removeSong" />
 
-      <button>{{(currStation)? 'Edit' : 'Add'}}</button>
+      <button class="edit-btn">{{(currStation)? 'Edit' : 'Add'}}</button>
     </form>
     <pre>{{currStation}}</pre>
   </article>
@@ -61,11 +60,8 @@ export default {
       this.currStation = JSON.parse(JSON.stringify(station));
     },
     addNewTag(ev) {
-       console.log(ev.target.value)
-        console.log(this.tagToAdd)
       this.tagToAdd=ev.target.value;
       this.currStation.tags.push(this.tagToAdd);
-      // this.ev.target.value='';
     },
     addSong(song) {
       this.currStation.songs.unshift(song);

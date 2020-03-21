@@ -18,14 +18,9 @@
       <button @click.prevent="addNewTag">Add tag</button>
 
       <songAdd @add-song="addSong" />
-      
-      <ul>
-        Songs list:
-        <li :key="song.id" v-for="song in currStation.songs">
-          <h3>{{song.title}}</h3>
-          <button @click.prevent="removeSong(song.id)">X</button>
-        </li>
-      </ul>
+
+      <songList :songs="currStation.songs" @remove-song="removeSong" />
+
       <button>{{(currStation)? 'Edit' : 'Add'}}</button>
     </form>
     <pre>{{currStation}}</pre>
@@ -33,7 +28,8 @@
 </template>
 
 <script>
-import songAdd from '@/cmps/song-add.vue'
+import songList from '@/cmps/song-list.vue';
+import songAdd from '@/cmps/song-add.vue';
 
 export default {
   name: "stationEdit",
@@ -59,9 +55,7 @@ export default {
       this.currStation.tags.push(this.tagToAdd);
     },
     addSong(song) {
-      console.log(song)
       this.currStation.songs.unshift(song);
-      console.log(this.currStation.songs)
     },
     removeSong(songId) {
       const idx = this.currStation.songs.findIndex(song => song.id === songId);
@@ -82,6 +76,7 @@ export default {
     }
   },
   components: {
+    songList,
     songAdd
   }
 }

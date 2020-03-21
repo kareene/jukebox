@@ -14,11 +14,8 @@
         </iframe>
     </div>
 
-    <ul class="songs-list">
-      <li :key="song.id" v-for="song in station.songs">
-        <h3>{{song.title}}</h3>
-      </li>
-    </ul>
+    <songAdd v-if="isAddMode" @add-song="addSong" />
+    <songList v-else :songs="station.songs" @remove-song="removeSong" />
 
     <section class="station-chat">Chat will be here</section>
       
@@ -26,12 +23,16 @@
 </template>
 
 <script>
+import songList from '@/cmps/song-list.vue';
+import songAdd from '@/cmps/song-add.vue';
+
 export default {
   name: 'stationDetails',
   data() {
     return {
       station: null,
-      currSong: null
+      currSong: null,
+      isAddMode: false
     }
   },
   async created() {
@@ -52,7 +53,13 @@ export default {
     playNextSong() {
       this.station.songs.push(this.currSong);
       this.currSong = this.station.songs.shift();
-    }
+    },
+    addSong(song) {},
+    removeSong(songId) {}
+  },
+  components: {
+    songList,
+    songAdd
   }
 }
 </script>

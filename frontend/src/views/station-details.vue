@@ -1,12 +1,12 @@
 <template>
   <article v-if="station" class="station-details">
 
-    <section class="station-details-header">
+    <header class="station-details-header">
       <h1>{{station.name}}</h1>
       <h2>Create by: {{station.createdBy.fullName}}</h2>
       <h4>{{station.tags.join(", ")}}</h4>
       <h4>Likes: {{likedCount}}</h4>
-    </section>
+    </header>
 
     <div v-if="currSong" class="video-container">
         <iframe class="video-self" width="100%" :src="currSong.videoUrl" 
@@ -14,11 +14,8 @@
         </iframe>
     </div>
 
-    <ul class="songs-list">
-      <li :key="song.id" v-for="song in station.songs">
-        <h3>{{song.title}}</h3>
-      </li>
-    </ul>
+    <songAdd v-if="isAddMode" @add-song="addSong" />
+    <songList v-else :songs="station.songs" @remove-song="removeSong" />
 
     <section class="station-chat">Chat will be here</section>
       
@@ -26,12 +23,16 @@
 </template>
 
 <script>
+import songList from '@/cmps/song-list.vue';
+import songAdd from '@/cmps/song-add.vue';
+
 export default {
   name: 'stationDetails',
   data() {
     return {
       station: null,
-      currSong: null
+      currSong: null,
+      isAddMode: false
     }
   },
   async created() {
@@ -52,7 +53,13 @@ export default {
     playNextSong() {
       this.station.songs.push(this.currSong);
       this.currSong = this.station.songs.shift();
-    }
+    },
+    addSong(song) {},
+    removeSong(songId) {}
+  },
+  components: {
+    songList,
+    songAdd
   }
 }
 </script>

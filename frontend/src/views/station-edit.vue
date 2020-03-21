@@ -1,12 +1,12 @@
 <template>
-  <article class="station-edit">
+  <article v-if="currStation" class="station-edit">
     <h2>{{(currStation)? 'Edit' : 'Add'}} station</h2>
 
     <form @submit.prevent="saveStation">
       <label>Enter station name:</label>
-      <input v-if="currStation" type="text" v-model="currStation.name" />
+      <input type="text" v-model="currStation.name" />
 
-      <ul v-if="currStation">
+      <ul>
         Tags:
         <li :key="tag" v-for="tag in currStation.tags">
           <h3>{{tag}}</h3>
@@ -14,23 +14,32 @@
         </li>
       </ul>
 
-      <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
-      <button @click.prevent="addNewTag">Add tag</button>
+      <!-- <form method="addNewTag">Add tags: -->
+        Add tags:
+          <input @change="addNewTag" list="browsers" name="browser">
+            <datalist id="browsers">
+            <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
+          </datalist>
+          <!-- <input type="submit">
+      </form> -->
 
-      <ul v-if="currStation">
-        Songs list:
-        <li :key="song.id" v-for="song in currStation.songs">
-          <h3>{{song.title}}</h3>
-          <button @click.prevent="removeSong(song.id)">X</button>
-        </li>
-      </ul>
+      <!-- <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
+      <button @click.prevent="addNewTag">Add tag</button> -->
+
+      <songAdd @add-song="addSong" />
+
+      <songList :songs="currStation.songs" @remove-song="removeSong" />
+
       <button>{{(currStation)? 'Edit' : 'Add'}}</button>
     </form>
-    <pre v-if="currStation">{{currStation}}</pre>
+    <pre>{{currStation}}</pre>
   </article>
 </template>
 
 <script>
+import songList from '@/cmps/song-list.vue';
+import songAdd from '@/cmps/song-add.vue';
+
 export default {
   name: "stationEdit",
   data() {
@@ -51,8 +60,15 @@ export default {
       });
       this.currStation = JSON.parse(JSON.stringify(station));
     },
-    addNewTag() {
+    addNewTag(ev) {
+       console.log(ev.target.value)
+        console.log(this.tagToAdd)
+      this.tagToAdd=ev.target.value;
       this.currStation.tags.push(this.tagToAdd);
+      // this.ev.target.value='';
+    },
+    addSong(song) {
+      this.currStation.songs.unshift(song);
     },
     removeSong(songId) {
       const idx = this.currStation.songs.findIndex(song => song.id === songId);
@@ -68,9 +84,13 @@ export default {
     saveStation() {
     const stationToSave=this.currStation;
     this.$store.dispatch({ type: 'saveStation',stationToSave  })
-    clearInputs();
+    this.clearInputs();
     this.loadStation();
     }
+  },
+  components: {
+    songList,
+    songAdd
   }
-};
+}
 </script>

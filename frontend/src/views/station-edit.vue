@@ -14,8 +14,17 @@
         </li>
       </ul>
 
-      <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
-      <button @click.prevent="addNewTag">Add tag</button>
+      <!-- <form method="addNewTag">Add tags: -->
+        Add tags:
+          <input @change="addNewTag" list="browsers" name="browser">
+            <datalist id="browsers">
+            <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
+          </datalist>
+          <!-- <input type="submit">
+      </form> -->
+
+      <!-- <input type="text" v-model="tagToAdd" placeholder="enter new tag..." />
+      <button @click.prevent="addNewTag">Add tag</button> -->
 
       <songAdd @add-song="addSong" />
       
@@ -55,8 +64,12 @@ export default {
       });
       this.currStation = JSON.parse(JSON.stringify(station));
     },
-    addNewTag() {
+    addNewTag(ev) {
+       console.log(ev.target.value)
+        console.log(this.tagToAdd)
+      this.tagToAdd=ev.target.value;
       this.currStation.tags.push(this.tagToAdd);
+      // this.ev.target.value='';
     },
     addSong(song) {
       console.log(song)

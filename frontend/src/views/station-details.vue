@@ -26,9 +26,10 @@
     </section>
 
     <section class="songs-sec">
-      <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</i></button>
+      <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</button>
       <songAdd v-if="isAddMode" @add-song="addSong" />
-      <songList v-else :songs="station.songs" :playingSongId="playingSongId" @remove-song="removeSong" />
+      <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
+        @remove-song="removeSong" @play-song="playSong" />
     </section>
 
     <section class="station-chat">Chat will be here</section>
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import songList from '@/cmps/song-list.vue';
+import songList from '@/cmps/song-list-drag.vue';
 import songAdd from '@/cmps/song-add.vue';
 
 export default {
@@ -78,6 +79,10 @@ export default {
       if (playerState === 1 /* PLAYING */) this.player.pauseVideo();
       else if (playerState === 2 /* PAUSED */) this.player.playVideo();
     },
+    playSong(songId) {
+      this.playingSongId = songId;
+      this.loadSong();
+    },
     playNextSong() {
       var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
       idx++;
@@ -105,7 +110,10 @@ export default {
       this.station.songs.push(song);
       this.toggleAddMode();
     },
-    removeSong(songId) {},
+    removeSong(songId) {
+      const idx = this.station.songs.findIndex(song => song.id === songId);
+      this.station.songs.splice(idx, 1);
+    },
     shuffleSongs() {}
   },
   components: {

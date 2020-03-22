@@ -10,20 +10,23 @@
             background-color: inherit;
         }
         .remove-song-btn {
-            display: none;
+            visibility: hidden;
             border: none;
             color: inherit;
             background-color: transparent;
         }
+        img {
+            width: 20px;
+        }
         &:hover .remove-song-btn {
-            display: block;
+            visibility: visible;
             cursor: pointer;
         }
-    }
-     :nth-child(odd) {
-        background-color: #f3f3f4;
-    }
-    .playing {
-        border: 2px solid $clr3;
+        &:nth-child(odd) {
+            background-color: #f3f3f4;
+        }
+        &.playing {
+            border: 2px solid $clr3;
+        }
     }
 }

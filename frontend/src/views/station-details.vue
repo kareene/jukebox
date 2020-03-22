@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import songList from '@/cmps/song-list-drag.vue';
+import songList from '@/cmps/song-list.vue';
 import songAdd from '@/cmps/song-add.vue';
 import chatRoom from '@/cmps/chat-room.vue';
 

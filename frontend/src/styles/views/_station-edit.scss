@@ -13,12 +13,12 @@
 .tags-list {
     @include clean-list;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 200px));
+    grid-template-columns: repeat(auto-fit, minmax(20px, 200px));
     gap: 1rem;
     text-decoration: none;
     li {
         text-align: center;
-        padding: 5%;
+        padding: 2%;
         border-radius: 10px;
         border: 1px solid black;
         &:hover {

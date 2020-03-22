@@ -7,8 +7,9 @@
 @import 'basics/helpers';
 @import 'basics/base';
 @import 'basics/layout';
+@import 'views/stations-basic';
 // VIEWS
-// @import 'views/home-page';
+@import 'views/home-page';
 // @import 'views/about-page';
 // @import 'views/stations-page';
 @import 'views/station-details';
@@ -21,8 +22,8 @@
 // @import 'cmps/main-footer';
 // @import 'cmp/loggedin-user';
 @import 'cmps/station-list';
+@import 'cmps/song-list';
 @import 'cmps/station-preview';
 // @import 'cmps/chat-room';
 // @import 'cmps/chat-room';
 @import 'cmps/song-add';
-@import 'cmps/song-list';

@@ -1,4 +1,5 @@
 .song-list {
+<<<<<<< HEAD
     @include clean-list;
     .song-in-list {
         display: flex;
@@ -20,5 +21,9 @@
             display: block;
             cursor: pointer;
         }
+=======
+    .playing {
+        background-color: $clr3;
+>>>>>>> 660d336a6b2d54d35877b7d7ff8e30c2179a4e23
     }
 }

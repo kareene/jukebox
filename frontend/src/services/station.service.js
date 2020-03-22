@@ -20,9 +20,9 @@ function getById(stationId) {
             fullName: "",
             urlImg: ""
         },
-        likedBy: "",
-        songs: null,
-        chatMsgs: "",
+        likedBy: [],
+        songs: [],
+        chatMsgs: [],
         theme: ""
     }
 

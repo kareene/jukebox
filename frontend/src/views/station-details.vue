@@ -15,10 +15,10 @@
     </div>-->
     <section>
       <div class="video-container ratio-16-9">
-          <youtube ref="youtube" width="100%" height="100%" @ended="playNextSong" @ready="loadSong"></youtube>
+          <youtube ref="youtube" width="100%" height="100%" @ready="loadSong" @ended="playNextSong" @playing="sendPlayed" @paused="sendPaused"></youtube>
       </div>
       <button @click="playPrevSong">Prev</button>
-      <!-- <button @click="toggleSong">play/pause</button> -->
+      <button @click="toggleSong">play/pause</button>
       <button @click="playNextSong">Next</button>
     </section>
 
@@ -65,9 +65,9 @@ export default {
       this.player.loadVideoById(this.playingSongId);
     },
     async toggleSong() {
-      const playerStatus = await this.player.getPlayerState();
-      if (playerStatus === 1) this.player.pauseVideo(); //playing
-      else if (playerStatus === 2) this.player.playVideo(); //paused
+      const playerState = await this.player.getPlayerState();
+      if (playerState === 1 /* PLAYING */) this.player.pauseVideo();
+      else if (playerState === 2 /* PAUSED */) this.player.playVideo();
     },
     playNextSong() {
       var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
@@ -82,6 +82,12 @@ export default {
       if (idx < 0) idx = this.station.songs.length - 1;
       this.playingSongId = this.station.songs[idx].id;
       this.loadSong();
+    },
+    sendPlayed() {
+      console.log('playing');
+    },
+    sendPaused() {
+      console.log('paused');
     },
     addSong(song) {},
     removeSong(songId) {},

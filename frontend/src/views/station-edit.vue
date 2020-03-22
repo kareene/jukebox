@@ -25,12 +25,12 @@
           </div>
         </section>
 
-      <songAdd @add-song="addSong" />
 
       <songList :songs="currStation.songs" @remove-song="removeSong" />
 
-      <button class="edit-btn">{{(currStation)? 'Edit' : 'Add'}}</button>
+      <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button>
     </form>
+      <songAdd @add-song="addSong" />
     <pre>{{currStation}}</pre>
   </article>
 </template>

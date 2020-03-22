@@ -3,7 +3,7 @@
         <h2>Add a great song</h2>
         <form @submit.prevent="searchForSongs">
             <input type="text" v-model="searchStr" />
-            <button>Search</button>
+            <button class="buttons">Search</button>
         </form>
         <section v-if="songSearchResults.length">
             <ul v-for="song in songSearchResults" :key="song.id">

@@ -1,5 +1,29 @@
 .song-list {
+    @include clean-list;
+    .song-in-list {
+        display: flex;
+        justify-content: space-between;
+        border: 2px solid rgb(226, 226, 226);
+        padding: 1%;
+        margin: 1%;
+        p {
+            background-color: inherit;
+        }
+        .remove-song-btn {
+            display: none;
+            border: none;
+            color: inherit;
+            background-color: transparent;
+        }
+        &:hover .remove-song-btn {
+            display: block;
+            cursor: pointer;
+        }
+    }
+     :nth-child(odd) {
+        background-color: #f3f3f4;
+    }
     .playing {
-        background-color: $clr3;
+        border: 2px solid $clr3;
     }
 }

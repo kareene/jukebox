@@ -20,9 +20,9 @@ function getById(stationId) {
             fullName: "",
             urlImg: ""
         },
-        likedBy: "",
-        songs: null,
-        chatMsgs: "",
+        likedBy: [],
+        songs: [],
+        chatMsgs: [],
         theme: ""
     }
 
@@ -30,12 +30,27 @@ function getById(stationId) {
 }
 
 function save(station) {
-    const idx = gStations.findIndex(currStation => currStation._id === station._id);
-    // if (toyIdx === -1) throw new Error('toy not found')
-    gStations.splice(idx, 1, station);
+    if (station._id) {
+        const idx = gStations.findIndex(currStation => currStation._id === station._id);
+        gStations.splice(idx, 1, station);
+    } else {
+        station._id = _makeId()
+        gStations.unshift(station)
+    }
+
     localStorage.setItem('stations', JSON.stringify(gStations));
+    return station;
 
 
+}
+
+function _makeId(length = 8) {
+    var txt = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return txt;
 }
 
 function _createStations() {
@@ -63,7 +78,7 @@ function _createStations() {
                     }
                 ],
                 songs: [{
-                        id: 'dfsgdfgsdf',
+                        id: 'M-aoyPa41Ic',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
                         addedBy: {
@@ -73,14 +88,15 @@ function _createStations() {
                         }
                     },
                     {
-                        id: 'lkdfdsjfkgh',
+                        id: 'hfjHJneVonE',
                         title: 'Verka Serduchka - Dancing Lasha Tumbai',
                         videoUrl: 'https://www.youtube.com/embed/hfjHJneVonE',
                         addedBy: {
                             _id: 'eksnfits',
                             fullName: 'Rotem Yehiel',
                             urlImg: 'api.adorable.io/avatars/100/20.png'
-                        }
+                        },
+
                     }
                 ],
                 chatMsgs: [{
@@ -116,7 +132,7 @@ function _createStations() {
                     }
                 ],
                 songs: [{
-                        id: 'dfsgdfgsdf',
+                        id: 'M-aoyPa41Ic',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
                         addedBy: {
@@ -126,7 +142,7 @@ function _createStations() {
                         }
                     },
                     {
-                        id: 'lkdfdsjfkgh',
+                        id: 'hfjHJneVonE',
                         title: 'Verka Serduchka - Dancing Lasha Tumbai',
                         videoUrl: 'https://www.youtube.com/embed/hfjHJneVonE',
                         addedBy: {
@@ -169,7 +185,7 @@ function _createStations() {
                     }
                 ],
                 songs: [{
-                        id: 'dfsgdfgsdf',
+                        id: 'M-aoyPa41Ic',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
                         addedBy: {
@@ -179,7 +195,7 @@ function _createStations() {
                         }
                     },
                     {
-                        id: 'lkdfdsjfkgh',
+                        id: 'hfjHJneVonE',
                         title: 'Verka Serduchka - Dancing Lasha Tumbai',
                         videoUrl: 'https://www.youtube.com/embed/hfjHJneVonE',
                         addedBy: {
@@ -201,7 +217,7 @@ function _createStations() {
                 theme: 'happy'
             },
             {
-                _id: 'lkjfgdiufgypyu2t',
+                _id: 'lkjfgdiufgypyu3t',
                 name: 'Far away from home',
                 tags: ['dance', 'happy'],
                 imgUrl: 'https://images.8tracks.com/imgix/i/009/659/911/Z3B5CBI-8362.gif?rect=72,0,422,422&q=65&fit=max',
@@ -222,7 +238,7 @@ function _createStations() {
                     }
                 ],
                 songs: [{
-                        id: 'dfsgdfgsdf',
+                        id: 'M-aoyPa41Ic',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
                         addedBy: {
@@ -232,7 +248,7 @@ function _createStations() {
                         }
                     },
                     {
-                        id: 'lkdfdsjfkgh',
+                        id: 'hfjHJneVonE',
                         title: 'Verka Serduchka - Dancing Lasha Tumbai',
                         videoUrl: 'https://www.youtube.com/embed/hfjHJneVonE',
                         addedBy: {

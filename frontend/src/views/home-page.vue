@@ -6,6 +6,13 @@
 
 <script>
 export default {
-  name: 'homePage'
+  name: 'homePage',
+  // created(){
+  //   console.log(this.$route)
+
+  // },
+
+
+  
 }
 </script>

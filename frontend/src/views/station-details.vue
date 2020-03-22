@@ -5,7 +5,7 @@
       <h1>{{station.name}}</h1>
       <h3>Create by: {{station.createdBy.fullName}}</h3>
       <h4>{{station.tags.join(", ")}}</h4>
-      <h4>Likes: {{likedCount}}</h4>
+      <h4><button class="like-btn fas fa-heart"></button> {{likedCount}}</h4>
     </header>
 
     <!--<div v-if="currSong" class="video-container">
@@ -17,13 +17,19 @@
       <div class="video-container ratio-16-9">
           <youtube ref="youtube" width="100%" height="100%" @ended="playNextSong" @ready="loadSong"></youtube>
       </div>
-      <button @click="playPrevSong">Prev</button>
+      <section class="video-btns-container">
+      <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
       <!-- <button @click="toggleSong">play/pause</button> -->
-      <button @click="playNextSong">Next</button>
+      <button class="play-song-btn video-btns"><i class="fas fa-pause"></i></button>
+      <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
+       </section>
     </section>
 
-    <songAdd v-if="isAddMode" @add-song="addSong" />
-    <songList v-else :songs="station.songs" :playingSongId="playingSongId" @remove-song="removeSong" />
+    <section class="songs-sec">
+      <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</i></button>
+      <songAdd v-if="isAddMode" @add-song="addSong" />
+      <songList v-else :songs="station.songs" :playingSongId="playingSongId" @remove-song="removeSong" />
+    </section>
 
     <section class="station-chat">Chat will be here</section>
       
@@ -52,6 +58,9 @@ export default {
     },
     player() {
       return this.$refs.youtube.player;
+    },
+    listOrAddSong(){
+      return (this.isAddMode)? 'Return to playlist' : 'Add a new song';
     }
   },
   methods: {
@@ -83,7 +92,13 @@ export default {
       this.playingSongId = this.station.songs[idx].id;
       this.loadSong();
     },
-    addSong(song) {},
+    toggleAddMode(){
+      this.isAddMode=!this.isAddMode;
+    },
+    addSong(song) {
+      this.station.songs.push(song);
+      this.toggleAddMode();
+    },
     removeSong(songId) {},
     shuffleSongs() {}
   },

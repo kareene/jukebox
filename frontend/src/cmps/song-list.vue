@@ -1,6 +1,5 @@
 <template>
     <article v-if="songs">
-        <h2>Playlist</h2>
         <ul class="song-list">
             <li class="song-in-list" v-for="song in songs" :key="song.id" :class="{ playing: song.id === playingSongId }" >
                 <p>{{song.title}}</p>

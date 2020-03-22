@@ -8,19 +8,15 @@
       <h4><button class="like-btn fas fa-heart"></button> {{likedCount}}</h4>
     </header>
 
-    <!--<div v-if="currSong" class="video-container">
-        <iframe class="video-self" width="100%" :src="currSong.videoUrl" 
-        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-        </iframe>
-    </div>-->
-    <section>
+    <section class="video-sec">
       <div class="video-container ratio-16-9">
           <youtube ref="youtube" width="100%" height="100%" @ready="loadSong" @ended="playNextSong" @playing="sendPlayed" @paused="sendPaused"></youtube>
       </div>
       <section class="video-btns-container">
       <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
       <!-- <button @click="toggleSong">play/pause</button> -->
-      <button class="play-song-btn video-btns"><i class="fas fa-pause"></i></button>
+      <button v-if="isPlaySong" @click="togglePlasySong" class="play-song-btn video-btns fas fa-pause"></button>
+      <button v-else @click="togglePlaySong" class="play-song-btn video-btns fas fa-play"></button>
       <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
        </section>
     </section>
@@ -29,10 +25,11 @@
       <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</button>
       <songAdd v-if="isAddMode" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @remove-song="removeSong" @play-song="playSong" />
+        @remove-song="removeSong" @play-song="playSong" @reorder-songs="reorderSongs" />
     </section>
 
-    <section class="station-chat">Chat will be here</section>
+    <chat-room :currStation="station" class="station-chat"></chat-room>
+    <!-- <section class="station-chat">Chat will be here</section> -->
       
   </article>
 </template>
@@ -40,22 +37,26 @@
 <script>
 import songList from '@/cmps/song-list-drag.vue';
 import songAdd from '@/cmps/song-add.vue';
+import chatRoom from '@/cmps/chat-room.vue';
 
 export default {
   name: 'stationDetails',
   data() {
     return {
-      station: null,
       playingSongId: '',
-      isAddMode: false
+      isAddMode: false,
+      isPlaySong: false
     }
   },
   async created() {
     await this.loadStation();
   },
-  computed:{
+  computed: {
+    station() {
+      return this.$store.getters.currStation;
+    },
     likedCount() {
-      return this.station.likedBy.length
+      return this.station.likedBy.length;
     },
     player() {
       return this.$refs.youtube.player;
@@ -67,8 +68,7 @@ export default {
   methods: {
     async loadStation() {
       const stationId = this.$route.params.id;
-      const station = await this.$store.dispatch({ type: 'loadStation', stationId });
-      this.station = JSON.parse(JSON.stringify(station));
+      await this.$store.dispatch({ type: 'loadStation', stationId });
       this.playingSongId = this.station.songs[0].id;
     },
     loadSong() {
@@ -78,6 +78,9 @@ export default {
       const playerState = await this.player.getPlayerState();
       if (playerState === 1 /* PLAYING */) this.player.pauseVideo();
       else if (playerState === 2 /* PAUSED */) this.player.playVideo();
+    },
+    togglePlaySong(){
+      this.isPlaySong=!this.isPlaySong;
     },
     playSong(songId) {
       this.playingSongId = songId;
@@ -107,18 +110,22 @@ export default {
       this.isAddMode=!this.isAddMode;
     },
     addSong(song) {
-      this.station.songs.push(song);
+      this.$store.dispatch({ type: 'addSong', song });
       this.toggleAddMode();
     },
     removeSong(songId) {
-      const idx = this.station.songs.findIndex(song => song.id === songId);
-      this.station.songs.splice(idx, 1);
+      if (songId === this.playingSongId) this.playNextSong();
+      this.$store.dispatch({ type: 'removeSong', songId });
+    },
+    reorderSongs(songs) {
+      this.$store.dispatch({ type: 'reorderSongs', songs });
     },
     shuffleSongs() {}
   },
   components: {
     songList,
-    songAdd
+    songAdd,
+    chatRoom
   }
 }
 </script>

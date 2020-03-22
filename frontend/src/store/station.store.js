@@ -29,13 +29,24 @@ export default {
         setStation(state, { station }) {
             state.currStation = station;
         },
-        updateStation(state, { station }) {
+        saveStation(state, { station }) {
             const idx = state.stations.findIndex(currStation => currStation._id === station._id);
             if (idx === -1) {
                 state.stations.unshift(station);
             } else {
                 state.stations.splice(idx, 1, station);
             }
+        },
+        addSong(state, { song }) {
+            state.currStation.songs.push(song);
+        },
+        removeSong(state, { songId }) {
+            const idx = state.currStation.songs.findIndex(song => song.id === songId);
+            if (idx === -1) return;
+            state.currStation.songs.splice(idx, 1);
+        },
+        reorderSongs(state, { songs }) {
+            state.currStation.songs = songs;
         }
     },
     actions: {
@@ -49,11 +60,21 @@ export default {
             context.commit({ type: 'setStation', station });
             return station;
         },
-        saveStation(context, { stationToSave }) {
-            const station = stationService.save(stationToSave);
-            context.commit({ type: 'updateStation', station });
-
-
+        saveStation(context, { station }) {
+            station = stationService.save(station);
+            context.commit({ type: 'saveStation', station });
+        },
+        addSong(context, payload) {
+            context.commit(payload);
+            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
+        },
+        removeSong(context, payload) {
+            context.commit(payload);
+            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
+        },
+        reorderSongs(context, payload) {
+            context.commit(payload);
+            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }
     }
 }

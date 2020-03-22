@@ -3,11 +3,9 @@
     <Container @drop="onDrop">
       <Draggable v-for="song in songsCopy" :key="song.id">
         <article class="song-in-list" :class="{ playing: song.id === playingSongId }">
-          <!--<div class="ratio-square">
-            <img :src="song.imgUrl" />
-          </div>-->
+          <!--<img :src="song.imgUrl" />-->
           <p>{{song.title}}</p>
-          <button @click.stop="playSong(song.id)">play</button>
+          <button v-if="playingSongId" @click.stop="playSong(song.id)">play</button>
           <button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>
         </article>
       </Draggable>
@@ -38,6 +36,7 @@ export default {
   methods: {
     onDrop(dropResult) {
       const reorderedSongs = applyDrag(this.songsCopy, dropResult);
+      this.$emit('reorder-songs', reorderedSongs);
     },
     playSong(songId) {
       this.$emit('play-song', songId);

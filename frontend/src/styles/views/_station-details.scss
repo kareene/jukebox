@@ -1,23 +1,23 @@
 .station-details {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    grid-template-rows: auto auto minmax(700px, auto);
+    grid-template-rows: auto auto minmax(500px, auto);
     gap: 1rem;
     .station-details-header {
         grid-column: 1/-1;
         grid-row: 1/1;
     }
-    .video-container {
-        grid-column: 1/2;
+    .video-sec {
+        grid-column: 1/-1;
         grid-row: 2/3;
     }
-    .songs-list {
+    .songs-sec {
         grid-column: 1/2;
         grid-row: 3/4
     }
     .station-chat {
         grid-column: 2/3;
-        grid-row: 2/4;
+        grid-row: 3/4;
         border: 1px solid rgb(226, 226, 226);
         padding: 1%;
         margin: 1%;

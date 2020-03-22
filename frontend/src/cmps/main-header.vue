@@ -24,7 +24,6 @@ export default {
     }
   },
   created(){
-    console.log("nav created" ,this.$route.name);
     this.isHomePage = (this.$route.name =='homePage' || this.$route.name === 'stationsPage') ? true : false;
   },
 
@@ -35,11 +34,8 @@ export default {
   },
   watch: {
     '$route'(to, from) {
-            // console.log(to.name == 'homePage')
-            // console.log(this.isHomePage)
-            if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true
-            else this.isHomePage = false
-            // console.log(this.isHomePage);
+          if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true
+          else this.isHomePage = false
         }
   }
 }

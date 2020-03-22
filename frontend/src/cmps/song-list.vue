@@ -2,7 +2,7 @@
     <article v-if="songs">
         <h2>Playlist</h2>
         <ul class="song-list">
-            <li v-for="song in songs" :key="song.id">
+            <li v-for="song in songs" :key="song.id" :class="{ playing: song.id === playingSongId }" >
                 <p>{{song.title}}</p>
                 <button @click="removeSong(song.id)">X</button>
             </li>
@@ -14,7 +14,8 @@
 export default {
     name: 'songList',
     props: {
-        songs: Array
+        songs: Array,
+        playingSongId: String
     },
     methods: {
         removeSong(songId) {

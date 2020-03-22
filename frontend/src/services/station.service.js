@@ -63,7 +63,7 @@ function _createStations() {
                     }
                 ],
                 songs: [{
-                        id: 'dfsgdfgsdf',
+                        id: 'M-aoyPa41Ic',
                         title: 'Mahmood - Soldi',
                         videoUrl: 'https://www.youtube.com/embed/M-aoyPa41Ic',
                         addedBy: {
@@ -80,7 +80,8 @@ function _createStations() {
                             _id: 'eksnfits',
                             fullName: 'Rotem Yehiel',
                             urlImg: 'api.adorable.io/avatars/100/20.png'
-                        }
+                        },
+
                     }
                 ],
                 chatMsgs: [{

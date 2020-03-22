@@ -1,0 +1,24 @@
+.song-list {
+    @include clean-list;
+    .song-in-list {
+        display: flex;
+        justify-content: space-between;
+        border-radius: 10px;
+        border: 1px solid rgb(226, 226, 226);
+        padding: 1%;
+        margin: 1%;
+        -webkit-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 2px rgba(255, 255, 255, 1);
+        -moz-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 2px rgba(255, 255, 255, 1);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), inset 0px 10px 30px 2px rgba(255, 255, 255, 1);
+        .remove-song-btn {
+            display: none;
+            border: none;
+            color: rgb(224, 237, 253);
+            background-color: transparent;
+        }
+        &:hover .remove-song-btn {
+            display: block;
+            cursor: pointer;
+        }
+    }
+}

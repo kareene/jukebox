@@ -3,7 +3,7 @@
 
     <header class="station-details-header">
       <h1>{{station.name}}</h1>
-      <h2>Create by: {{station.createdBy.fullName}}</h2>
+      <h3>Create by: {{station.createdBy.fullName}}</h3>
       <h4>{{station.tags.join(", ")}}</h4>
       <h4>Likes: {{likedCount}}</h4>
     </header>

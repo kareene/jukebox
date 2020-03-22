@@ -13,32 +13,35 @@
         frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
         </iframe>
     </div>-->
-    <section>
+    <section class="video-sec">
       <div class="video-container ratio-16-9">
           <youtube ref="youtube" width="100%" height="100%" @ended="playNextSong" @ready="loadSong"></youtube>
       </div>
       <section class="video-btns-container">
       <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
       <!-- <button @click="toggleSong">play/pause</button> -->
-      <button class="play-song-btn video-btns"><i class="fas fa-pause"></i></button>
+      <button v-if="isPlaySong" @click="togglePlasySong" class="play-song-btn video-btns fas fa-pause"></button>
+      <button v-else="isPlaySong" @click="togglePlasySong" class="play-song-btn video-btns fas fa-play"></button>
       <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
        </section>
     </section>
 
     <section class="songs-sec">
-      <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</i></button>
+      <button class="add-button buttons" @click="toggleAddMode">{{listOrAddSong}}</button>
       <songAdd v-if="isAddMode" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" @remove-song="removeSong" />
     </section>
 
-    <section class="station-chat">Chat will be here</section>
+    <chat-room :currStation="station" class="station-chat"></chat-room>
+    <!-- <section class="station-chat">Chat will be here</section> -->
       
   </article>
 </template>
 
 <script>
 import songList from '@/cmps/song-list.vue';
-import songAdd from '@/cmps/song-add.vue';
+import songAdd from '@/cmps/song-add.vue';chatRoom
+import chatRoom from '@/cmps/chat-room.vue';
 
 export default {
   name: 'stationDetails',
@@ -46,7 +49,8 @@ export default {
     return {
       station: null,
       playingSongId: '',
-      isAddMode: false
+      isAddMode: false,
+      isPlaySong: false
     }
   },
   async created() {
@@ -99,12 +103,16 @@ export default {
       this.station.songs.push(song);
       this.toggleAddMode();
     },
+    togglePlasySong(){
+      this.isPlaySong=!this.isPlaySong;
+    },
     removeSong(songId) {},
     shuffleSongs() {}
   },
   components: {
     songList,
-    songAdd
+    songAdd,
+    chatRoom
   }
 }
 </script>

@@ -7,10 +7,6 @@
 <script>
 export default {
   name: 'homePage',
-  // created(){
-  //   console.log(this.$route)
-
-  // },
 
 
   

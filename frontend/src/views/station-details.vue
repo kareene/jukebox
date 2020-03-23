@@ -15,10 +15,8 @@
 
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
-
         <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns fas fa-pause"></button>
         <button v-else @click="toggleSong" class="play-song-btn video-btns fas fa-play"></button>
-
         <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
       </section>
     </section>
@@ -31,6 +29,7 @@
     </section>
 
     <chat-room :currStation="station" class="station-chat"></chat-room>
+    
   </article>
 </template>
 

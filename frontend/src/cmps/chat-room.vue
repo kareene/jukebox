@@ -1,6 +1,6 @@
 <template>
   <aside class="chat-room">
-    <section  class="msgs-sec" >
+    <section  class="msgs-sec" ref="scrollToHere" >
       <div
         class="chat-msg-line"
         v-bind:class="[(message.user===currUser) ? 'user-msg-bubble' : 'others-msg-bubble']"
@@ -10,7 +10,7 @@
         <label class="user-name-title">{{message.user}}:</label>
         <div>{{message.txt}}</div>
       </div>
-      <div class="the-bar" ref="scrollToHere"></div>
+      <!-- <div class="the-bar" ref="scrollToHere"></div> -->
     </section>
 
     <form class="chat-room-form" @submit.prevent="addMessage">
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     scrollToBottom() {
-      // console.log('here?',this.scrollToHere)
+      console.log('here?',this.scrollToHere)
       // this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;   ref on parent
       this.scrollToHere.scrollIntoView();
     },

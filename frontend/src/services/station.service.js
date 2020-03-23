@@ -44,6 +44,11 @@ function save(station) {
 
 }
 
+
+function getTags(){
+    Promise.resolve(['happy', 'dance', 'rock', 'kids'])
+}
+
 function _makeId(length = 8) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

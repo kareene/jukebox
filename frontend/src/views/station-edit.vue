@@ -78,10 +78,9 @@ export default {
       this.tagToAdd='';
     },
     saveStation() {
-    const stationToSave=this.currStation;
-    this.$store.dispatch({ type: 'saveStation',stationToSave  })
-    this.clearInputs();
-    this.loadStation();
+      this.$store.dispatch({ type: 'saveStation', station: this.currStation });
+      this.clearInputs();
+      this.loadStation();
     }
   },
   components: {

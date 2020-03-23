@@ -1,7 +1,8 @@
 .station-details {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    grid-template-rows: auto auto minmax(500px, auto);
+    // grid-template-rows: auto auto minmax(500px, auto);
+    grid-template-rows: auto auto 500px;
     gap: 1rem;
     .station-details-header {
         grid-column: 1/-1;

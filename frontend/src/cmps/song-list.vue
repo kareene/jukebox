@@ -1,25 +1,53 @@
 <template>
-    <article v-if="songs">
-        <ul class="song-list">
-            <li class="song-in-list" v-for="song in songs" :key="song.id" :class="{ playing: song.id === playingSongId }" >
-                <p>{{song.title}}</p>
-                <button class="remove-song-btn" @click="removeSong(song.id)">X</button>
-            </li>
-        </ul>
-    </article>
+  <section v-if="songs" class="song-list ">
+    <Container @drop="onDrop" :remove-on-drop-out="true">
+      <Draggable v-for="song in songsCopy" :key="song.id">
+        <article class="song-in-list" :class="{ playing: song.id === playingSongId }">
+          <!--<img :src="song.imgUrl" />-->
+          <p>{{song.title}}</p>
+          <button v-if="playingSongId" @click.stop="playSong(song.id)">play</button>
+          <!--<button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>-->
+        </article>
+      </Draggable>
+    </Container>
+  </section>
 </template>
 
 <script>
+import { Container, Draggable } from "vue-smooth-dnd";
+import { applyDrag } from "../utils/helpers";
+
 export default {
-    name: 'songList',
-    props: {
-        songs: Array,
-        playingSongId: String
-    },
-    methods: {
-        removeSong(songId) {
-            this.$emit('remove-song', songId);
-        }
+  name: 'songList',
+  props: {
+    songs: Array,
+    playingSongId: String
+  },
+  data() {
+    return {
+      songsCopy: JSON.parse(JSON.stringify(this.songs))
+    };
+  },
+  watch: {
+    songs() {
+      this.songsCopy = JSON.parse(JSON.stringify(this.songs));
     }
-}
+  },
+  methods: {
+    onDrop(dropResult) {
+      const reorderedSongs = applyDrag(this.songsCopy, dropResult);
+      this.$emit('reorder-songs', reorderedSongs);
+    },
+    playSong(songId) {
+      this.$emit('play-song', songId);
+    },
+    removeSong(songId) {
+      this.$emit('remove-song', songId);
+    }
+  },
+  components: { 
+    Container, 
+    Draggable
+  }
+};
 </script>

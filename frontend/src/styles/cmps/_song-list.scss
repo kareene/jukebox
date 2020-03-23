@@ -1,4 +1,8 @@
 .song-list {
+    height: 100%;
+    >div {
+        height: 100%;
+    }
     @include clean-list;
     .song-in-list {
         display: flex;

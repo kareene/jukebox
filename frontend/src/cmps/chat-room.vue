@@ -2,9 +2,11 @@
   <aside class="chat-room">
     <div
       class="chat-msg-line"
+      v-bind:class="[(message.user===currUser) ? 'user-msg-bubble' : 'others-msg-bubble']"
       :key="index"
-      v-for="(message , index) in messages"
-    >{{message.user}} :{{message.txt}}</div>
+      v-for="(message , index) in messages">
+      <label class="user-name-title">{{message.user}}:</label>
+    {{message.txt}}</div>
 
     <form class="chat-room-form" @submit.prevent="addMessage">
       <input
@@ -26,24 +28,36 @@ export default {
   },
   data() {
     return {
+      currUser: "",
       newMessage: {
         txt: "",
-        user: "Rotem"
+        user: ""
       },
       messages: [],
       roomName: this.currStation._id
     };
   },
+
+  created() {
+    this.currUser = localStorage.getItem("user");
+    if (!this.currUser) {
+      this.currUser = prompt("your name is?");
+      localStorage.setItem("user", this.currUser);
+    }
+    this.newMessage.user=this.currUser;
+  },
   methods: {
     pushMessage() {
+      console.log(this.newMessage);
       this.messages.push(this.newMessage);
     },
     addMessage() {
       this.pushMessage();
       this.newMessage = {
         txt: "",
-        user: "Rotem"
+        user: this.currUser
       };
+      
       setTimeout(() => {
         const randomMsg = {
           txt: "hi to u too!",

@@ -109,8 +109,8 @@ export default {
       this.isAddSongOpen = !this.isAddSongOpen;
     },
     addSong(song) {
-      this.$store.dispatch({ type: 'addSong', song });
       this.toggleAddSong();
+      this.$store.dispatch({ type: 'addSong', song });
     },
     reorderSongs(songs) {
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);

@@ -33,9 +33,9 @@ export default {
             this.songSearchResults = await youtubeService.getVideoSearchResults(this.searchStr);
         },
         addSong(song) {
+            this.$emit('add-song', song);
             const idx = this.songSearchResults.findIndex(currSong => currSong.id === song.id);
             if (idx !== -1) this.songSearchResults.splice(idx, 1);
-            this.$emit('add-song', song);
         }
     }
 }

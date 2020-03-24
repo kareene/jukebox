@@ -26,11 +26,12 @@
         </section>
 
 
-      <songList :songs="currStation.songs" @remove-song="removeSong" />
-
-      <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button>
+      <songList class="song-list-edit" :songs="currStation.songs" @remove-song="removeSong" />
+      <section class="songs-add-sec">
+        <songAdd class="add-song-edit" @add-song="addSong" />
+      </section>
+      <button class="edit-btn buttons">{{(currStation._id)? 'Edit' : 'Add'}}</button>
     </form>
-      <songAdd @add-song="addSong" />
     <pre>{{currStation}}</pre>
   </article>
 </template>

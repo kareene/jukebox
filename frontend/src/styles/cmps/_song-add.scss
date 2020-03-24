@@ -3,10 +3,52 @@
         width: initial;
         height: initial;
     }
-    input {
-        margin-right: 1rem;
-        width: 75%;
-        padding: 0.25rem;
-        border: 2px solid rgb(226, 226, 226);
+    form {
+        display: flex;
+        // align-content: space-between;
+        input {
+            margin-right: 1rem;
+            width: 95%;
+            padding: 0.25rem;
+            border: 2px solid rgb(226, 226, 226);
+        }
+        .search-btn {
+            padding: 0.8em;
+        }
+    }
+    .songs-list-in-search {
+        ul {
+            background-color: #f3f3f4;
+            border: 2px solid #e2e2e2;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            padding: 0 0.4em;
+            // margin: 0.4 0.4em;
+            width: 100%;
+        }
+        li {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            position: relative;
+            justify-content: flex-start;
+            align-items: center;
+            img {
+                width: 6em;
+            }
+            p {
+                padding: 0.4em;
+                align-self: flex-start;
+                max-width: 70%;
+            }
+            button {
+                @include clear-button;
+                color: $clr3;
+                height: fit-content;
+                position: absolute;
+                right: 0;
+            }
+        }
     }
 }

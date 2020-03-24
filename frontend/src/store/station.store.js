@@ -43,14 +43,12 @@ export default {
         unsetStation(state) {
             state.currStation = null;
         },
+        setFilterBy (state, { filterBy }) {
+            state.filterBy = filterBy;
+        },
         addStation(state, { station }) {
             state.stations.unshift(station);
         },
-
-        setFilterBy (state, {filterBy}){
-            state.filterBy = filterBy;
-        },
-
         removeStation(state, { stationId }) {
             const idx = state.stations.findIndex(station => station._id === stationId);
             if (idx === -1) return;
@@ -90,14 +88,6 @@ export default {
         }
     },
     actions: {
-
-        async loadTags(context){
-            const tags = await stationService.getTags();
-            console.log("tags from store:", tags);
-            context.commit({type: 'setTags', tags})
-            return tags;
-        },
-
         async loadStations(context) {
             const stations = await stationService.query(context.getters.filterBy);
             context.commit({ type: 'setStations', stations });
@@ -113,6 +103,10 @@ export default {
             context.commit({ type: 'setStation', station });
             return station;
         },
+        setFilterBy(context, payload) {
+            context.commit(payload)
+            return context.dispatch({ type: 'loadStations' })
+        },
         async saveStation(context, { station }) {
             const isUpdate = !!station._id;
             if (!isUpdate) {
@@ -126,13 +120,8 @@ export default {
             station = await stationService.save(station);
             if (isUpdate) context.commit({ type: 'updateStation', station });
             else context.commit({ type: 'addStation', station });
+            return station;
         },
-
-        setFilterBy(context, payload) {
-            context.commit(payload)
-            return context.dispatch({type: 'loadStations'})
-        },
-        
         async removeStation(context, payload) {
             await stationService.remove(stationId);
             context.commit(payload);

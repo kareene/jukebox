@@ -4,7 +4,7 @@ const { query, getTags, getById, add, update, remove } = require('./station.cont
 const router = express.Router();
 
 router.get('/', query);
-router.get('/tags', getTags);
+router.get('/tag', getTags);
 router.get('/:id', getById);
 router.post('/', add);
 router.put('/:id', update);

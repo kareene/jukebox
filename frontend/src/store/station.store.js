@@ -3,28 +3,39 @@ import stationService from '@/services/station.service.js';
 export default {
     state: {
         stations: [],
+        tags: [],
         filterBy: {
             name: '',
             tag: '',
             _sort: 'name',
             _order: 1
         },
-        currStation: null
+        currStation: null,
+        tags: []
     },
     getters: {
         stations(state) {
             return state.stations;
+        },
+        tags(state) {
+            return state.tags;
         },
         currStation(state) {
             return state.currStation;
         },
         filterBy(state) {
             return state.filterBy;
+        },
+        tags(state){
+            return state.tags;
         }
     },
     mutations: {
         setStations(state, { stations }) {
             state.stations = stations;
+        },
+        setTags(state, { tags }) {
+            state.tags = tags;
         },
         setStation(state, { station }) {
             state.currStation = station;
@@ -34,6 +45,16 @@ export default {
         },
         addStation(state, { station }) {
             state.stations.unshift(station);
+        },
+
+        setFilterBy (state, {filterBy}){
+            state.filterBy = filterBy;
+        },
+
+        removeStation(state, { stationId }) {
+            const idx = state.stations.findIndex(station => station._id === stationId);
+            if (idx === -1) return;
+            state.stations.splice(idx, 1);
         },
         updateStation(state, { station }) {
             const idx = state.stations.findIndex(currStation => currStation._id === station._id);
@@ -54,17 +75,38 @@ export default {
         },
         addTag(state, { tag }) {
             state.currStation.tags.push(tag);
+            if (!state.tags.includes(tag)) state.tags.push(tag);
         },
         removeTag(state, { tag }) {
             const idx = state.currStation.tags.findIndex(currTag => currTag === tag);
+            if (idx === -1) return;
             state.currStation.tags.splice(idx, 1);
+        },
+        setStationName(state, { name }) {
+            state.currStation.name = name;
+        },
+        setStationImg(state, { imgUrl }) {
+            state.currStation.imgUrl = imgUrl;
         }
     },
     actions: {
+
+        async loadTags(context){
+            const tags = await stationService.getTags();
+            console.log("tags from store:", tags);
+            context.commit({type: 'setTags', tags})
+            return tags;
+        },
+
         async loadStations(context) {
             const stations = await stationService.query(context.getters.filterBy);
             context.commit({ type: 'setStations', stations });
             return stations;
+        },
+        async loadTags(context) {
+            const tags = await stationService.getTags();
+            context.commit({ type: 'setTags', tags });
+            return tags;
         },
         async loadStation(context, { stationId }) {
             const station = await stationService.getById(stationId);
@@ -85,11 +127,21 @@ export default {
             if (isUpdate) context.commit({ type: 'updateStation', station });
             else context.commit({ type: 'addStation', station });
         },
-        addSong(context, payload) {
+
+        setFilterBy(context, payload) {
+            context.commit(payload)
+            return context.dispatch({type: 'loadStations'})
+        },
+        
+        async removeStation(context, payload) {
+            await stationService.remove(stationId);
+            context.commit(payload);
+        },
+        async addSong(context, payload) {
             context.commit(payload);
             context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },
-        reorderSongs(context, payload) {
+        async reorderSongs(context, payload) {
             context.commit(payload);
             context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }

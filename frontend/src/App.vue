@@ -13,6 +13,7 @@ import mainFooter from "@/cmps/main-footer.vue";
 export default {
   created() {
     this.$store.dispatch({ type: 'loadStations' });
+    this.$store.dispatch({ type: 'loadTags' });
   },
   components: {
     mainHeader,

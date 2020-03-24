@@ -2,6 +2,7 @@ const stationService = require('./station.service')
 
 module.exports = {
     query,
+    getTags,
     getById,
     add,
     update,
@@ -11,6 +12,11 @@ module.exports = {
 async function query(req, res) {
     const stations = await stationService.query(req.query)
     res.json(stations)
+}
+
+async function getTags(req, res) {
+    const tags = await stationService.getTags();
+    res.json(tags)
 }
 
 async function getById(req, res) {

@@ -6,7 +6,8 @@ module.exports = {
     getById,
     add,
     update,
-    remove
+    remove,
+    getTags
 }
 
 async function query(params) {
@@ -18,6 +19,25 @@ async function query(params) {
         return stations;
     } catch (err) {
         console.log('ERROR: cannot find stations');
+        throw err;
+    }
+}
+
+async function getTags() {
+    const collection = await dbService.getCollection('station');
+    try {
+        const query = { "tags.0": { "$exists": true } };
+        const projection = { "_id": 0, "tags": 1 };
+        const tagsObjArray = await collection.find(query).project(projection).toArray();
+        var allTags = tagsObjArray.reduce((acc, tagObj) => {
+            tagObj.tags.forEach(tag => {
+                if (!acc.includes(tag)) acc.push(tag);
+            });
+            return acc;
+        }, [])
+        return allTags;
+    } catch (err) {
+        console.log('ERROR: cannot find station tags');
         throw err;
     }
 }

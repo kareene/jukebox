@@ -1,9 +1,10 @@
 const express = require('express');
 const { requireAuth, requireAdmin } = require('../../middlewares/requireAuth.middleware');
-const { query, getById, add, update, remove } = require('./station.controller');
+const { query, getTags, getById, add, update, remove } = require('./station.controller');
 const router = express.Router();
 
 router.get('/', query);
+router.get('/tags', getTags);
 router.get('/:id', getById);
 router.post('/', add);
 router.put('/:id', update);

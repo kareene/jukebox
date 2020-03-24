@@ -53,7 +53,7 @@
 <script>
 import songList from "@/cmps/song-list.vue";
 import songAdd from "@/cmps/song-add.vue";
-import { uploadImg } from "../services/cloudinary.service.js";
+import cloudinaryService from "@/services/cloudinary.service.js";
 
 export default {
   name: "stationEdit",
@@ -100,7 +100,7 @@ export default {
     },
     addImage(ev) {
         console.log( ev)
-      uploadImg(ev).then(res => {
+      cloudinaryService.uploadImg(ev).then(res => {
         console.log( res)
         this.currStation.imgUrl = res.url;
       });

@@ -48,7 +48,8 @@ function getLoggedinUser() {
         {
             _id: '5e792fc31c9d4400009c8229',
             fullName: 'guest',
-            imgUrl: '../img/user-icon.png'
+            imgUrl: '../img/user-icon.png',
+            isAdmin: false
         }
 }
 

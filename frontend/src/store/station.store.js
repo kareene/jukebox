@@ -3,6 +3,7 @@ import stationService from '@/services/station.service.js';
 export default {
     state: {
         stations: [],
+        tags: [],
         filterBy: {
             name: '',
             tag: '',
@@ -15,6 +16,9 @@ export default {
     getters: {
         stations(state) {
             return state.stations;
+        },
+        tags(state) {
+            return state.tags;
         },
         currStation(state) {
             return state.currStation;
@@ -30,6 +34,9 @@ export default {
         setStations(state, { stations }) {
             state.stations = stations;
         },
+        setTags(state, { tags }) {
+            state.tags = tags;
+        },
         setStation(state, { station }) {
             state.currStation = station;
         },
@@ -44,6 +51,11 @@ export default {
             state.filterBy = filterBy;
         },
 
+        removeStation(state, { stationId }) {
+            const idx = state.stations.findIndex(station => station._id === stationId);
+            if (idx === -1) return;
+            state.stations.splice(idx, 1);
+        },
         updateStation(state, { station }) {
             const idx = state.stations.findIndex(currStation => currStation._id === station._id);
             if (idx === -1) return;
@@ -63,10 +75,18 @@ export default {
         },
         addTag(state, { tag }) {
             state.currStation.tags.push(tag);
+            if (!state.tags.includes(tag)) state.tags.push(tag);
         },
         removeTag(state, { tag }) {
             const idx = state.currStation.tags.findIndex(currTag => currTag === tag);
+            if (idx === -1) return;
             state.currStation.tags.splice(idx, 1);
+        },
+        setStationName(state, { name }) {
+            state.currStation.name = name;
+        },
+        setStationImg(state, { imgUrl }) {
+            state.currStation.imgUrl = imgUrl;
         }
     },
     actions: {
@@ -82,6 +102,11 @@ export default {
             const stations = await stationService.query(context.getters.filterBy);
             context.commit({ type: 'setStations', stations });
             return stations;
+        },
+        async loadTags(context) {
+            const tags = await stationService.getTags();
+            context.commit({ type: 'setTags', tags });
+            return tags;
         },
         async loadStation(context, { stationId }) {
             const station = await stationService.getById(stationId);
@@ -108,11 +133,15 @@ export default {
             return context.dispatch({type: 'loadStations'})
         },
         
-        addSong(context, payload) {
+        async removeStation(context, payload) {
+            await stationService.remove(stationId);
+            context.commit(payload);
+        },
+        async addSong(context, payload) {
             context.commit(payload);
             context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },
-        reorderSongs(context, payload) {
+        async reorderSongs(context, payload) {
             context.commit(payload);
             context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }

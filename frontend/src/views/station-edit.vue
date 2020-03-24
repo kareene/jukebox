@@ -33,11 +33,7 @@
 
       <!-- <songList :songs="currStation.songs" @reorder-songs="reorderSongs" />
 
-<<<<<<< HEAD
-      <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button>-->
-=======
       <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button> -->
->>>>>>> a3d9bc2c6126e40479bc7998ad07900d47c50296
       <songList class="song-list-edit" :songs="currStation.songs" />
       <section class="songs-add-sec">
         <songAdd class="add-song-edit" @add-song="addSong" />

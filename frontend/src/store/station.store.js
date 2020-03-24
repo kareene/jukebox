@@ -41,7 +41,7 @@ export default {
             state.stations.splice(idx, 1, station);
         },
         addSong(state, { song }) {
-            const loggedinUser = state.getters.loggedinUser;
+            const loggedinUser = this.getters.loggedinUser;
             song.addedBy = {
                 _id: loggedinUser._id,
                 fullName: loggedinUser.fullName,

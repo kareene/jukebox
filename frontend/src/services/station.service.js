@@ -1,12 +1,19 @@
 export default {
     query,
     getById,
-    save
+    save,
+    getTags
 }
 
 var gStations = _createStations();
 
 function query(filterBy = {}) {
+    if (filterBy.tag) {
+        var filteredStations = gStations.filter( station => {
+            station.tags.includes(filterBy.tag)
+        })
+        return Promise.resolve(filteredStations)
+    }
     return Promise.resolve(JSON.parse(JSON.stringify(gStations)))
 }
 
@@ -46,7 +53,7 @@ function save(station) {
 
 
 function getTags(){
-    Promise.resolve(['happy', 'dance', 'rock', 'kids'])
+    return Promise.resolve(['happy', 'dance', 'chill', 'kids'])
 }
 
 function _makeId(length = 8) {
@@ -118,7 +125,7 @@ function _createStations() {
             {
                 _id: 'lkjfgdiufgypiuyt',
                 name: 'Night night',
-                tags: ['dance', 'happy'],
+                tags: ['chill'],
                 imgUrl: 'https://cdn.vox-cdn.com/thumbor/88Ak89PINGGhye90mf40bYHgb6M=/0x109:493x438/1200x800/filters:focal(0x109:493x438)/cdn.vox-cdn.com/uploads/chorus_image/image/49449809/Screen_Shot_2016-05-01_at_12.14.34_PM.0.0.png',
                 createdBy: {
                     _id: 'eksnfits',
@@ -224,7 +231,7 @@ function _createStations() {
             {
                 _id: 'lkjfgdiufgypyu3t',
                 name: 'Far away from home',
-                tags: ['dance', 'happy'],
+                tags: ['kids'],
                 imgUrl: 'https://images.8tracks.com/imgix/i/009/659/911/Z3B5CBI-8362.gif?rect=72,0,422,422&q=65&fit=max',
                 createdBy: {
                     _id: 'eksnfits',

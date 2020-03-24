@@ -9,7 +9,8 @@ export default {
             _sort: 'likes',
             _order: 1
         },
-        currStation: null
+        currStation: null,
+        tags: []
     },
     getters: {
         stations(state) {
@@ -20,6 +21,9 @@ export default {
         },
         filterBy(state) {
             return state.filterBy;
+        },
+        tags(state){
+            return state.tags;
         }
     },
     mutations: {
@@ -29,6 +33,14 @@ export default {
         setStation(state, { station }) {
             state.currStation = station;
         },
+        setTags (state, { tags }){
+            state.tags = tags;
+        },
+
+        setFilterBy (state, {filterBy}){
+            state.filterBy = filterBy;
+        },
+
         saveStation(state, { station }) {
             const idx = state.stations.findIndex(currStation => currStation._id === station._id);
             if (idx === -1) {
@@ -50,6 +62,14 @@ export default {
         }
     },
     actions: {
+
+        async loadTags(context){
+            const tags = await stationService.getTags();
+            console.log("tags from store:", tags);
+            context.commit({type: 'setTags', tags})
+            return tags;
+        },
+
         async loadStations(context) {
             const stations = await stationService.query(context.getters.filterBy);
             context.commit({ type: 'setStations', stations });
@@ -60,6 +80,12 @@ export default {
             context.commit({ type: 'setStation', station });
             return station;
         },
+
+        setFilterBy(context, payload) {
+            context.commit(payload)
+            return context.dispatch({type: 'loadStations'})
+        },
+
         saveStation(context, { station }) {
             station = stationService.save(station);
             context.commit({ type: 'saveStation', station });

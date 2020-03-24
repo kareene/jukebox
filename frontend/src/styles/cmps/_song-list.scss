@@ -10,8 +10,22 @@
         border: 2px solid rgb(226, 226, 226);
         padding: 1%;
         margin: 1%;
-        p {
-            background-color: inherit;
+        .left-sec-song-line {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .inner-txt-song {
+                padding: 0.4em;
+                p {
+                    background-color: inherit;
+                    margin: 0 0.4em;
+                }
+                p.song-add-by-name {
+                    font-size: 0.7em;
+                    color: lighten($color: $clr1, $amount: 40);
+                    margin: 0 0.4em;
+                }
+            }
         }
         .remove-song-btn {
             visibility: hidden;
@@ -20,7 +34,7 @@
             background-color: transparent;
         }
         img {
-            width: 20px;
+            width: 6em;
         }
         &:hover .remove-song-btn {
             visibility: visible;
@@ -36,6 +50,10 @@
             @include clear-button;
             color: $clr3;
             padding-right: 0.4em;
+            visibility: hidden;
+        }
+        &:hover button {
+            visibility: visible;
         }
     }
 }

@@ -25,7 +25,7 @@
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddSong}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @remove-song="removeSong" @play-song="playSong" @reorder-songs="reorderSongs" />
+        @play-song="playSong" @reorder-songs="reorderSongs" />
     </section>
 
     <chat-room :currStation="station" class="station-chat"></chat-room>
@@ -47,8 +47,11 @@ export default {
       isSongPlaying: false
     }
   },
-  async created() {
-    await this.loadStation();
+  created() {
+    this.loadStation();
+  },
+  destroyed() {
+    this.$store.commit({ type: 'unsetStation' });
   },
   computed: {
     station() {
@@ -106,14 +109,12 @@ export default {
       this.isAddSongOpen = !this.isAddSongOpen;
     },
     addSong(song) {
-      this.$store.dispatch({ type: 'addSong', song });
       this.toggleAddSong();
-    },
-    removeSong(songId) {
-      if (songId === this.playingSongId) this.playNextSong();
-      this.$store.dispatch({ type: 'removeSong', songId });
+      this.$store.dispatch({ type: 'addSong', song });
     },
     reorderSongs(songs) {
+      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
+      if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: 'reorderSongs', songs });
     },
     shuffleSongs() {}

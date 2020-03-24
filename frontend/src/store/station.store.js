@@ -6,7 +6,7 @@ export default {
         filterBy: {
             name: '',
             tag: '',
-            _sort: 'likes',
+            _sort: 'name',
             _order: 1
         },
         currStation: null,
@@ -33,32 +33,40 @@ export default {
         setStation(state, { station }) {
             state.currStation = station;
         },
-        setTags (state, { tags }){
-            state.tags = tags;
+        unsetStation(state) {
+            state.currStation = null;
+        },
+        addStation(state, { station }) {
+            state.stations.unshift(station);
         },
 
         setFilterBy (state, {filterBy}){
             state.filterBy = filterBy;
         },
 
-        saveStation(state, { station }) {
+        updateStation(state, { station }) {
             const idx = state.stations.findIndex(currStation => currStation._id === station._id);
-            if (idx === -1) {
-                state.stations.unshift(station);
-            } else {
-                state.stations.splice(idx, 1, station);
-            }
+            if (idx === -1) return;
+            state.stations.splice(idx, 1, station);
         },
         addSong(state, { song }) {
+            const loggedinUser = this.getters.loggedinUser;
+            song.addedBy = {
+                _id: loggedinUser._id,
+                fullName: loggedinUser.fullName,
+                imgUrl: loggedinUser.imgUrl
+            };
             state.currStation.songs.push(song);
-        },
-        removeSong(state, { songId }) {
-            const idx = state.currStation.songs.findIndex(song => song.id === songId);
-            if (idx === -1) return;
-            state.currStation.songs.splice(idx, 1);
         },
         reorderSongs(state, { songs }) {
             state.currStation.songs = songs;
+        },
+        addTag(state, { tag }) {
+            state.currStation.tags.push(tag);
+        },
+        removeTag(state, { tag }) {
+            const idx = state.currStation.tags.findIndex(currTag => currTag === tag);
+            state.currStation.tags.splice(idx, 1);
         }
     },
     actions: {
@@ -80,21 +88,27 @@ export default {
             context.commit({ type: 'setStation', station });
             return station;
         },
+        async saveStation(context, { station }) {
+            const isUpdate = !!station._id;
+            if (!isUpdate) {
+                const loggedinUser = context.getters.loggedinUser;
+                station.createdBy = {
+                    _id: loggedinUser._id,
+                    fullName: loggedinUser.fullName,
+                    imgUrl: loggedinUser.imgUrl
+                };
+            }
+            station = await stationService.save(station);
+            if (isUpdate) context.commit({ type: 'updateStation', station });
+            else context.commit({ type: 'addStation', station });
+        },
 
         setFilterBy(context, payload) {
             context.commit(payload)
             return context.dispatch({type: 'loadStations'})
         },
-
-        saveStation(context, { station }) {
-            station = stationService.save(station);
-            context.commit({ type: 'saveStation', station });
-        },
+        
         addSong(context, payload) {
-            context.commit(payload);
-            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
-        },
-        removeSong(context, payload) {
             context.commit(payload);
             context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },

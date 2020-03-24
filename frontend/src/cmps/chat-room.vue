@@ -1,6 +1,7 @@
 <template>
   <aside class="chat-room">
-    <section  class="msgs-sec" ref="scrollToHere" >
+    <section class="msgs-sec" ref="scrollToHere">
+      <label :style="{ visibility: userTyping ? 'visible' : 'hidden' }">{{userTyping}} is Typing...</label>
       <div
         class="chat-msg-line"
         v-bind:class="[(message.user===currUser) ? 'user-msg-bubble' : 'others-msg-bubble']"
@@ -13,12 +14,13 @@
       <!-- <div class="the-bar" ref="scrollToHere"></div> -->
     </section>
 
-    <form class="chat-room-form" @submit.prevent="addMessage">
+    <form class="chat-room-form" @submit.prevent="sendMsg">
       <input
         class="chat-input"
         v-model="newMessage.txt"
         type="text"
         placeholder="Enter your massage here..."
+        @input="sendTyping"
       />
       <button class="send-mgs-btn buttons">Send</button>
     </form>
@@ -26,6 +28,8 @@
 </template>
 
 <script>
+import socketService from "../services/socket.service.js";
+
 export default {
   name: "chatRoom",
   props: {
@@ -39,48 +43,58 @@ export default {
         user: ""
       },
       messages: [],
-      roomName: this.currStation._id
+      userTyping: "",
+      timeout: null
     };
   },
   computed: {
     scrollToHere() {
       return this.$refs.scrollToHere;
+    },
+    loggedinUser() {
+      return this.$store.getters.loggedinUser.fullName;
+    },
+    username() {
+      return this.loggedinUser ? this.loggedinUser : "Guest";
     }
   },
   created() {
-    this.currUser = localStorage.getItem("user");
-    if (!this.currUser) {
-      this.currUser = prompt("your name is?");
-      localStorage.setItem("user", this.currUser);
-    }
-    this.newMessage.user = this.currUser;
+
+    socketService.setup();
+    socketService.on("chat addMsg", this.addMsg);
+    socketService.emit("chat room", this.currStation._id);
+    socketService.on("chat displayTyping", this.displayTyping);
+  },
+  destroyed() {
+    socketService.off("chat addMsg", this.addMsg);
+    socketService.off("chat displayTyping", this.displayTyping);
+    socketService.terminate();
   },
   methods: {
     scrollToBottom() {
-      console.log('here?',this.scrollToHere)
       // this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;   ref on parent
       this.scrollToHere.scrollIntoView();
     },
-    pushMessage() {
-      this.messages.push(this.newMessage);
+    addMsg(msg) {
+      this.messages.push(msg);
       this.scrollToBottom();
     },
-    addMessage() {
-      this.pushMessage();
-      this.newMessage = {
-        txt: "",
-        user: this.currUser
-      };
-
-
-      setTimeout(() => {
-        const randomMsg = {
-          txt: "hi to u too!",
-          user: "some one"
-        };
-        this.messages.push(randomMsg);
-        this.scrollToBottom();
-      }, 3000);
+    sendMsg() {
+      if (!this.newMessage.txt) return;
+      this.newMessage.user = this.username;
+      this.currUser = this.newMessage.user;
+      socketService.emit("chat newMsg", this.newMessage);
+      this.newMessage.txt = "";
+    },
+    sendTyping() {
+      socketService.emit("chat userTyping", this.username);
+    },
+    displayTyping(username) {
+      this.userTyping = username;
+      if (this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.userTyping = "";
+      }, 1000);
     }
   }
 };

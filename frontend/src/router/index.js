@@ -6,6 +6,7 @@ import stationsPage from '../views/stations-page.vue'
 import stationEdit from '../views/station-edit.vue'
 import stationDetails from '../views/station-details.vue'
 import userSignup from '../views/user-signup.vue'
+import userLogin from '../views/user-login.vue'
 import userManagement from '../views/user-management.vue'
 import userProfile from '../views/user-profile.vue'
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/signup',
     name: 'userSignup',
     component: userSignup
+  },
+  {
+    path: '/login',
+    name: 'userLogin',
+    component: userLogin
   },
   {
     path: '/user',

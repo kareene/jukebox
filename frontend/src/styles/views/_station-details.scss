@@ -14,7 +14,8 @@
     }
     .songs-sec {
         grid-column: 1/2;
-        grid-row: 3/4
+        grid-row: 3/4;
+        overflow-y: scroll;
     }
     .station-chat {
         grid-column: 2/3;

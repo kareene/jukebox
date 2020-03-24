@@ -1,6 +1,6 @@
 <template>
   <article class="stations-page">
-    <h2>Station Page</h2>
+    <h2>Stations Page</h2>
     <router-link to="/station/edit">Add New Station</router-link>
     <station-list :stations="stations" />
   </article>

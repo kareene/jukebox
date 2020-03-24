@@ -8,6 +8,7 @@
         <router-link to="/about">About</router-link>
       </nav>
     </div>
+    <loggedin-user />
     <div class = "hero flex direction-column" :class = 'heroSize'>
        <h2 >Make and Discover Playlists</h2>
        <router-link to="/station/edit">Add New Station</router-link>
@@ -16,6 +17,8 @@
 </template>
 
 <script>
+import loggedinUser from '@/cmps/loggedin-user.vue';
+
 export default {
   name: 'mainHeader',
   data(){
@@ -26,7 +29,6 @@ export default {
   created(){
     this.isHomePage = (this.$route.name =='homePage' || this.$route.name === 'stationsPage') ? true : false;
   },
-
   computed: {
     heroSize(){
       return (this.isHomePage) ? 'full' : 'small';
@@ -34,9 +36,13 @@ export default {
   },
   watch: {
     '$route'(to, from) {
-          if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true
-          else this.isHomePage = false
-        }
+      this.isHomePage = (to.name === 'homePage' || to.name === 'stationsPage') ? true : false;
+          // if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true;
+          // else this.isHomePage = false;
+    }
+  },
+  components: {
+    loggedinUser
   }
 }
 </script>

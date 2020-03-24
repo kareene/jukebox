@@ -6,7 +6,8 @@ module.exports = {
     getById,
     add,
     update,
-    remove
+    remove,
+    getTags
 }
 
 async function query(params) {
@@ -18,6 +19,25 @@ async function query(params) {
         return stations;
     } catch (err) {
         console.log('ERROR: cannot find stations');
+        throw err;
+    }
+}
+
+async function getTags() {
+    const collection = await dbService.getCollection('station');
+    try {
+        const query = { "tags.0": { "$exists": true } };
+        const projection = { "_id": 0, "tags": 1 };
+        const tagsObjArray = await collection.find(query).project(projection).toArray();
+        var allTags = tagsObjArray.reduce((acc, tagObj) => {
+            tagObj.tags.forEach(tag => {
+                if (!acc.includes(tag)) acc.push(tag);
+            });
+            return acc;
+        }, [])
+        return allTags;
+    } catch (err) {
+        console.log('ERROR: cannot find station tags');
         throw err;
     }
 }
@@ -34,7 +54,11 @@ async function getById(stationId) {
 }
 
 async function add(station) {
-    station.createdAt = Date.now();
+    station.createdBy._id = ObjectId(station.createdBy._id);
+    station.songs = station.songs.map(song => {
+        song.addedBy._id = ObjectId(song.addedBy._id)
+        return song;
+    });
     const collection = await dbService.getCollection('station');
     try {
         await collection.insertOne(station);
@@ -48,6 +72,15 @@ async function add(station) {
 async function update(station) {
     const collection = await dbService.getCollection('station');
     station._id = ObjectId(station._id);
+    station.createdBy._id = ObjectId(station.createdBy._id);
+    station.likedBy = station.likedBy.map(user => {
+        user._id = ObjectId(user._id);
+        return user;
+    });
+    station.songs = station.songs.map(song => {
+        song.addedBy._id = ObjectId(song.addedBy._id)
+        return song;
+    });
     try {
         await collection.replaceOne({ "_id": station._id }, { $set: station });
         return station;
@@ -80,7 +113,8 @@ function _buildFilterCriteria(params) {
 }
 
 function _buildSortCriteria(params) {
-    const sortBy = {};
-    sortBy[params._sort] = +params._order;
+    const sortBy = { name: 1 };
+    // const sortBy = {};
+    // sortBy[params._sort] = +params._order;
     return sortBy;
 }

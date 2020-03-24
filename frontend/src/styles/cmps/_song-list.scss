@@ -32,5 +32,10 @@
         &.playing {
             border: 2px solid $clr3;
         }
+        button {
+            @include clear-button;
+            color: $clr3;
+            padding-right: 0.4em;
+        }
     }
 }

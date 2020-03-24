@@ -1,11 +1,12 @@
 <template>
   <section v-if="songs" class="song-list ">
+    <h2>Songs list</h2>
     <Container @drop="onDrop" :remove-on-drop-out="true">
       <Draggable v-for="song in songsCopy" :key="song.id">
         <article class="song-in-list" :class="{ playing: song.id === playingSongId }">
           <!--<img :src="song.imgUrl" />-->
           <p>{{song.title}}</p>
-          <button v-if="playingSongId" @click.stop="playSong(song.id)">play</button>
+          <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button>
           <!--<button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>-->
         </article>
       </Draggable>

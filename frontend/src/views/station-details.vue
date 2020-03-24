@@ -21,14 +21,15 @@
       </section>
     </section>
 
-    <section class="songs-sec">
+    <section v-if="chatIsOff" class="songs-sec">
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddSong}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
         @play-song="playSong" @reorder-songs="reorderSongs" />
     </section>
 
-    <chat-room :currStation="station" class="station-chat"></chat-room>
+    <chat-room v-else :currStation="station" class="station-chat"></chat-room>
+    <div @click="toggleChat" class="chat-open"><h4>talk to me!</h4></div>
     
   </article>
 </template>
@@ -37,14 +38,15 @@
 import songList from '@/cmps/song-list.vue';
 import songAdd from '@/cmps/song-add.vue';
 import chatRoom from '@/cmps/chat-room.vue';
-
+// window.innerWidth
 export default {
   name: 'stationDetails',
   data() {
     return {
       playingSongId: '',
       isAddSongOpen: false,
-      isSongPlaying: false
+      isSongPlaying: false,
+      chatIsOff: true
     }
   },
   created() {
@@ -117,7 +119,10 @@ export default {
       if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: 'reorderSongs', songs });
     },
-    shuffleSongs() {}
+    shuffleSongs() {},
+    toggleChat(){
+      this.chatIsOff=!this.chatIsOff;
+    }
   },
   components: {
     songList,

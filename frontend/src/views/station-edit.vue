@@ -26,7 +26,7 @@
         </section>
 
 
-      <songList :songs="currStation.songs" @remove-song="removeSong" />
+      <songList :songs="currStation.songs" @reorder-songs="reorderSongs" />
 
       <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button>
     </form>
@@ -64,11 +64,16 @@ export default {
       this.currStation.tags.push(this.tagToAdd);
     },
     addSong(song) {
+      const loggedinUser = this.$store.getters.loggedinUser;
+      song.addedBy = {
+          _id: loggedinUser._id,
+          fullName: loggedinUser.fullName,
+          imgUrl: loggedinUser.imgUrl
+      };
       this.currStation.songs.unshift(song);
     },
-    removeSong(songId) {
-      const idx = this.currStation.songs.findIndex(song => song.id === songId);
-      this.currStation.songs.splice(idx, 1);
+    reorderSongs(songs) {
+      this.currStation.songs = songs;
     },
     removeTag(tagToRemove) {
       const idx = this.currStation.tags.findIndex(tag => tag === tagToRemove);
@@ -80,7 +85,7 @@ export default {
     saveStation() {
       this.$store.dispatch({ type: 'saveStation', station: this.currStation });
       this.clearInputs();
-      this.loadStation();
+      this.$router.push('/');
     }
   },
   components: {

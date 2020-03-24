@@ -14,7 +14,7 @@ module.exports = {
 async function query() {
     const collection = await dbService.getCollection('user');
     try {
-        const users = await collection.find(criteria).toArray();
+        const users = await collection.find().toArray();
         users.forEach(user => delete user.password);
         return users;
     } catch (err) {
@@ -49,7 +49,7 @@ async function getByEmail(email) {
 async function add(user) {
     const collection = await dbService.getCollection('user')
     try {
-        user.imgUrl = '';
+        user.imgUrl = '../img/user-icon.png';
         user.isAdmin = false;
         user.stations = [];
         await collection.insertOne(user);

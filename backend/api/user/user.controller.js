@@ -8,7 +8,6 @@ module.exports = {
 }
 
 async function query(req, res) {
-    console.log(req.query);
     const users = await userService.query(req.query)
     res.send(users)
 }

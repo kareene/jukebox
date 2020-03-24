@@ -10,7 +10,7 @@
                 <li>
                     <img :src="song.imgUrl" />
                     <p>{{song.title}}</p>
-                    <button @click.stop="$emit('add-song', song)">+</button>
+                    <button @click.stop="addSong(song)">+</button>
                 </li>
             </ul>
         </section>
@@ -31,6 +31,11 @@ export default {
     methods: {
         async searchForSongs() {
             this.songSearchResults = await youtubeService.getVideoSearchResults(this.searchStr);
+        },
+        addSong(song) {
+            const idx = this.songSearchResults.findIndex(currSong => currSong.id === song.id);
+            if (idx !== -1) this.songSearchResults.splice(idx, 1);
+            this.$emit('add-song', song);
         }
     }
 }

@@ -14,7 +14,7 @@
     <!-- <router-link :to="'/station/edit/'+station._id">Edit</router-link>
     <button @click="$emit('remove', station)">Delete</button> -->
   </li>
-   </router-link>
+</router-link>
 </template>
 
 <script>

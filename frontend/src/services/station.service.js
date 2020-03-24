@@ -2,6 +2,7 @@ import httpService from './http.service';
 
 export default {
     query,
+    getTags,
     getById,
     remove,
     save
@@ -10,6 +11,10 @@ export default {
 function query(filterBy) {
     const params = new URLSearchParams(filterBy);
     return httpService.get(`station?${params}`);
+}
+
+function getTags() {
+    return httpService.get('station/tag');
 }
 
 function getById(stationId) {

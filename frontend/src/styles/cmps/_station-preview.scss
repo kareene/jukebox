@@ -8,6 +8,7 @@
         padding: rem(10px);
     }
     h3{
+        color:white;
         margin-bottom: 0;
         font-size: 18px;
         // font-size: rem(20px)
@@ -16,15 +17,21 @@
         mix-blend-mode: multiply;
     }
     p{
+        color:white;
+
         margin-top: 0;
         margin-bottom: rem(5px);
         font-size: rem(13px)
     }
     small {
+        color:white;
+
         margin-right: rem(12px);
 
     }
     .play{
+        color:white;
+
         text-shadow: #000000 0px 0px 8px;
         font-size: 3em;
         align-self: center;

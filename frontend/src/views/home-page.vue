@@ -1,8 +1,9 @@
 <template>
   <article class="home-page">
     <section v-for = "tag in tags" :key = tag class = "stations-by-tag">
-      <div >
+      <div class = "tag-container flex space-between">
         <h2>{{tag}}</h2>
+        <router-link to="/station">See More +</router-link>
       </div>
       
       <stationList  :stations = "getStationsByTag(tag)"></stationList>

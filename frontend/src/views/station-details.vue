@@ -12,8 +12,8 @@
 
     <section class="video-sec">
       <div class="video-container ratio-16-9">
-        <youtube ref="youtube" width="100%" height="100%" 
-          @ready="sendSongRequst" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
+          @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
         ></youtube>
       </div>
       <!-- <button @click="shuffleSongs">Shuffle</button> -->
@@ -104,7 +104,8 @@ export default {
   methods: {
     handleResize() {
       this.windowWidth = window.innerWidth;
-      this.windowWidth > 460
+      // this.windowWidth > 460
+      this.windowWidth > 740
         ? (this.mobileMode = false)
         : (this.mobileMode = true);
     },

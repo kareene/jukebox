@@ -10,9 +10,9 @@
 
     <section class="video-sec">
       <div class="video-container ratio-16-9">
-        <youtube ref="youtube" width="100%" height="100%" @ready="loadSong" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"></youtube>
+        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"></youtube>
       </div>
-
+      <!-- <button @click="shuffleSongs">Shuffle</button> -->
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
         <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns fas fa-pause"></button>
@@ -22,7 +22,7 @@
     </section>
 
     <section v-if="chatIsOff" class="songs-sec">
-      <button class="add-button buttons" @click="toggleAddSong">{{listOrAddSong}}</button>
+      <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
         @play-song="playSong" @reorder-songs="reorderSongs" />
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import socketService from "@/services/socket.service.js";
+import { shuffleArray } from "@/services/util.service.js";
 import songList from '@/cmps/song-list.vue';
 import songAdd from '@/cmps/song-add.vue';
 import chatRoom from '@/cmps/chat-room.vue';
@@ -49,10 +51,13 @@ export default {
       chatIsOff: true
     }
   },
-  created() {
-    this.loadStation();
+  async created() {
+    await this.loadStation();
+    socketService.setup();
+    socketService.emit("join station", this.station._id);
   },
   destroyed() {
+    socketService.terminate();
     this.$store.commit({ type: 'unsetStation' });
   },
   computed: {
@@ -65,7 +70,7 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
-    listOrAddSong(){
+    listOrAddBtn(){
       return (this.isAddSongOpen)? 'Return to playlist' : 'Add a new song';
     }
   },
@@ -73,10 +78,13 @@ export default {
     async loadStation() {
       const stationId = this.$route.params.id;
       await this.$store.dispatch({ type: 'loadStation', stationId });
-      this.playingSongId = this.station.songs[0].id;
     },
     loadSong() {
       this.player.loadVideoById(this.playingSongId);
+    },
+    sendSongRequst() {
+      this.playingSongId = this.station.songs[0].id;
+      this.loadSong();
     },
     async toggleSong() {
       const playerState = await this.player.getPlayerState();
@@ -119,7 +127,11 @@ export default {
       if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: 'reorderSongs', songs });
     },
-    shuffleSongs() {},
+    shuffleSongs() {
+      const songs = JSON.parse(JSON.stringify(this.station.songs));
+      shuffleArray(songs);
+      this.reorderSongs(songs);
+    },
     toggleChat(){
       this.chatIsOff=!this.chatIsOff;
     }

@@ -21,7 +21,7 @@
 
 <script>
 import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag } from "../utils/helpers";
+import { applyDrag } from "@/services/util.service.js";
 
 export default {
   name: 'songList',

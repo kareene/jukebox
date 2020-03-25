@@ -128,11 +128,11 @@ export default {
         },
         async addSong(context, payload) {
             context.commit(payload);
-            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
+            return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },
         async reorderSongs(context, payload) {
             context.commit(payload);
-            context.dispatch({ type: 'saveStation', station: context.getters.currStation });
+            return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }
     }
 }

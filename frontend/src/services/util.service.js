@@ -1,3 +1,4 @@
+// helper for vue-smooth-dnd
 export const applyDrag = (arr, dragResult) => {
     const { removedIndex, addedIndex, payload } = dragResult
     if (removedIndex === null && addedIndex === null) return arr
@@ -16,10 +17,10 @@ export const applyDrag = (arr, dragResult) => {
     return result
 }
 
-export const generateItems = (count, creator) => {
-    const result = []
-    for (let i = 0; i < count; i++) {
-        result.push(creator(i))
+// Durstenfeld shuffle
+export const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    return result
 }

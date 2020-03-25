@@ -32,7 +32,7 @@
         </div>
       </section>
 
-      <songList class="song-list-edit" :songs="station.songs" @reorder-songs="reorderSongs" />
+      <songList class="song-list-edit" :songs="station.songs" @update-playlist="updatePlaylist" />
       <section class="songs-add-sec">
         <songAdd class="add-song-edit" @add-song="addSong" />
       </section>
@@ -83,8 +83,8 @@ export default {
     addSong(song) {
       this.$store.commit({ type: 'addSong', song });
     },
-    reorderSongs(songs) {
-      this.$store.commit({ type: 'reorderSongs', songs });
+    updatePlaylist(songs) {
+      this.$store.commit({ type: 'updatePlaylist', songs });
     },
     addTag() {
       if (this.tag && !this.station.tags.includes(this.tag)) {

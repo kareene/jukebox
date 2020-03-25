@@ -25,7 +25,7 @@
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @play-song="playSong" @reorder-songs="reorderSongs" />
+        @play-song="playSong" @update-playlist="updatePlaylist" />
     </section>
 
     <chat-room v-else :currStation="station" class="station-chat"></chat-room>
@@ -55,6 +55,7 @@ export default {
     await this.loadStation();
     socketService.setup();
     socketService.emit("join station", this.station._id);
+    socketService.on("playlist updatePlaylist", this.updatePlaylist);
   },
   destroyed() {
     socketService.terminate();
@@ -122,10 +123,10 @@ export default {
       this.toggleAddSong();
       this.$store.dispatch({ type: 'addSong', song });
     },
-    reorderSongs(songs) {
+    updatePlaylist(songs) {
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
       if (playingSongIdx === -1) this.playNextSong();
-      this.$store.dispatch({ type: 'reorderSongs', songs });
+      this.$store.dispatch({ type: 'updatePlaylist', songs });
     },
     shuffleSongs() {
       const songs = JSON.parse(JSON.stringify(this.station.songs));
@@ -133,7 +134,7 @@ export default {
       this.reorderSongs(songs);
     },
     toggleChat(){
-      this.chatIsOff=!this.chatIsOff;
+      this.chatIsOff = !this.chatIsOff;
     }
   },
   components: {

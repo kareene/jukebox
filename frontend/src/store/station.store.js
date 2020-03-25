@@ -68,7 +68,7 @@ export default {
             };
             state.currStation.songs.push(song);
         },
-        reorderSongs(state, { songs }) {
+        updatePlaylist(state, { songs }) {
             state.currStation.songs = songs;
         },
         addTag(state, { tag }) {
@@ -130,7 +130,7 @@ export default {
             context.commit(payload);
             return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },
-        async reorderSongs(context, payload) {
+        async updatePlaylist(context, payload) {
             context.commit(payload);
             return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }

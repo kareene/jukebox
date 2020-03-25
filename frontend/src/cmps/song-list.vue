@@ -41,8 +41,8 @@ export default {
   },
   methods: {
     onDrop(dropResult) {
-      const reorderedSongs = applyDrag(this.songsCopy, dropResult);
-      this.$emit('reorder-songs', reorderedSongs);
+      const songs = applyDrag(this.songsCopy, dropResult);
+      this.$emit('update-playlist', songs);
     },
     playSong(songId) {
       this.$emit('play-song', songId);

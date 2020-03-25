@@ -1,23 +1,36 @@
 <template>
   <article v-if="station" class="station-details">
-
     <header class="station-details-header">
       <h2>{{station.name}}</h2>
       <h3>Created by: {{station.createdBy.fullName}}</h3>
       <h4>{{station.tags.join(", ")}}</h4>
-      <h4><button class="like-btn fas fa-heart"></button> {{likedCount}}</h4>
+      <h4>
+        <button class="like-btn fas fa-heart"></button>
+        {{likedCount}}
+      </h4>
     </header>
 
     <section class="video-sec">
       <div class="video-container ratio-16-9">
-        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"></youtube>
+        <youtube ref="youtube" width="100%" height="100%" 
+          @ready="sendSongRequst" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+        ></youtube>
       </div>
       <!-- <button @click="shuffleSongs">Shuffle</button> -->
       <section class="video-btns-container">
-        <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
-        <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns fas fa-pause"></button>
+        <button class="next-song-btn video-btns" @click="playPrevSong">
+          <i class="fas fa-backward"></i>
+        </button>
+        <button
+          v-if="isSongPlaying"
+          @click="toggleSong"
+          class="play-song-btn video-btns fas fa-pause"
+        ></button>
         <button v-else @click="toggleSong" class="play-song-btn video-btns fas fa-play"></button>
-        <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
+        <button class="prev-song-btn video-btns" @click="playNextSong">
+          <i class="fas fa-forward"></i>
+        </button>
+        <h3>Width: {{ windowWidth }}</h3>
       </section>
     </section>
 
@@ -25,45 +38,58 @@
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @play-song="playSong" @update-playlist="updatePlaylist" />
+        @play-song="playSong" @update-playlist="playlistUpdated" />
     </section>
 
     <chat-room v-else :currStation="station" class="station-chat"></chat-room>
-    <div @click="toggleChat" class="chat-open"><h4>talk to me!</h4></div>
-    
+    <chat-room v-if="!mobileMode" :currStation="station" class="station-chat"></chat-room>
+    <div v-if="mobileMode" @click="toggleChat" class="chat-open">
+      <h4>
+        <i class="far fa-comments"></i>
+      </h4>
+    </div>
   </article>
 </template>
 
 <script>
-import socketService from "@/services/socket.service.js";
-import { shuffleArray } from "@/services/util.service.js";
+import socketService from '@/services/socket.service.js';
+import { shuffleArray } from '@/services/util.service.js';
 import songList from '@/cmps/song-list.vue';
 import songAdd from '@/cmps/song-add.vue';
 import chatRoom from '@/cmps/chat-room.vue';
-// window.innerWidth
+
 export default {
   name: 'stationDetails',
   data() {
     return {
+      windowWidth: 0,
+      mobileMode: false,
       playingSongId: '',
       isAddSongOpen: false,
       isSongPlaying: false,
       chatIsOff: true
-    }
+    };
   },
   async created() {
-    await this.loadStation();
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
     socketService.setup();
-    socketService.emit("join station", this.station._id);
-    socketService.on("playlist updatePlaylist", this.updatePlaylist);
+    await this.loadStation();
+    socketService.emit('join station', { stationId: this.station._id, user: this.loggedinUser });
+    socketService.on('player updatePlaylist', this.updatePlaylist);
   },
   destroyed() {
+    socketService.off('playlist updatePlaylist', this.updatePlaylist);
     socketService.terminate();
     this.$store.commit({ type: 'unsetStation' });
+    window.removeEventListener('resize', this.handleResize);
   },
   computed: {
     station() {
       return this.$store.getters.currStation;
+    },
+    loggedinUser() {
+      return this.$store.getters.loggedinUser;
     },
     likedCount() {
       return this.station.likedBy.length;
@@ -76,16 +102,23 @@ export default {
     }
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowWidth > 460
+        ? (this.mobileMode = false)
+        : (this.mobileMode = true);
+    },
     async loadStation() {
       const stationId = this.$route.params.id;
       await this.$store.dispatch({ type: 'loadStation', stationId });
     },
-    loadSong() {
+    loadSong(songId) {
+      this.playingSongId = songId;
       this.player.loadVideoById(this.playingSongId);
     },
     sendSongRequst() {
-      this.playingSongId = this.station.songs[0].id;
-      this.loadSong();
+      const songId = this.station.songs[0].id;
+      this.loadSong(songId);
     },
     async toggleSong() {
       const playerState = await this.player.getPlayerState();
@@ -93,22 +126,21 @@ export default {
       else if (playerState === 2 /* PAUSED */) this.player.playVideo();
     },
     playSong(songId) {
-      this.playingSongId = songId;
-      this.loadSong();
+      this.loadSong(songId);
     },
     playNextSong() {
       var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
       idx++;
       if (idx === this.station.songs.length) idx = 0;
-      this.playingSongId = this.station.songs[idx].id;
-      this.loadSong();
+      const songId = this.station.songs[idx].id;
+      this.loadSong(songId);
     },
     playPrevSong() {
       var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
       idx--;
       if (idx < 0) idx = this.station.songs.length - 1;
-      this.playingSongId = this.station.songs[idx].id;
-      this.loadSong();
+      const songId = this.station.songs[idx].id;
+      this.loadSong(songId);
     },
     sendPlaying() {
       this.isSongPlaying = true;
@@ -123,7 +155,12 @@ export default {
       this.toggleAddSong();
       this.$store.dispatch({ type: 'addSong', song });
     },
+    playlistUpdated(songs) {
+      console.log('frontend playlistUpdated')
+      socketService.emit("player playlistUpdated", songs);
+    },
     updatePlaylist(songs) {
+      console.log('frontend updatePlaylist', songs)
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
       if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: 'updatePlaylist', songs });
@@ -131,9 +168,9 @@ export default {
     shuffleSongs() {
       const songs = JSON.parse(JSON.stringify(this.station.songs));
       shuffleArray(songs);
-      this.reorderSongs(songs);
+      this.playlistUpdated(songs);
     },
-    toggleChat(){
+    toggleChat() {
       this.chatIsOff = !this.chatIsOff;
     }
   },
@@ -142,5 +179,5 @@ export default {
     songAdd,
     chatRoom
   }
-}
+};
 </script>

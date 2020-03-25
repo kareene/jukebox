@@ -40,8 +40,8 @@
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
         @play-song="playSong" @update-playlist="playlistUpdated" />
     </section>
-
-    <chat-room @chatClosed="toggleChat"  v-if="chatIsOn || !mobileMode" :currStation="station" class="station-chat"></chat-room>
+  
+    <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat"  v-if="chatIsOn || !mobileMode" :currStation="station" class="station-chat"></chat-room>
     <div v-if="mobileMode && !chatIsOn" @click="toggleChat" class="chat-open">
       <h4>
         <i class="far fa-comments"></i>

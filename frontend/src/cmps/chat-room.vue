@@ -1,6 +1,6 @@
 <template>
   <aside v-if="isChatOpen" class="chat-room">
-    <header class="chat-header">Chat <button @click="closeChat && $emit('chatClosed', false)" class="fas fa-times"></button></header>
+    <header class="chat-header">Chat <button v-if="mobileMode" @click="closeChat && $emit('chatClosed', false)" class="fas fa-times"></button></header>
     <section class="msgs-sec" ref="scrollToHere">
       <label :style="{ visibility: userTyping ? 'visible' : 'hidden' }">{{userTyping}} is Typing...</label>
       <div
@@ -34,7 +34,8 @@ import socketService from "@/services/socket.service.js";
 export default {
   name: "chatRoom",
   props: {
-    currStation: Object
+    currStation: Object,
+    mobileMode: Boolean
   },
   data() {
     return {

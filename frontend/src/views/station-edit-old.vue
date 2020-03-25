@@ -26,7 +26,7 @@
           Add tags:
           <input @change="addNewTag" list="browsers" name="browser" />
           <datalist id="browsers">
-            <option v-for="tag in tags" :key="tag" :value="tag" />
+            <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
           </datalist>
         </div>
       </section>
@@ -46,6 +46,7 @@
 
       <button class="edit-btn buttons">{{(currStation._id)? 'Edit' : 'Add'}}</button>
     </form>
+    <pre>{{currStation}}</pre>
   </article>
 </template>
 
@@ -58,53 +59,55 @@ export default {
   name: "stationEdit",
   data() {
     return {
-      name: "",
+      currStation: null,
       tagToAdd: ""
     };
   },
   created() {
     this.loadStation();
   },
-  destroyed() {
-    this.$store.commit({ type: 'unsetStation' });
-  },
-  computed: {
-    station() {
-      return this.$store.getters.currStation;
-    },
-    tags() {
-      return this.$store.getters.tags;
-    }
-  },
   methods: {
-    loadStation() {
+    async loadStation() {
       const stationId = this.$route.params.id;
-      this.$store.dispatch({ type: "loadStation", stationId });
+      const station = await this.$store.dispatch({
+        type: "loadStation",
+        stationId
+      });
+      this.currStation = JSON.parse(JSON.stringify(station));
+    },
+    addNewTag(ev) {
+      this.tagToAdd = ev.target.value;
+      this.currStation.tags.push(this.tagToAdd);
     },
     addSong(song) {
-      this.$store.commit({ type: 'addSong', song });
+      const loggedinUser = this.$store.getters.loggedinUser;
+      song.addedBy = {
+        _id: loggedinUser._id,
+        fullName: loggedinUser.fullName,
+        imgUrl: loggedinUser.imgUrl
+      };
+      this.currStation.songs.unshift(song);
     },
     reorderSongs(songs) {
-      this.$store.commit({ type: 'reorderSongs', songs });
+      this.currStation.songs = songs;
     },
-    addTag(ev) {
-      var tag = ev.target.value;
-      if (tag && !this.station.includes(tag)) {
-        this.$store.commit({ type: 'addTag', tag });
-      }
-      tag = "";
+    removeTag(tagToRemove) {
+      const idx = this.currStation.tags.findIndex(tag => tag === tagToRemove);
+      this.currStation.tags.splice(idx, 1);
     },
-    removeTag(tag) {
-      this.$store.commit({ type: 'removeTag', tag });
+    clearInputs() {
+      this.tagToAdd = "";
     },
-    async setStationImage(ev) {
-      const file = ev.target.files[0];
-      const img = await cloudinaryService.uploadImg(file);
-      this.$store.commit({ type: 'setStationImg', imgUrl: img.secure_url });
+    addImage(ev) {
+        console.log( ev)
+      cloudinaryService.uploadImg(ev).then(res => {
+        console.log( res)
+        this.currStation.imgUrl = res.url;
+      });
     },
-    setStationName() {},
     saveStation() {
-      this.$store.dispatch({ type: "saveStation", station: this.station });
+      this.$store.dispatch({ type: "saveStation", station: this.currStation });
+      this.clearInputs();
       this.$router.push("/");
     }
   },

@@ -1,52 +1,49 @@
 <template>
-  <article v-if="currStation" class="station-edit">
+  <article v-if="station" class="station-edit">
     <h2>
-      {{(currStation._id)? 'Edit' : 'Add'}} station :
-      <span v-if="currStation._id">{{currStation.name}}</span>
+      {{(station._id)? 'Edit' : 'Add'}} station :
+      <span v-if="station.name">{{station.name}}</span>
+      <img v-if="station.imgUrl" :src="station.imgUrl" />
     </h2>
 
-    <form class="edit-form" @submit.prevent="saveStation">
+    <div class="edit-form">
       <section class="change-name">
         <label>Enter station name:</label>
-        <input type="text" v-model="currStation.name" />
+        <input type="text" v-model="name" @change="setStationName" />
       </section>
 
       <section class="change-tags">
-        <label v-if="currStation._id">Tags:</label>
+        <label v-if="station._id">Tags:</label>
         <ul class="tags-list">
           <li
             class="li-tag"
             :key="tag"
-            v-for="tag in currStation.tags"
+            v-for="tag in station.tags"
             data-hover="Remove"
-            @click.prevent="removeTag(tag)"
+            @click="removeTag(tag)"
           >{{tag}}</li>
         </ul>
         <div class="add-tags">
           Add tags:
-          <input @change="addNewTag" list="browsers" name="browser" />
-          <datalist id="browsers">
-            <option :key="tag" v-for="tag in currStation.tags" :value="tag" />
+          <input type="text" v-model="tag" list="tags" @change="addTag" />
+          <datalist id="tags">
+            <option v-for="tag in tags" :key="tag">{{tag}}</option>
           </datalist>
         </div>
       </section>
 
-      <!-- <songList :songs="currStation.songs" @reorder-songs="reorderSongs" />
-
-      <button class="edit-btn">{{(currStation._id)? 'Edit' : 'Add'}}</button> -->
-      <songList class="song-list-edit" :songs="currStation.songs" />
+      <songList class="song-list-edit" :songs="station.songs" @reorder-songs="reorderSongs" />
       <section class="songs-add-sec">
         <songAdd class="add-song-edit" @add-song="addSong" />
       </section>
 
       <section class="add-img-sec">
         <label for="img">Enter station picture:</label>
-        <input @change="addImage" type="file" id="station-img" name="station.imgUrl" accept="image/*" />
+        <input @change="setStationImage" type="file" id="station-img" name="station.imgUrl" accept="image/*" />
       </section>
 
-      <button class="edit-btn buttons">{{(currStation._id)? 'Edit' : 'Add'}}</button>
-    </form>
-    <pre>{{currStation}}</pre>
+      <button class="edit-btn buttons" @click="saveStation">{{(station._id)? 'Edit' : 'Add'}}</button>
+    </div>
   </article>
 </template>
 
@@ -59,55 +56,57 @@ export default {
   name: "stationEdit",
   data() {
     return {
-      currStation: null,
-      tagToAdd: ""
+      name: "",
+      tag: ""
     };
   },
   created() {
     this.loadStation();
   },
+  destroyed() {
+    this.$store.commit({ type: 'unsetStation' });
+  },
+  computed: {
+    station() {
+      return this.$store.getters.currStation;
+    },
+    tags() {
+      return this.$store.getters.tags;
+    }
+  },
   methods: {
     async loadStation() {
       const stationId = this.$route.params.id;
-      const station = await this.$store.dispatch({
-        type: "loadStation",
-        stationId
-      });
-      this.currStation = JSON.parse(JSON.stringify(station));
-    },
-    addNewTag(ev) {
-      this.tagToAdd = ev.target.value;
-      this.currStation.tags.push(this.tagToAdd);
+      await this.$store.dispatch({ type: "loadStation", stationId });
+      this.name = this.station.name;
     },
     addSong(song) {
-      const loggedinUser = this.$store.getters.loggedinUser;
-      song.addedBy = {
-        _id: loggedinUser._id,
-        fullName: loggedinUser.fullName,
-        imgUrl: loggedinUser.imgUrl
-      };
-      this.currStation.songs.unshift(song);
+      this.$store.commit({ type: 'addSong', song });
     },
     reorderSongs(songs) {
-      this.currStation.songs = songs;
+      this.$store.commit({ type: 'reorderSongs', songs });
     },
-    removeTag(tagToRemove) {
-      const idx = this.currStation.tags.findIndex(tag => tag === tagToRemove);
-      this.currStation.tags.splice(idx, 1);
+    addTag() {
+      if (this.tag && !this.station.tags.includes(this.tag)) {
+        this.$store.commit({ type: 'addTag', tag: this.tag });
+      }
+      this.tag = "";
     },
-    clearInputs() {
-      this.tagToAdd = "";
+    removeTag(tag) {
+      this.$store.commit({ type: 'removeTag', tag });
     },
-    addImage(ev) {
-        console.log( ev)
-      cloudinaryService.uploadImg(ev).then(res => {
-        console.log( res)
-        this.currStation.imgUrl = res.url;
-      });
+    async setStationImage(ev) {
+      const file = ev.target.files[0];
+      const img = await cloudinaryService.uploadImg(file);
+      this.$store.commit({ type: 'setStationImg', imgUrl: img.secure_url });
+    },
+    setStationName() {
+      if (this.name) {
+        this.$store.commit({ type: 'setStationName', name: this.name });
+      }
     },
     saveStation() {
-      this.$store.dispatch({ type: "saveStation", station: this.currStation });
-      this.clearInputs();
+      this.$store.dispatch({ type: "saveStation", station: this.station });
       this.$router.push("/");
     }
   },

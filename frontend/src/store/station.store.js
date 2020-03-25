@@ -128,6 +128,9 @@ export default {
         async removeStation(context, payload) {
             await stationService.remove(stationId);
             context.commit(payload);
+            if (!context.getters.isGuestUser) {
+                context.dispatch({ type: 'removeUserCreatedStation', station})
+            }
         },
         async addSong(context, payload) {
             context.commit(payload);

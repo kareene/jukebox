@@ -49,6 +49,7 @@
         .playing-song-gif {
             padding-right: 0.4em;
             width: 3em;
+            filter: hue-rotate(270deg) saturate(220%);
         }
         // button {
         //     @include clear-button;

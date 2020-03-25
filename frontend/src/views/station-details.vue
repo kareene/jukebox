@@ -34,16 +34,15 @@
       </section>
     </section>
 
-    <section v-if="chatIsOff" class="songs-sec">
+    <section v-if="!chatIsOn || (chatIsOn && !mobileMode)" class="songs-sec">
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
         @play-song="playSong" @update-playlist="playlistUpdated" />
     </section>
 
-    <chat-room v-else :currStation="station" class="station-chat"></chat-room>
-    <chat-room v-if="!mobileMode" :currStation="station" class="station-chat"></chat-room>
-    <div v-if="mobileMode" @click="toggleChat" class="chat-open">
+    <chat-room @chatClosed="toggleChat"  v-if="chatIsOn || !mobileMode" :currStation="station" class="station-chat"></chat-room>
+    <div v-if="mobileMode && !chatIsOn" @click="toggleChat" class="chat-open">
       <h4>
         <i class="far fa-comments"></i>
       </h4>
@@ -67,7 +66,7 @@ export default {
       playingSongId: '',
       isAddSongOpen: false,
       isSongPlaying: false,
-      chatIsOff: true
+      chatIsOn: false
     };
   },
   async created() {
@@ -171,9 +170,10 @@ export default {
       shuffleArray(songs);
       this.playlistUpdated(songs);
     },
-    toggleChat() {
-      this.chatIsOff = !this.chatIsOff;
-    }
+    toggleChat(value) {
+      this.chatIsOn=!this.chatIsOn;
+    },
+
   },
   components: {
     songList,

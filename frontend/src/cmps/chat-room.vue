@@ -1,5 +1,6 @@
 <template>
-  <aside class="chat-room">
+  <aside v-if="isChatOpen" class="chat-room">
+    <header class="chat-header">Chat <button @click="closeChat && $emit('chatClosed', false)" class="fas fa-times"></button></header>
     <section class="msgs-sec" ref="scrollToHere">
       <label :style="{ visibility: userTyping ? 'visible' : 'hidden' }">{{userTyping}} is Typing...</label>
       <div
@@ -44,7 +45,8 @@ export default {
       },
       messages: [],
       userTyping: "",
-      timeout: null
+      timeout: null,
+      isChatOpen: true
     };
   },
   computed: {
@@ -91,6 +93,10 @@ export default {
       this.timeout = setTimeout(() => {
         this.userTyping = "";
       }, 1000);
+    },
+    closeChat(ev){
+      this.isChatOpen=false;
+     
     }
   }
 };

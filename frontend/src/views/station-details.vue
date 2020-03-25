@@ -16,7 +16,7 @@
           @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
         ></youtube>
       </div>
-      <!-- <button @click="shuffleSongs">Shuffle</button> -->
+      <button class="fas fa-random" @click="shuffleSongs"></button>
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong">
           <i class="fas fa-backward"></i>

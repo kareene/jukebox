@@ -11,7 +11,9 @@
               <p class="song-add-by-name">Added by: {{song.addedBy.fullName}}</p>
             </div>
           </section>
-          <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button>
+          <img class="playing-song-gif" v-if="song.id === playingSongId" src="../../public/img/eq3.gif"/>
+          <!-- <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button> -->
+
           <!--<button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>-->
         </article>
       </Draggable>

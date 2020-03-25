@@ -1,59 +1,92 @@
 <template>
   <article v-if="station" class="station-details">
-
     <header class="station-details-header">
       <h2>{{station.name}}</h2>
       <h3>Created by: {{station.createdBy.fullName}}</h3>
       <h4>{{station.tags.join(", ")}}</h4>
-      <h4><button class="like-btn fas fa-heart"></button> {{likedCount}}</h4>
+      <h4>
+        <button class="like-btn fas fa-heart"></button>
+        {{likedCount}}
+      </h4>
     </header>
 
     <section class="video-sec">
       <div class="video-container ratio-16-9">
-        <youtube ref="youtube" width="100%" height="100%" @ready="loadSong" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"></youtube>
+        <youtube
+          ref="youtube"
+          width="100%"
+          height="100%"
+          @ready="loadSong"
+          @ended="playNextSong"
+          @playing="sendPlaying"
+          @paused="sendPaused"
+        ></youtube>
       </div>
 
       <section class="video-btns-container">
-        <button class="next-song-btn video-btns" @click="playPrevSong"><i class="fas fa-backward"></i></button>
-        <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns fas fa-pause"></button>
+        <button class="next-song-btn video-btns" @click="playPrevSong">
+          <i class="fas fa-backward"></i>
+        </button>
+        <button
+          v-if="isSongPlaying"
+          @click="toggleSong"
+          class="play-song-btn video-btns fas fa-pause"
+        ></button>
         <button v-else @click="toggleSong" class="play-song-btn video-btns fas fa-play"></button>
-        <button class="prev-song-btn video-btns" @click="playNextSong"><i class="fas fa-forward"></i></button>
+        <button class="prev-song-btn video-btns" @click="playNextSong">
+          <i class="fas fa-forward"></i>
+        </button>
+        <h3>Width: {{ windowWidth }}</h3>
       </section>
     </section>
 
     <section v-if="chatIsOff" class="songs-sec">
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddSong}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
-      <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @play-song="playSong" @reorder-songs="reorderSongs" />
+      <songList
+        v-else
+        :songs="station.songs"
+        :playingSongId="playingSongId"
+        @play-song="playSong"
+        @reorder-songs="reorderSongs"
+      />
     </section>
 
     <chat-room v-else :currStation="station" class="station-chat"></chat-room>
-    <div @click="toggleChat" class="chat-open"><h4>talk to me!</h4></div>
-    
+    <chat-room v-if="!mobileMode" :currStation="station" class="station-chat"></chat-room>
+    <div v-if="mobileMode" @click="toggleChat" class="chat-open">
+      <h4>
+        <i class="far fa-comments"></i>
+      </h4>
+    </div>
   </article>
 </template>
 
 <script>
-import songList from '@/cmps/song-list.vue';
-import songAdd from '@/cmps/song-add.vue';
-import chatRoom from '@/cmps/chat-room.vue';
+import songList from "@/cmps/song-list.vue";
+import songAdd from "@/cmps/song-add.vue";
+import chatRoom from "@/cmps/chat-room.vue";
 // window.innerWidth
 export default {
-  name: 'stationDetails',
+  name: "stationDetails",
   data() {
     return {
-      playingSongId: '',
+      windowWidth: 0,
+      mobileMode: false,
+      playingSongId: "",
       isAddSongOpen: false,
       isSongPlaying: false,
       chatIsOff: true
-    }
+    };
   },
   created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
     this.loadStation();
   },
   destroyed() {
-    this.$store.commit({ type: 'unsetStation' });
+    window.removeEventListener("resize", this.handleResize);
+    this.$store.commit({ type: "unsetStation" });
   },
   computed: {
     station() {
@@ -65,14 +98,20 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
-    listOrAddSong(){
-      return (this.isAddSongOpen)? 'Return to playlist' : 'Add a new song';
+    listOrAddSong() {
+      return this.isAddSongOpen ? "Return to playlist" : "Add a new song";
     }
   },
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowWidth > 460
+        ? (this.mobileMode = false)
+        : (this.mobileMode = true);
+    },
     async loadStation() {
       const stationId = this.$route.params.id;
-      await this.$store.dispatch({ type: 'loadStation', stationId });
+      await this.$store.dispatch({ type: "loadStation", stationId });
       this.playingSongId = this.station.songs[0].id;
     },
     loadSong() {
@@ -88,14 +127,18 @@ export default {
       this.loadSong();
     },
     playNextSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(
+        song => song.id === this.playingSongId
+      );
       idx++;
       if (idx === this.station.songs.length) idx = 0;
       this.playingSongId = this.station.songs[idx].id;
       this.loadSong();
     },
     playPrevSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(
+        song => song.id === this.playingSongId
+      );
       idx--;
       if (idx < 0) idx = this.station.songs.length - 1;
       this.playingSongId = this.station.songs[idx].id;
@@ -112,16 +155,18 @@ export default {
     },
     addSong(song) {
       this.toggleAddSong();
-      this.$store.dispatch({ type: 'addSong', song });
+      this.$store.dispatch({ type: "addSong", song });
     },
     reorderSongs(songs) {
-      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
+      const playingSongIdx = songs.findIndex(
+        song => song.id === this.playingSongId
+      );
       if (playingSongIdx === -1) this.playNextSong();
-      this.$store.dispatch({ type: 'reorderSongs', songs });
+      this.$store.dispatch({ type: "reorderSongs", songs });
     },
     shuffleSongs() {},
-    toggleChat(){
-      this.chatIsOff=!this.chatIsOff;
+    toggleChat() {
+      this.chatIsOff = !this.chatIsOff;
     }
   },
   components: {
@@ -129,5 +174,5 @@ export default {
     songAdd,
     chatRoom
   }
-}
+};
 </script>

@@ -5,17 +5,17 @@ function connectSockets(io) {
         socket.on('chat newMsg', msg => {
             // io.emit('chat addMsg', msg)
             // emits only to sockets in the same room
-            io.to(socket.myChatRoom).emit('chat addMsg', msg);
+            io.to(socket.myStation).emit('chat addMsg', msg);
         });
         socket.on('chat userTyping', username => {
-            socket.broadcast.to(socket.myChatRoom).emit('chat displayTyping', username);
+            socket.broadcast.to(socket.myStation).emit('chat displayTyping', username);
         });
-        socket.on('chat room', stationId => {
-            if (socket.myChatRoom) {
-                socket.leave(socket.myChatRoom);
+        socket.on('join station', stationId => {
+            if (socket.myStation) {
+                socket.leave(socket.myStation);
             }
             socket.join(stationId);
-            socket.myChatRoom = stationId;
+            socket.myStation = stationId;
         });
     })
 }

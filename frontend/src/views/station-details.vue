@@ -12,6 +12,7 @@
 
     <section class="video-sec">
       <div class="video-container ratio-16-9">
+<<<<<<< HEAD
         <youtube
           ref="youtube"
           width="100%"
@@ -21,8 +22,11 @@
           @playing="sendPlaying"
           @paused="sendPaused"
         ></youtube>
+=======
+        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst" @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"></youtube>
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
       </div>
-
+      <!-- <button @click="shuffleSongs">Shuffle</button> -->
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong">
           <i class="fas fa-backward"></i>
@@ -41,7 +45,7 @@
     </section>
 
     <section v-if="chatIsOff" class="songs-sec">
-      <button class="add-button buttons" @click="toggleAddSong">{{listOrAddSong}}</button>
+      <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
       <songAdd v-if="isAddSongOpen" @add-song="addSong" />
       <songList
         v-else
@@ -63,9 +67,17 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import songList from "@/cmps/song-list.vue";
 import songAdd from "@/cmps/song-add.vue";
 import chatRoom from "@/cmps/chat-room.vue";
+=======
+import socketService from "@/services/socket.service.js";
+import { shuffleArray } from "@/services/util.service.js";
+import songList from '@/cmps/song-list.vue';
+import songAdd from '@/cmps/song-add.vue';
+import chatRoom from '@/cmps/chat-room.vue';
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
 // window.innerWidth
 export default {
   name: "stationDetails",
@@ -79,6 +91,7 @@ export default {
       chatIsOff: true
     };
   },
+<<<<<<< HEAD
   created() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -87,6 +100,16 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
     this.$store.commit({ type: "unsetStation" });
+=======
+  async created() {
+    await this.loadStation();
+    socketService.setup();
+    socketService.emit("join station", this.station._id);
+  },
+  destroyed() {
+    socketService.terminate();
+    this.$store.commit({ type: 'unsetStation' });
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
   },
   computed: {
     station() {
@@ -98,8 +121,13 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
+<<<<<<< HEAD
     listOrAddSong() {
       return this.isAddSongOpen ? "Return to playlist" : "Add a new song";
+=======
+    listOrAddBtn(){
+      return (this.isAddSongOpen)? 'Return to playlist' : 'Add a new song';
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
     }
   },
   methods: {
@@ -111,11 +139,19 @@ export default {
     },
     async loadStation() {
       const stationId = this.$route.params.id;
+<<<<<<< HEAD
       await this.$store.dispatch({ type: "loadStation", stationId });
       this.playingSongId = this.station.songs[0].id;
+=======
+      await this.$store.dispatch({ type: 'loadStation', stationId });
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
     },
     loadSong() {
       this.player.loadVideoById(this.playingSongId);
+    },
+    sendSongRequst() {
+      this.playingSongId = this.station.songs[0].id;
+      this.loadSong();
     },
     async toggleSong() {
       const playerState = await this.player.getPlayerState();
@@ -164,9 +200,19 @@ export default {
       if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: "reorderSongs", songs });
     },
+<<<<<<< HEAD
     shuffleSongs() {},
     toggleChat() {
       this.chatIsOff = !this.chatIsOff;
+=======
+    shuffleSongs() {
+      const songs = JSON.parse(JSON.stringify(this.station.songs));
+      shuffleArray(songs);
+      this.reorderSongs(songs);
+    },
+    toggleChat(){
+      this.chatIsOff=!this.chatIsOff;
+>>>>>>> 376924c23e453435f5c22ddb7c9934ff77679da6
     }
   },
   components: {

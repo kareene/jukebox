@@ -27,11 +27,13 @@ export default {
     actions: {
         async login(context, { userCred }) {
             const user = await userService.login(userCred);
+            if (!user) return;
             context.commit({ type: 'setUser', user });
             return user;
         },
         async signup(context, { userCred }) {
             const user = await userService.signup(userCred);
+            if (!user) return;
             context.commit({ type: 'setUser', user });
             return user;
         },

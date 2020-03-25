@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import socketService from "../services/socket.service.js";
+import socketService from "@/services/socket.service.js";
 
 export default {
   name: "chatRoom",
@@ -59,21 +59,17 @@ export default {
     }
   },
   created() {
-
-    socketService.setup();
     socketService.on("chat addMsg", this.addMsg);
-    socketService.emit("chat room", this.currStation._id);
     socketService.on("chat displayTyping", this.displayTyping);
   },
   destroyed() {
     socketService.off("chat addMsg", this.addMsg);
-    socketService.off("chat displayTyping", this.displayTyping);
-    socketService.terminate();
+    socketService.off("chat displayTyping", this.displayTyping); 
   },
   methods: {
     scrollToBottom() {
-      // this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;   ref on parent
-      this.scrollToHere.scrollIntoView();
+      this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;  // ref on parent
+      // this.scrollToHere.scrollIntoView(); // ref on the-bar
     },
     addMsg(msg) {
       this.messages.push(msg);

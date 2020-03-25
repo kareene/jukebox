@@ -157,11 +157,9 @@ export default {
       this.$store.dispatch({ type: 'addSong', song });
     },
     playlistUpdated(songs) {
-      console.log('frontend playlistUpdated')
       socketService.emit("player playlistUpdated", songs);
     },
     updatePlaylist(songs) {
-      console.log('frontend updatePlaylist', songs)
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
       if (playingSongIdx === -1) this.playNextSong();
       this.$store.dispatch({ type: 'updatePlaylist', songs });

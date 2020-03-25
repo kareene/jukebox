@@ -97,6 +97,7 @@ export default {
     },
     async setStationImage(ev) {
       const file = ev.target.files[0];
+      if (!file) return;
       const img = await cloudinaryService.uploadImg(file);
       this.$store.commit({ type: 'setStationImg', imgUrl: img.secure_url });
     },

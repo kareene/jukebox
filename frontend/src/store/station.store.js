@@ -99,13 +99,13 @@ export default {
             return tags;
         },
         async loadStation(context, { stationId }) {
-            const station = await stationService.getById(stationId);
+            const station = (stationId) ?  await stationService.getById(stationId) : stationService.getEmptyStation();
             context.commit({ type: 'setStation', station });
             return station;
         },
         setFilterBy(context, payload) {
-            context.commit(payload)
-            return context.dispatch({ type: 'loadStations' })
+            context.commit(payload);
+            return context.dispatch({ type: 'loadStations' });
         },
         async saveStation(context, { station }) {
             const isUpdate = !!station._id;
@@ -120,6 +120,9 @@ export default {
             station = await stationService.save(station);
             if (isUpdate) context.commit({ type: 'updateStation', station });
             else context.commit({ type: 'addStation', station });
+            if (!context.getters.isGuestUser) {
+                context.dispatch({ type: 'saveUserCreatedStation', station})
+            }
             return station;
         },
         async removeStation(context, payload) {

@@ -39,6 +39,10 @@ function remove(userId) {
 }
 
 function update(user) {
+    var loggedinUser = getLoggedinUser();
+    if (loggedinUser._id === user._id) {
+        sessionStorage.setItem('user', JSON.stringify(user));
+    }
     return httpService.put(`user/${user._id}`, user);
 }
 

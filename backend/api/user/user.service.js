@@ -63,6 +63,10 @@ async function add(user) {
 async function update(user) {
     const collection = await dbService.getCollection('user');
     user._id = ObjectId(user._id);
+    user.stations = user.stations.map(station => {
+        station._id = ObjectId(station._id)
+        return station;
+    });
     try {
         await collection.replaceOne({ "_id": user._id }, { $set: user });
         return user;

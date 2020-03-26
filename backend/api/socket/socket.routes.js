@@ -2,7 +2,7 @@ module.exports = connectSockets
 
 function connectSockets(io) {
     io.on('connection', socket => {
-        socket.on('join station', ({ stationId }) => {
+        socket.on('joinStation', ({ stationId, user }) => {
             if (socket.myStation) {
                 socket.leave(socket.myStation);
             }
@@ -18,7 +18,7 @@ function connectSockets(io) {
             socket.broadcast.to(socket.myStation).emit('chat displayTyping', username);
         });
         socket.on('player playlistUpdated', playlist => {
-            io.to(socket.myStation).emit('player updatePlaylist', playlist);
+            socket.broadcast.to(socket.myStation).emit('player updatePlaylist', playlist);
         });
     })
 }

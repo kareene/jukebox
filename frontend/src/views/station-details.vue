@@ -2,6 +2,7 @@
   <article v-if="station" class="station-details">
     <header class="station-details-header">
       <h2>{{station.name}}</h2>
+      <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
       <h3>Created by: {{station.createdBy.fullName}}</h3>
       <h4>{{station.tags.join(", ")}}</h4>
       <h4>
@@ -74,7 +75,7 @@ export default {
     this.handleResize();
     socketService.setup();
     await this.loadStation();
-    socketService.emit('join station', { stationId: this.station._id, user: this.loggedinUser });
+    socketService.emit('joinStation', { stationId: this.station._id, user: this.loggedinUser });
     socketService.on('player updatePlaylist', this.updatePlaylist);
   },
   destroyed() {
@@ -89,6 +90,9 @@ export default {
     },
     loggedinUser() {
       return this.$store.getters.loggedinUser;
+    },
+    isStationCreator() {
+      return (!this.$store.getters.isGuestUser && this.station.createdBy._id === this.loggedinUser._id);
     },
     likedCount() {
       return this.station.likedBy.length;
@@ -157,11 +161,14 @@ export default {
     },
     playlistUpdated(songs) {
       socketService.emit("player playlistUpdated", songs);
+      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
+      if (playingSongIdx === -1) this.playNextSong();
+      this.$store.dispatch({ type: 'updatePlaylist', songs });
     },
     updatePlaylist(songs) {
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
       if (playingSongIdx === -1) this.playNextSong();
-      this.$store.dispatch({ type: 'updatePlaylist', songs });
+      this.$store.commit({ type: 'updatePlaylist', songs });
     },
     shuffleSongs() {
       const songs = JSON.parse(JSON.stringify(this.station.songs));

@@ -60,8 +60,9 @@ export default {
       tag: ""
     };
   },
-  created() {
-    this.loadStation();
+  async created() {
+    await this.loadStation();
+    if (!this.isStationCreator) this.$router.push('/');
   },
   destroyed() {
     this.$store.commit({ type: 'unsetStation' });
@@ -72,7 +73,10 @@ export default {
     },
     tags() {
       return this.$store.getters.tags;
-    }
+    },
+    isStationCreator() {
+      return (!this.$store.getters.isGuestUser && this.station.createdBy._id === this.$store.getters.loggedinUser._id);
+    },
   },
   methods: {
     async loadStation() {

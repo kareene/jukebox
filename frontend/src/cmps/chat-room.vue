@@ -1,7 +1,7 @@
 <template>
   <aside v-if="isChatOpen" class="chat-room">
     <header class="chat-header">Chat <button v-if="mobileMode" @click="closeChat && $emit('chatClosed', false)" class="fas fa-times"></button></header>
-    <section class="msgs-sec" ref="scrollToHere">
+    <section class="msgs-sec" ref="msgsContainer">
       <label :style="{ visibility: userTyping ? 'visible' : 'hidden' }">{{userTyping}} is Typing...</label>
       <div
         class="chat-msg-line"
@@ -12,7 +12,6 @@
         <label class="user-name-title">{{message.user}}:</label>
         <div>{{message.txt}}</div>
       </div>
-      <!-- <div class="the-bar" ref="scrollToHere"></div> -->
     </section>
 
     <form class="chat-room-form" @submit.prevent="sendMsg">
@@ -51,8 +50,8 @@ export default {
     };
   },
   computed: {
-    scrollToHere() {
-      return this.$refs.scrollToHere;
+    msgsContainer() {
+      return this.$refs.msgsContainer;
     },
     loggedinUser() {
       return this.$store.getters.loggedinUser.fullName;
@@ -61,6 +60,11 @@ export default {
       return this.loggedinUser ? this.loggedinUser : "Guest";
     }
   },
+  // watch: {
+  //   '$refs.msgsContainer.scrollHeight'() {
+  //     this.scrollToBottom();
+  //   }
+  // },
   created() {
     socketService.on("chat addMsg", this.addMsg);
     socketService.on("chat displayTyping", this.displayTyping);
@@ -71,12 +75,13 @@ export default {
   },
   methods: {
     scrollToBottom() {
-      this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;  // ref on parent
-      // this.scrollToHere.scrollIntoView(); // ref on the-bar
+      this.msgsContainer.scrollTop = this.msgsContainer.scrollHeight;
     },
     addMsg(msg) {
       this.messages.push(msg);
-      this.scrollToBottom();
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100)
     },
     sendMsg() {
       if (!this.newMessage.txt) return;

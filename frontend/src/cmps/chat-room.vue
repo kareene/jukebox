@@ -71,7 +71,9 @@ export default {
   },
   methods: {
     scrollToBottom() {
-      this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;  // ref on parent
+      this.scrollToHere.scrollTop = this.scrollToHere.clientHeight-this.scrollToHere.scrollHeight ;
+      console.log('clientHeight',this.scrollToHere.clientHeight)  // ref on parent
+      console.log('scrollHeight',this.scrollToHere.scrollHeight)
       // this.scrollToHere.scrollIntoView(); // ref on the-bar
     },
     addMsg(msg) {

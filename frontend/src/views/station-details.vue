@@ -11,14 +11,7 @@
       </h4>
     </header>
 
-    <section class="video-sec">
-      <div class="video-container ratio-16-9">
-        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
-          @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
-        ></youtube>
-      </div>
-      <button class="fas fa-random" @click="shuffleSongs"></button>
-      <section class="video-btns-container">
+    <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong">
           <i class="fas fa-backward"></i>
         </button>
@@ -33,6 +26,13 @@
         </button>
         <h3>Width: {{ windowWidth }}</h3>
       </section>
+
+    <section class="video-sec">
+      <div class="video-container ratio-16-9">
+        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
+          @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+        ></youtube>
+      </div>
     </section>
 
     <section v-if="!chatIsOn || (chatIsOn && !mobileMode)" class="songs-sec">

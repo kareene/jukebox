@@ -75,14 +75,7 @@ export default {
   },
   methods: {
     scrollToBottom() {
-<<<<<<< HEAD
-      this.scrollToHere.scrollTop = this.scrollToHere.clientHeight-this.scrollToHere.scrollHeight ;
-      console.log('clientHeight',this.scrollToHere.clientHeight)  // ref on parent
-      console.log('scrollHeight',this.scrollToHere.scrollHeight)
-      // this.scrollToHere.scrollIntoView(); // ref on the-bar
-=======
       this.msgsContainer.scrollTop = this.msgsContainer.scrollHeight;
->>>>>>> cf304097a1eea10329c049773e2981146accdc38
     },
     addMsg(msg) {
       this.messages.push(msg);

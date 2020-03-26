@@ -10,29 +10,28 @@
         {{likedCount}}
       </h4>
     </header>
-
-    <section class="video-btns-container">
-        <button class="next-song-btn video-btns" @click="playPrevSong">
-          <i class="fas fa-backward"></i>
-        </button>
-        <button
-          v-if="isSongPlaying"
-          @click="toggleSong"
-          class="play-song-btn video-btns fas fa-pause"
-        ></button>
-        <button v-else @click="toggleSong" class="play-song-btn video-btns fas fa-play"></button>
-        <button class="prev-song-btn video-btns" @click="playNextSong">
-          <i class="fas fa-forward"></i>
-        </button>
-        <h3>Width: {{ windowWidth }}</h3>
-      </section>
-
     <section class="video-sec">
-      <div class="video-container ratio-16-9">
+      <div class="video-container ratio-square">
         <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
           @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
         ></youtube>
       </div>
+
+      <section class="video-btns-container">
+        <button class="next-song-btn video-btns" @click="playPrevSong">
+          <i class="fas fa-backward"></i>
+        </button>
+        <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button v-else @click="toggleSong" class="play-song-btn video-btns">
+          <i class="fas fa-play"></i>
+        </button>
+        <button class="prev-song-btn video-btns" @click="playNextSong">
+          <i class="fas fa-forward"></i>
+        </button>
+        <!-- <h3>Width: {{ windowWidth }}</h3> -->
+      </section>
     </section>
 
     <section v-if="!chatIsOn || (chatIsOn && !mobileMode)" class="songs-sec">

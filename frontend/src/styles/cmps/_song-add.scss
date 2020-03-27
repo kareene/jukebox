@@ -1,6 +1,7 @@
 .song-add {
     // overflow-y: scroll;
     // @include scrollbsr-design;
+    display: contents;
     height: 100%;
     img {
         width: initial;
@@ -8,7 +9,7 @@
     }
     form {
         display: flex;
-        margin: 0 0 0.4em 0.4em;
+        margin: 0 0 0.4em 0;
         // align-content: space-between;
         input {
             margin-right: 1rem;

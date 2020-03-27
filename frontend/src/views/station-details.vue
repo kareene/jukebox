@@ -1,21 +1,32 @@
 <template>
   <article v-if="station" class="station-details">
     <header class="station-details-header">
-      <h2>{{station.name}}</h2>
-      <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
-      <h3>Created by: {{station.createdBy.fullName}}</h3>
+      <div class="img-container ratio-square">
+        <img class="station-img" v-bind:src="station.imgUrl"/>
+      </div>
+      <section class="info-station-sec">
+        <h2>{{station.name}}</h2>
+        <h3>{{station.createdBy.fullName}} add img of creator</h3>
+        <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
+      </section>
+      <div class="sation-stats flex direction-column">
       <h4>{{station.tags.join(", ")}}</h4>
-      <h4>
-        <button class="like-btn fas fa-heart"></button>
-        {{likedCount}}
-      </h4>
+        <h4>
+          <button class="like-btn fas fa-heart"></button>
+          {{likedCount}}
+        </h4>
+      </div>
     </header>
     <section class="video-sec">
-      <div class="video-container ratio-square">
-        <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
-          @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
-        ></youtube>
-      </div>
+        <img class="needle" src="../assets/img/needl1.png"/>
+        <div class="video-container ratio-square">
+          <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
+            @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+          ></youtube>
+        </div>
+      </section>
+
+      
 
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong">
@@ -32,7 +43,7 @@
         </button>
         <!-- <h3>Width: {{ windowWidth }}</h3> -->
       </section>
-    </section>
+    <!-- </section> -->
 
     <section v-if="!chatIsOn || (chatIsOn && !mobileMode)" class="songs-sec">
       <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>

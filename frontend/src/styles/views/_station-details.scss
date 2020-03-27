@@ -27,73 +27,173 @@
             display: flex;
             flex-direction: column;
             .add-button {
-                align-self: flex-end;
+                align-self: flex-start;
                 width: fit-content;
             }
         }
     }
-    .video-sec {
-        margin: 0 auto;
-        // grid-column: 2/3;
-        // grid-row: 2/3;
-        position: relative;
-        width: fit-content;
-        .video-container {
-            justify-self: center;
-            width: 240px;
-            border-radius: 50%;
-            border: 60px solid black;
-            iframe {
-                transform: scale(2.5);
+
+    .player-container {
+        .video-sec {
+            margin: 0 auto;
+            // grid-column: 2/3;
+            // grid-row: 2/3;
+            position: relative;
+            width: fit-content;
+            .video-container {
+                justify-self: center;
+                width: 240px;
+                border-radius: 50%;
+                border: 60px solid black;
+                iframe {
+                    transform: scale(2.5);
+                }
+            }
+            .needle {
+                position: absolute;
+                z-index: 1;
+                transform: scale(0.55) rotateZ(-9.5deg);
+                left: 109px;
+                top: -58px;
             }
         }
-        .needle {
-            position: absolute;
-            z-index: 1;
-            transform: scale(0.55) rotateZ(-9.5deg);
-            left: 109px;
-            top: -58px;
+        //.songs-sec {
+            // grid-column: 1/2;
+            // grid-row: 2/4;
+            // overflow-y: scroll;
+            // @include scrollbsr-design;
+        //}
+        // .video-sec {
+        //     width: 100%;
+        //     position: fixed;
+        //     bottom: 0;
+        //     border: 1px solid grey;
+        //     display: flex;
+        //     justify-content: space-around;
+        //     align-content: center;
+        .video-btns-container {
+            // grid-column: 1/-1;
+            // grid-row: 4/5;
+            padding: 5%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            width: 50%;
+            .video-btns {
+                border: none;
+                font-size: 30px;
+                background-color: transparent;
+                color: $clr6;
+            }
+            .play-song-btn {
+                font-size: 50px;
+            }
         }
     }
-    //.songs-sec {
-        // grid-column: 1/2;
-        // grid-row: 2/4;
-        // overflow-y: scroll;
-        // @include scrollbsr-design;
-    //}
-    // .video-sec {
-    //     width: 100%;
-    //     position: fixed;
-    //     bottom: 0;
-    //     border: 1px solid grey;
-    //     display: flex;
-    //     justify-content: space-around;
-    //     align-content: center;
-    .video-btns-container {
-        // grid-column: 1/-1;
-        // grid-row: 4/5;
-        padding: 5%;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        width: 50%;
-        .video-btns {
-            border: none;
-            font-size: 30px;
-            background-color: transparent;
-            color: $clr6;
-        }
-        .play-song-btn {
-            font-size: 50px;
-        }
-    }
-    
     // }
+    @include for-normal-layout {
+        .station-details-header {
+            order: -1;
+        }
+        .player-container {
+            order: -1;
+            flex-direction: column-reverse;
+        }
+        .playlist-chat-container {
+            height: 50vh;
+            flex-direction: column;
+            .songs-sec {
+                flex-basis: 100%;
+            }
+        }
+        .chat-open {
+            font-size: 30px;
+            position: fixed;
+            bottom: 50px;
+            right: 8px;
+            background-color: $clr3;
+            cursor: pointer;
+            display: flex;
+            padding: 20px;
+            width: 75px;
+            height: 75px;
+            border: solid 2px $clr6;
+            border-radius: 50%;
+            h4 {
+                color: $clr5;
+                margin: 0 auto;
+                align-self: center;
+                text-align: center;
+            }
+        }
+    }
 }
 
 .like-btn {
     @include clear-button;
 }
+
+
+
+// @media (max-width: $break-normal) {
+//     .station-details {
+//         position: relative;
+//         display: grid;
+//         grid-template-columns: 1fr;
+//         grid-template-rows: 10vh 30vh auto 55vh;
+//         gap: 1rem;
+//         .station-details-header {
+//             grid-column: 1/2;
+//             grid-row: 1/2;
+//             .ratio-square {
+//                 padding: 0.4rem;
+//             }
+//             .img-container {
+//                 width: 95px;
+//             }
+//         }
+//         .video-sec {
+//             grid-column: 1/2;
+//             grid-row: 2/3;
+//         }
+//         .video-btns-container {
+//             grid-column: 1/2;
+//             grid-row: 3/4;
+//             border: none;
+//         }
+//         .songs-sec {
+//             grid-column: 1/2;
+//             grid-row: 4/5;
+//         }
+//         .station-chat {
+//             grid-column: 1/2;
+//             grid-row: 4/5;
+//             border: 1px solid rgb(226, 226, 226);
+//             padding: 0 0 1% 0;
+//             margin: 0 0 1% 0;
+//         }
+//         .chat-open {
+//             font-size: 30px;
+//             position: absolute;
+//             bottom: 50px;
+//             right: 8px;
+//             background-color: $clr3;
+//             cursor: pointer;
+//             display: flex;
+//             padding: 20px;
+//             width: 75px;
+//             height: 75px;
+//             border: solid 2px $clr6;
+//             border-radius: 50%;
+//             h4 {
+//                 color: $clr5;
+//                 margin: 0 auto;
+//                 align-self: center;
+//                 text-align: center;
+//             }
+//         }
+//     }
+// }
 
 /////narrow layout 460px/////
 // @media (max-width: $break-normal) {

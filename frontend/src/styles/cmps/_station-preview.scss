@@ -31,17 +31,17 @@
     }
     .play{
         color:white;
-
+        position: absolute;
+        top: 35%;
         text-shadow: #000000 0px 0px 8px;
         font-size: 3em;
         align-self: center;
         padding-top: rem(15px);
-    }
-    .preview-details{
         opacity: 0;
         transition: visibility 0s linear 300ms, opacity 300ms;
         visibility: hidden;
-    } 
+    }
+ 
 }
 
 .station-preview:hover{

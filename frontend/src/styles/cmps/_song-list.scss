@@ -1,12 +1,10 @@
 .song-list {
-    display: contents;
+    flex-grow: 1;
+    overflow: hidden;
     .container-of-song-list {
         height: 100%;
         overflow-y: scroll;
         @include scrollbsr-design;
-    }
-    >div {
-        height: 100%;
     }
     @include clean-list;
     .song-in-list {

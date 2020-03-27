@@ -6,11 +6,13 @@ export default {
     getById,
     remove,
     save,
-    getEmptyStation
+    getEmptyStation,
+    getEmptyFilter
 };
 
 function query(filterBy) {
     const params = new URLSearchParams(filterBy);
+    console.log(`station?${params}`)
     return httpService.get(`station?${params}`);
 }
 
@@ -21,6 +23,18 @@ function getTags() {
 function getById(stationId) {
     return httpService.get(`station/${stationId}`)
 }
+
+function getEmptyFilter() {
+    return  {
+       
+            name: '',
+            tag: '',
+            _sort: 'name',
+            _order: 1
+        }
+    
+}
+
 
 function remove(stationId) {
     return httpService.delete(`station/${stationId}`);

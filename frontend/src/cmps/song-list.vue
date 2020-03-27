@@ -1,5 +1,5 @@
 <template>
-  <section v-if="songs" class="song-list ">
+  <section v-if="songs" class="song-list">
     <Container class="container-of-song-list" @drop="onDrop" :remove-on-drop-out="true">
       <Draggable v-for="song in songsCopy" :key="song.id">
         <article class="song-in-list" :class="{ playing: song.id === playingSongId }">

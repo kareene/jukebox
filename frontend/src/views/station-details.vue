@@ -1,5 +1,6 @@
 <template>
   <article v-if="station" class="station-details">
+
     <header class="station-details-header">
       <div class="img-container ratio-square">
         <img class="station-img" v-bind:src="station.imgUrl"/>
@@ -17,16 +18,12 @@
         </h4>
       </div>
     </header>
-    <section class="video-sec">
-        <img class="needle" src="../assets/img/needl1.png"/>
-        <div class="video-container ratio-square">
-          <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
-            @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
-          ></youtube>
-        </div>
-      </section>
 
-      
+    <article class="player-container flex align-center space-around">
+      <section class="song-info-container">
+        <p>Now playing</p>
+        <p>Up next</p>
+      </section>
 
       <section class="video-btns-container">
         <button class="next-song-btn video-btns" @click="playPrevSong">
@@ -41,23 +38,34 @@
         <button class="prev-song-btn video-btns" @click="playNextSong">
           <i class="fas fa-forward"></i>
         </button>
-        <!-- <h3>Width: {{ windowWidth }}</h3> -->
       </section>
-    <!-- </section> -->
 
-    <section v-if="!chatIsOn || (chatIsOn && !mobileMode)" class="songs-sec">
-      <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
-      <songAdd v-if="isAddSongOpen" @add-song="addSong" />
-      <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-        @play-song="playSong" @update-playlist="playlistUpdated" />
+      <section class="video-sec">
+        <img class="needle" src="../assets/img/needl1.png"/>
+        <div class="video-container ratio-square">
+          <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
+            @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+          ></youtube>
+        </div>
+      </section>
+    </article>
+
+    <section class="playlist-chat-container flex">
+      <section class="songs-sec" v-if="!chatIsOn || (chatIsOn && !mobileMode)">
+        <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
+        <songAdd v-if="isAddSongOpen" @add-song="addSong" />
+        <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
+          @play-song="playSong" @update-playlist="playlistUpdated" />
+      </section>
+
+      <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat" v-if="chatIsOn || !mobileMode" :currStation="station"></chat-room>
+      <div v-if="mobileMode && !chatIsOn" @click="toggleChat" class="chat-open">
+        <h4>
+          <i class="far fa-comments"></i>
+        </h4>
+      </div>
     </section>
-  
-    <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat"  v-if="chatIsOn || !mobileMode" :currStation="station" class="station-chat"></chat-room>
-    <div v-if="mobileMode && !chatIsOn" @click="toggleChat" class="chat-open">
-      <h4>
-        <i class="far fa-comments"></i>
-      </h4>
-    </div>
+
   </article>
 </template>
 

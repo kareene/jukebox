@@ -1,4 +1,10 @@
 .chat-room {
+    flex-basis: 35%;
+    height: 100%;
+    border: 1px solid rgb(226, 226, 226);
+    padding: 1%;
+    margin: 1%;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -97,9 +103,4 @@ form {
         box-shadow: 2px -2px 2px 0 rgba( 178, 178, 178, .4);
         right: -9px;
     }
-}
-
-.the-bar {
-    background-color: blue;
-    height: 140px;
 }

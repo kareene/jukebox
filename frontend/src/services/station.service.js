@@ -5,11 +5,13 @@ export default {
     getTags,
     getById,
     remove,
-    save
+    save,
+    getEmptyFilter
 };
 
 function query(filterBy) {
     const params = new URLSearchParams(filterBy);
+    console.log(`station?${params}`)
     return httpService.get(`station?${params}`);
 }
 
@@ -29,6 +31,18 @@ function getById(stationId) {
             chatMsgs: []
         });
 }
+
+function getEmptyFilter() {
+    return  {
+       
+            name: '',
+            tag: '',
+            _sort: 'name',
+            _order: 1
+        }
+    
+}
+
 
 function remove(stationId) {
     return httpService.delete(`station/${stationId}`);

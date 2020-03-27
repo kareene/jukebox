@@ -3,7 +3,8 @@
     <section v-for = "tag in tags" :key = tag class = "stations-by-tag">
       <div class = "tag-container flex space-between">
         <h2>{{tag}}</h2>
-        <router-link to="/station">See More +</router-link>
+        
+        <router-link :to="{ path: '/station', query: { tag: tag }}">See More +</router-link>
       </div>
       
       <stationList  :stations = "getStationsByTag(tag)"></stationList>

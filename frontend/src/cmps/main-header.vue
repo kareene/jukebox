@@ -10,9 +10,11 @@
 
       </nav>
     </div>
-    <div class = "hero flex direction-column" :class = 'heroSize'>
+    <div class = "hero flex direction-column align-center" :class = 'heroSize'>
        <h2 >Make and Discover Playlists</h2>
-       <router-link to="/station/edit">Add New Station</router-link>
+       <input type = "text" placeholder="Search">
+       <router-link class = "buttons" to="/station/edit">Add New Station</router-link>
+
     </div>
   </header>
 </template>

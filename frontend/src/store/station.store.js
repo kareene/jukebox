@@ -44,6 +44,7 @@ export default {
             state.currStation = null;
         },
         setFilterBy (state, { filterBy }) {
+            console.log(filterBy)
             state.filterBy = filterBy;
         },
         addStation(state, { station }) {
@@ -89,6 +90,7 @@ export default {
     },
     actions: {
         async loadStations(context) {
+            // console.log(context.getters.filterBy)
             const stations = await stationService.query(context.getters.filterBy);
             context.commit({ type: 'setStations', stations });
             return stations;
@@ -104,6 +106,7 @@ export default {
             return station;
         },
         setFilterBy(context, payload) {
+            console.log(payload)
             context.commit(payload)
             return context.dispatch({ type: 'loadStations' })
         },

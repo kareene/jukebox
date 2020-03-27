@@ -109,6 +109,9 @@ function _buildFilterCriteria(params) {
     if (params.type) {
         filterBy.type = params.type;
     }
+    if(params.tag){
+        filterBy.tags = params.tag;
+    }
     return filterBy;
 }
 

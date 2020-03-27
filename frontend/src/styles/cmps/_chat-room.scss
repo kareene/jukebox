@@ -6,27 +6,37 @@
     // display: grid;
     // grid-template-columns: 1fr;
     // grid-template-rows: auto auto;
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: $clr3;
+        // padding: 0.4em;
+        margin: 0;
+        padding: 0.65em;
+        button {
+            @include clear-button;
+        }
+    }
     .msgs-sec {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
         overflow-y: scroll;
-        // grid-row: 1/2;
-        // display: flex;
-        // flex-direction: column;
-        // overflow: auto;
+        @include scrollbsr-design;
     }
 }
 
 form {
     // grid-row: 2/3;
     // position: absolute;
+    display: flex;
+    justify-content: space-between;
     bottom: 0;
     margin-right: 0.4em;
     margin-left: 0.4em;
     max-width: inherit;
     .chat-input {
-        max-width: 80%;
+        width: 85%;
         padding: 0.4em;
         padding-right: 9em;
     }

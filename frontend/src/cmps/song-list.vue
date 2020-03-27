@@ -1,17 +1,19 @@
 <template>
   <section v-if="songs" class="song-list ">
     <h2>Songs list</h2>
-    <Container @drop="onDrop" :remove-on-drop-out="true">
+    <Container class="container-of-song-list" @drop="onDrop" :remove-on-drop-out="true">
       <Draggable v-for="song in songsCopy" :key="song.id">
         <article class="song-in-list" :class="{ playing: song.id === playingSongId }">
           <section class="left-sec-song-line">
-            <img :src="song.imgUrl" />
+            <img :src="song.imgUrl" /><button v-if="playingSongId" @click.stop="playSong(song.id)"></button>
             <div class="inner-txt-song">
               <p>{{song.title}}</p>
               <p class="song-add-by-name">Added by: {{song.addedBy.fullName}}</p>
             </div>
           </section>
-          <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button>
+          <img class="playing-song-gif" v-if="song.id === playingSongId" src="../../public/img/eq3.gif"/>
+          <!-- <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button> -->
+
           <!--<button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>-->
         </article>
       </Draggable>
@@ -21,7 +23,7 @@
 
 <script>
 import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag } from "../utils/helpers";
+import { applyDrag } from "@/services/util.service.js";
 
 export default {
   name: 'songList',
@@ -41,8 +43,8 @@ export default {
   },
   methods: {
     onDrop(dropResult) {
-      const reorderedSongs = applyDrag(this.songsCopy, dropResult);
-      this.$emit('reorder-songs', reorderedSongs);
+      const songs = applyDrag(this.songsCopy, dropResult);
+      this.$emit('update-playlist', songs);
     },
     playSong(songId) {
       this.$emit('play-song', songId);

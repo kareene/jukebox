@@ -3,7 +3,7 @@
     <img :src="loggedinUser.imgUrl" />
     <div class="user-options">
       <p>Hello {{loggedinUser.fullName}}</p>
-      <template v-if="!loggedinUser.email">
+      <template v-if="isGuestUser">
         <router-link to="/login">Login</router-link>
         <router-link to="/signup">Signup</router-link>
       </template>
@@ -21,6 +21,9 @@ export default {
   computed: {
       loggedinUser() {
         return this.$store.getters.loggedinUser;
+      },
+      isGuestUser() {
+        return this.$store.getters.isGuestUser;
       }
   },
   methods: {

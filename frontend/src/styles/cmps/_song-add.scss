@@ -1,10 +1,14 @@
 .song-add {
+    // overflow-y: scroll;
+    // @include scrollbsr-design;
+    height: 100%;
     img {
         width: initial;
         height: initial;
     }
     form {
         display: flex;
+        margin: 0 0 0.4em 0.4em;
         // align-content: space-between;
         input {
             margin-right: 1rem;
@@ -17,6 +21,9 @@
         }
     }
     .songs-list-in-search {
+        overflow-y: scroll;
+        @include scrollbsr-design;
+        height: 100%;
         ul {
             background-color: #f3f3f4;
             border: 2px solid #e2e2e2;

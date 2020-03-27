@@ -1,6 +1,7 @@
 <template>
-  <aside class="chat-room">
-    <section class="msgs-sec" ref="scrollToHere">
+  <aside v-if="isChatOpen" class="chat-room">
+    <header class="chat-header">Chat <button v-if="mobileMode" @click="closeChat && $emit('chatClosed', false)" class="fas fa-times"></button></header>
+    <section class="msgs-sec" ref="msgsContainer">
       <label :style="{ visibility: userTyping ? 'visible' : 'hidden' }">{{userTyping}} is Typing...</label>
       <div
         class="chat-msg-line"
@@ -11,7 +12,6 @@
         <label class="user-name-title">{{message.user}}:</label>
         <div>{{message.txt}}</div>
       </div>
-      <!-- <div class="the-bar" ref="scrollToHere"></div> -->
     </section>
 
     <form class="chat-room-form" @submit.prevent="sendMsg">
@@ -28,12 +28,13 @@
 </template>
 
 <script>
-import socketService from "../services/socket.service.js";
+import socketService from "@/services/socket.service.js";
 
 export default {
   name: "chatRoom",
   props: {
-    currStation: Object
+    currStation: Object,
+    mobileMode: Boolean
   },
   data() {
     return {
@@ -44,12 +45,13 @@ export default {
       },
       messages: [],
       userTyping: "",
-      timeout: null
+      timeout: null,
+      isChatOpen: true
     };
   },
   computed: {
-    scrollToHere() {
-      return this.$refs.scrollToHere;
+    msgsContainer() {
+      return this.$refs.msgsContainer;
     },
     loggedinUser() {
       return this.$store.getters.loggedinUser.fullName;
@@ -58,26 +60,28 @@ export default {
       return this.loggedinUser ? this.loggedinUser : "Guest";
     }
   },
+  // watch: {
+  //   '$refs.msgsContainer.scrollHeight'() {
+  //     this.scrollToBottom();
+  //   }
+  // },
   created() {
-
-    socketService.setup();
     socketService.on("chat addMsg", this.addMsg);
-    socketService.emit("chat room", this.currStation._id);
     socketService.on("chat displayTyping", this.displayTyping);
   },
   destroyed() {
     socketService.off("chat addMsg", this.addMsg);
-    socketService.off("chat displayTyping", this.displayTyping);
-    socketService.terminate();
+    socketService.off("chat displayTyping", this.displayTyping); 
   },
   methods: {
     scrollToBottom() {
-      // this.scrollToHere.scrollTop = this.scrollToHere.scrollHeight;   ref on parent
-      this.scrollToHere.scrollIntoView();
+      this.msgsContainer.scrollTop = this.msgsContainer.scrollHeight;
     },
     addMsg(msg) {
       this.messages.push(msg);
-      this.scrollToBottom();
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100)
     },
     sendMsg() {
       if (!this.newMessage.txt) return;
@@ -95,6 +99,10 @@ export default {
       this.timeout = setTimeout(() => {
         this.userTyping = "";
       }, 1000);
+    },
+    closeChat(ev){
+      this.isChatOpen=false;
+     
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <article class="home-page">
+  <article class="home-page content-container">
     <section v-for = "tag in tags" :key = tag class = "stations-by-tag">
       <div class = "tag-container flex space-between">
         <h2>{{tag}}</h2>

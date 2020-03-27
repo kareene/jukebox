@@ -6,6 +6,7 @@ export default {
     getById,
     remove,
     save,
+    getEmptyStation,
     getEmptyFilter
 };
 
@@ -20,16 +21,7 @@ function getTags() {
 }
 
 function getById(stationId) {
-    return (stationId) ?
-        httpService.get(`station/${stationId}`) :
-        Promise.resolve({
-            name: '',
-            imgUrl: '',
-            tags: [],
-            likedBy: [],
-            songs: [],
-            chatMsgs: []
-        });
+    return httpService.get(`station/${stationId}`)
 }
 
 function getEmptyFilter() {
@@ -52,4 +44,15 @@ function save(station) {
     return (station._id) ?
         httpService.put(`station/${station._id}`, station) :
         httpService.post('station', station);
+}
+
+function getEmptyStation() {
+    return {
+        name: '',
+        imgUrl: '',
+        tags: [],
+        likedBy: [],
+        songs: [],
+        chatMsgs: []
+    }
 }

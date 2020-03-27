@@ -1,5 +1,10 @@
 .song-list {
     height: 100%;
+    .container-of-song-list {
+        height: 100%;
+        overflow-y: scroll;
+        @include scrollbsr-design;
+    }
     >div {
         height: 100%;
     }
@@ -46,12 +51,17 @@
         &.playing {
             border: 2px solid $clr3;
         }
-        button {
-            @include clear-button;
-            color: $clr3;
+        .playing-song-gif {
             padding-right: 0.4em;
-            visibility: hidden;
+            width: 3em;
+            filter: hue-rotate(270deg) saturate(220%);
         }
+        // button {
+        //     @include clear-button;
+        //     color: $clr3;
+        //     padding-right: 0.4em;
+        //     visibility: hidden;
+        // }
         &:hover button {
             visibility: visible;
         }

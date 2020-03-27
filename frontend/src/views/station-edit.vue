@@ -32,7 +32,7 @@
         </div>
       </section>
 
-      <songList class="song-list-edit" :songs="station.songs" @reorder-songs="reorderSongs" />
+      <songList class="song-list-edit" :songs="station.songs" @update-playlist="updatePlaylist" />
       <section class="songs-add-sec">
         <songAdd class="add-song-edit" @add-song="addSong" />
       </section>
@@ -60,8 +60,9 @@ export default {
       tag: ""
     };
   },
-  created() {
-    this.loadStation();
+  async created() {
+    await this.loadStation();
+    if (!this.isStationCreator) this.$router.push('/');
   },
   destroyed() {
     this.$store.commit({ type: 'unsetStation' });
@@ -72,7 +73,10 @@ export default {
     },
     tags() {
       return this.$store.getters.tags;
-    }
+    },
+    isStationCreator() {
+      return (!this.$store.getters.isGuestUser && this.station.createdBy._id === this.$store.getters.loggedinUser._id);
+    },
   },
   methods: {
     async loadStation() {
@@ -83,8 +87,8 @@ export default {
     addSong(song) {
       this.$store.commit({ type: 'addSong', song });
     },
-    reorderSongs(songs) {
-      this.$store.commit({ type: 'reorderSongs', songs });
+    updatePlaylist(songs) {
+      this.$store.commit({ type: 'updatePlaylist', songs });
     },
     addTag() {
       if (this.tag && !this.station.tags.includes(this.tag)) {
@@ -97,6 +101,7 @@ export default {
     },
     async setStationImage(ev) {
       const file = ev.target.files[0];
+      if (!file) return;
       const img = await cloudinaryService.uploadImg(file);
       this.$store.commit({ type: 'setStationImg', imgUrl: img.secure_url });
     },

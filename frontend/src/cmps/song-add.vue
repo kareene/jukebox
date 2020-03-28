@@ -2,12 +2,12 @@
     <article class="song-add">
         <!-- <h2>Add a great song</h2> -->
         <form @submit.prevent="searchForSongs">
-            <input @focus="toggleFocus(true)" @blur="toggleFocus(false)" type="text" v-model="searchStr" />
+            <input type="text" v-model="searchStr" />
             <button class="search-btn buttons">Search</button>
         </form>
 
 
-        <section class="songs-list-in-search" :class="{'input-unfocused': !isFocused}" v-if="songSearchResults.length">
+        <section class="songs-list-in-search" v-if="songSearchResults.length">
             <ul v-for="song in songSearchResults" :key="song.id">
                 <li>
                     <img :src="song.imgUrl" />
@@ -42,8 +42,7 @@ export default {
     data() {
         return {
             searchStr: '',
-            songSearchResults: [],
-            isFocused: true
+            songSearchResults: []
         }
     },
     methods: {
@@ -55,10 +54,7 @@ export default {
             const idx = this.songSearchResults.findIndex(currSong => currSong.id === song.id);
             if (idx !== -1) this.songSearchResults.splice(idx, 1);
         },
-        toggleFocus(value){
-            this.isFocused=value;
-            console.log(this.isFocused)
-        }
+      
     }
 }
 </script>

@@ -46,13 +46,14 @@
                 margin: 0.8rem 0 0.8rem 0;
                 // }
                 li {
+                    background-color: #dfcde2;
+                    color: #a892c5;
                     min-width: 100px;
                     max-width: fit-content;
                     text-align: center;
                     margin-right: 0.4rem;
                     padding: 0.4rem;
                     border-radius: 10px;
-                    border: 1px solid black;
                     &:hover {
                         cursor: pointer;
                         background-color: $clr1;

@@ -13,11 +13,23 @@
         <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
       </section>
       <div class="sation-stats flex direction-column">
-      <h4>{{station.tags.join(", ")}}</h4>
-        <h4>
-          <button class="like-btn fas fa-heart"></button>
-          {{likedCount}}
-        </h4>
+      <!-- <h4 class="station-tags">{{station.tags.join(", ")}}</h4> -->
+        <ul class="tags-list">
+            <li
+              class="li-tag buttons"
+              :key="tag"
+              v-for="tag in station.tags"
+            >{{tag}}</li>
+          </ul>
+          <div class="likes-and-views-container">
+            <h4 title="click to like!">
+              <button @click="addLike" class="like-btn fas fa-heart"></button>
+              {{likedCount}}
+            </h4>
+            <h4 title="views" class="">
+              <label class="far fa-eye"></label> 840
+            </h4>
+          </div>
       </div>
     </header>
 
@@ -43,21 +55,23 @@
         <p>Up next</p>
       </section>
 
-      <section class="video-btns-container">
+      <section class="video-control-container">
         <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
           @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
-        <button class="next-song-btn video-btns" @click="playPrevSong">
-          <i class="fas fa-backward"></i>
+          <section class="video-btns-container">
+              <button class="next-song-btn video-btns" @click="playPrevSong">
+                <i class="fas fa-backward"></i>
+              </button>
+              <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns">
+                <i class="fas fa-pause"></i>
+              </button>
+              <button v-else @click="toggleSong" class="play-song-btn video-btns">
+                <i class="fas fa-play"></i>
+              </button>
+              <button class="prev-song-btn video-btns" @click="playNextSong">
+                <i class="fas fa-forward"></i>
         </button>
-        <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns">
-          <i class="fas fa-pause"></i>
-        </button>
-        <button v-else @click="toggleSong" class="play-song-btn video-btns">
-          <i class="fas fa-play"></i>
-        </button>
-        <button class="prev-song-btn video-btns" @click="playNextSong">
-          <i class="fas fa-forward"></i>
-        </button>
+          </section>
       </section>
 
       <section class="video-sec">
@@ -254,6 +268,10 @@ export default {
     toggleChat(value) {
       this.chatIsOn=!this.chatIsOn;
     },
+    addLike(){
+      this.$store.dispatch({ type: "addLike" });
+    },
+
 
   },
   components: {

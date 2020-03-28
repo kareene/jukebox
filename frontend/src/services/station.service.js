@@ -25,14 +25,14 @@ function getById(stationId) {
 }
 
 function getEmptyFilter() {
-    return  {
-       
-            name: '',
-            tag: '',
-            _sort: 'name',
-            _order: 1
-        }
-    
+    return {
+
+        name: '',
+        tag: '',
+        _sort: 'name',
+        _order: 1
+    }
+
 }
 
 

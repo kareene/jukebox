@@ -49,6 +49,8 @@
 
       <button class="edit-btn buttons" @click="saveStation">{{(station._id)? 'Edit' : 'Add'}}</button>
     </div>
+
+    <!-- <pre>{{station}}</pre> -->
   </article>
 </template>
 
@@ -67,7 +69,7 @@ export default {
   },
   async created() {
     await this.loadStation();
-    if (!this.isStationCreator) this.$router.push('/');
+    if (this.station.createdBy && !this.isStationCreator) this.$router.push('/');
   },
   destroyed() {
     this.$store.commit({ type: 'unsetStation' });
@@ -116,6 +118,8 @@ export default {
       }
     },
     saveStation() {
+      const imgUrl='https://res.cloudinary.com/dpjz7lloq/image/upload/v1585406955/pp0wanpilvrujnlfntpu.jpg';
+      if(!this.station.imgUrl) this.$store.commit({ type: 'setStationImg', imgUrl: imgUrl });
       this.$store.dispatch({ type: "saveStation", station: this.station });
       this.$router.push("/");
     }

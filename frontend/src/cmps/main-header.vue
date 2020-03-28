@@ -1,7 +1,7 @@
 <template>
   <header class="main-header flex direction-column">
     <div class = "nav-container flex space-between">
-      <h1>Jukebox</h1>
+      <router-link to="/" exact><h1>Jukebox</h1></router-link> 
       <div class="search">
         <input type="text" class="searchTerm" placeholder="Search">
         <button type="submit" class="searchButton">

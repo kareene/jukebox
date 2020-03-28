@@ -1,14 +1,7 @@
 .station-details {
-    // background-image: linear-gradient(#a892c5, #b9b9b9);
-    // padding: 0.4rem 0.4rem;
-    // max-height: 100vh;
-    // display: grid;
-    // grid-template-columns: 800px auto;
-    // grid-template-rows: auto auto 2.4fr 200px;
-    // gap: 1rem;
+    // background-image: linear-gradient($clr3, #b9b9b9);
     .station-details-header {
-        // grid-column: 1/-1;
-        // grid-row: 1/2;
+        background-color: #e9eaea;
         padding: 0.4rem;
         display: flex;
         align-items: center;
@@ -17,7 +10,45 @@
             margin-right: 0.8rem;
         }
         .sation-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin-left: auto;
+            .tags-list {
+                @include clean-list;
+                text-decoration: none;
+                display: flex;
+                flex-direction: row;
+                margin: 0.8rem 0 0.8rem 0;
+                li {
+                    background-color: $clr2;
+                    color: $clr3;
+                    min-width: 100px;
+                    max-width: fit-content;
+                    text-align: center;
+                    margin-right: 0.4rem;
+                    padding: 0.4rem;
+                    border-radius: 10px;
+                }
+            }
+        }
+        .likes-and-views-container {
+            display: flex;
+            flex-direction: row;
+            h4 {
+                margin: 0 0.5em 0 0.5em;
+            }
+            .like-btn {
+                &.like-btn:hover {
+                    cursor: pointer;
+                    color: $clr2;
+                }
+            }
+            .views-icon {
+                margin: 0 0.5em 0 0.5em;
+                font-family: proxima-bold;
+                font-weight: normal;
+            }
         }
     }
     .playlist-chat-container {
@@ -28,6 +59,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            padding-left: 0.4rem;
             .add-button {
                 align-self: flex-start;
                 width: fit-content;
@@ -38,13 +70,10 @@
         }
     }
     .player-container {
-        // background-image: linear-gradient(#806280, #e4d4e6);
         border: 1px solid rgb(82, 41, 83);
         padding: 0.4rem;
         .video-sec {
             margin: 0 auto;
-            // grid-column: 2/3;
-            // grid-row: 2/3;
             position: relative;
             width: fit-content;
             .video-container {
@@ -83,7 +112,6 @@
                 position: absolute;
                 width: 6px;
                 height: 6px;
-                // background: white;
                 top: calc(50% - 3px);
                 left: calc(50% - 3px);
                 border-radius: 50%;
@@ -103,28 +131,15 @@
                 }
             }
         }
-        //.songs-sec {
-        // grid-column: 1/2;
-        // grid-row: 2/4;
-        // overflow-y: scroll;
-        // @include scrollbsr-design;
-        //}
-        // .video-sec {
-        //     width: 100%;
-        //     position: fixed;
-        //     bottom: 0;
-        //     border: 1px solid grey;
-        //     display: flex;
-        //     justify-content: space-around;
-        //     align-content: center;
-        .video-btns-container {
-            // grid-column: 1/-1;
-            // grid-row: 4/5;
+        .video-control-container {
             padding: 5%;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             width: 50%;
+            input {
+                margin: 0.8rem;
+            }
             .video-btns {
                 border: none;
                 font-size: 30px;
@@ -133,6 +148,12 @@
             }
             .play-song-btn {
                 font-size: 50px;
+            }
+            .video-btns-container {
+                margin-top: 0.8rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
             }
         }
     }

@@ -15,9 +15,31 @@
         // margin: 1%;
         margin: 0;
         .left-sec-song-line {
+            position: relative;
             display: flex;
             flex-direction: row;
             align-items: center;
+            &:hover {
+                .play-on-img {
+                    visibility: visible;
+                    opacity: 1;
+                    transition: visibility 0s linear 0s, opacity 300ms;
+                }
+            }
+            .play-on-img {
+                cursor: pointer;
+                color: white;
+                position: absolute;
+                text-shadow: #000000 0px 0px 8px;
+                font-size: 1.5em;
+                -ms-flex-item-align: center;
+                align-self: center;
+                left: 1.5em;
+                opacity: 0;
+                -webkit-transition: visibility 0s linear 300ms, opacity 300ms;
+                transition: visibility 0s linear 300ms, opacity 300ms;
+                visibility: hidden;
+            }
             .inner-txt-song {
                 padding: 0.4em;
                 p {

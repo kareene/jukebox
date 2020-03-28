@@ -26,9 +26,9 @@ export default {
         filterBy(state) {
             return state.filterBy;
         },
-        tags(state){
+        tags(state) {
             return state.tags;
-        }
+        },
     },
     mutations: {
         setStations(state, { stations }) {
@@ -43,7 +43,7 @@ export default {
         unsetStation(state) {
             state.currStation = null;
         },
-        setFilterBy (state, { filterBy }) {
+        setFilterBy(state, { filterBy }) {
             console.log(filterBy)
             state.filterBy = filterBy;
         },
@@ -86,6 +86,9 @@ export default {
         },
         setStationImg(state, { imgUrl }) {
             state.currStation.imgUrl = imgUrl;
+        },
+        addLike(state) {
+            state.currStation.likedBy.push(this.getters.loggedinUser);
         }
     },
     actions: {
@@ -101,7 +104,7 @@ export default {
             return tags;
         },
         async loadStation(context, { stationId }) {
-            const station = (stationId) ?  await stationService.getById(stationId) : stationService.getEmptyStation();
+            const station = (stationId) ? await stationService.getById(stationId) : stationService.getEmptyStation();
             context.commit({ type: 'setStation', station });
             return station;
         },
@@ -110,6 +113,7 @@ export default {
             return context.dispatch({ type: 'loadStations' });
         },
         async saveStation(context, { station }) {
+            console.log(station)
             const isUpdate = !!station._id;
             if (!isUpdate) {
                 const loggedinUser = context.getters.loggedinUser;
@@ -123,7 +127,7 @@ export default {
             if (isUpdate) context.commit({ type: 'updateStation', station });
             else context.commit({ type: 'addStation', station });
             if (!context.getters.isGuestUser) {
-                context.dispatch({ type: 'saveUserCreatedStation', station})
+                context.dispatch({ type: 'saveUserCreatedStation', station })
             }
             return station;
         },
@@ -131,7 +135,7 @@ export default {
             await stationService.remove(stationId);
             context.commit(payload);
             if (!context.getters.isGuestUser) {
-                context.dispatch({ type: 'removeUserCreatedStation', station})
+                context.dispatch({ type: 'removeUserCreatedStation', station })
             }
         },
         async addSong(context, payload) {
@@ -139,6 +143,10 @@ export default {
             return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         },
         async updatePlaylist(context, payload) {
+            context.commit(payload);
+            return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
+        },
+        async addLike(context, payload) {
             context.commit(payload);
             return await context.dispatch({ type: 'saveStation', station: context.getters.currStation });
         }

@@ -4,7 +4,8 @@
       <Draggable v-for="song in songsCopy" :key="song.id">
         <article class="song-in-list" :class="{ playing: song.id === playingSongId }">
           <section class="left-sec-song-line">
-            <img :src="song.imgUrl" /><button v-if="playingSongId" @click.stop="playSong(song.id)"></button>
+            <i class="far fa-play-circle play-on-img" v-if="playingSongId" @click.stop="playSong(song.id)"></i> 
+            <img :src="song.imgUrl" />
             <div class="inner-txt-song">
               <p>{{song.title}}</p>
               <p class="song-add-by-name">Added by: {{song.addedBy.fullName}}</p>

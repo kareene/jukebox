@@ -11,7 +11,7 @@
         display: flex;
         align-items: center;
         .img-container {
-            width: 150px;
+            width: 80px;
             margin-right: 0.8rem;
         }
         .sation-stats {
@@ -46,6 +46,7 @@
                 border-radius: 50%;
                 border: 60px solid black;
                 iframe {
+                    pointer-events: none;
                     transform: scale(2.5);
                 }
             }

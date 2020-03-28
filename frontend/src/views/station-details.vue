@@ -24,7 +24,7 @@
         <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
         <songAdd v-if="isAddSongOpen" @add-song="addSong" />
         <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-          @play-song="playNewSong" @update-playlist="playlistUpdated" />
+          @play-song="newSongPlayed" @update-playlist="playlistUpdated" />
       </section>
 
       <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat" v-if="chatIsOn || !mobileMode" :currStation="station"></chat-room>
@@ -47,10 +47,10 @@
         <button class="next-song-btn video-btns" @click="playPrevSong">
           <i class="fas fa-backward"></i>
         </button>
-        <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns">
+        <button v-if="isSongPlaying" @click="songToggled" class="play-song-btn video-btns">
           <i class="fas fa-pause"></i>
         </button>
-        <button v-else @click="toggleSong" class="play-song-btn video-btns">
+        <button v-else @click="songToggled" class="play-song-btn video-btns">
           <i class="fas fa-play"></i>
         </button>
         <button class="prev-song-btn video-btns" @click="playNextSong">
@@ -107,12 +107,14 @@ export default {
     socketService.on('player pauseSong', this.pauseSong);
     socketService.on('player playSong', this.playSong);
     socketService.on('player updateSongTime', this.updateSongTime);
+    socketService.on('player playNewSong', this.playNewSong);
   },
   destroyed() {
     socketService.off('playlist updatePlaylist', this.updatePlaylist);
     socketService.off('player pauseSong', this.pauseSong);
     socketService.off('player playSong', this.playSong);
     socketService.off('player updateSongTime', this.updateSongTime);
+    socketService.off('player playNewSong', this.playNewSong);
     socketService.terminate();
     this.$store.commit({ type: 'unsetStation' });
     window.removeEventListener('resize', this.handleResize);
@@ -186,6 +188,10 @@ export default {
     stopProgress() {
       clearInterval(this.interval);
     },
+    newSongPlayed(songId) {
+      this.playNewSong(songId);
+      socketService.emit('player newSongPlayed');
+    },
     playNewSong(songId) {
       this.loadSong(songId);
     },
@@ -199,7 +205,7 @@ export default {
       const songCurrTime = await this.player.getCurrentTime();
       this.playerProgress = (songCurrTime / this.songDuration) * 100;
     },
-    async toggleSong() {
+    async songToggled() {
       const playerState = await this.player.getPlayerState();
       if (playerState === 1 /* PLAYING */) {
         this.pauseSong();

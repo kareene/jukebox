@@ -29,5 +29,8 @@ function connectSockets(io) {
         socket.on('player songTimeUpdated', time => {
             socket.broadcast.to(socket.myStation).emit('player updateSongTime', time);
         });
+        socket.on('player newSongPlayed', songId => {
+            socket.broadcast.to(socket.myStation).emit('player playNewSong', songId);
+        });
     })
 }

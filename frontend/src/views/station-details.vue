@@ -37,8 +37,8 @@
       <section class="songs-sec" v-if="!chatIsOn || (chatIsOn && !mobileMode)">
         <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
         <songAdd v-if="isAddSongOpen" @add-song="addSong" />
-        <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-          @play-song="playNewSong" @update-playlist="playlistUpdated" />
+        <songList v-else :songs="station.songs" :playingSongId="playingSongId" :isSongPlaying="isSongPlaying"
+          @play-song="newSongPlayed($event, true)" @update-playlist="playlistUpdated" />
       </section>
 
       <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat" v-if="chatIsOn || !mobileMode" :currStation="station"></chat-room>
@@ -51,37 +51,42 @@
 
     <article class="player-container flex align-center space-around">
       <section class="song-info-container">
-        <p>Now playing</p>
-        <p>Up next</p>
+        <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p>
+        <p>Up next: <span v-if="playingSong">{{nextSong.title}}</span></p>
       </section>
 
       <section class="video-control-container">
         <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
           @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
-          <section class="video-btns-container">
-              <button class="next-song-btn video-btns" @click="playPrevSong">
-                <i class="fas fa-backward"></i>
-              </button>
-              <button v-if="isSongPlaying" @click="toggleSong" class="play-song-btn video-btns">
-                <i class="fas fa-pause"></i>
-              </button>
-              <button v-else @click="toggleSong" class="play-song-btn video-btns">
-                <i class="fas fa-play"></i>
-              </button>
-              <button class="prev-song-btn video-btns" @click="playNextSong">
-                <i class="fas fa-forward"></i>
+        <button class="next-song-btn video-btns" @click="newSongPlayed(prevSong, true)">
+          <i class="fas fa-backward"></i>
         </button>
-          </section>
+        <button v-if="isSongPlaying" @click="songToggled" class="play-song-btn video-btns">
+          <i class="fas fa-pause"></i>
+        </button>
+        <button v-else @click="songToggled" class="play-song-btn video-btns">
+          <i class="fas fa-play"></i>
+        </button>
+        <button class="prev-song-btn video-btns" @click="newSongPlayed(nextSong, true)">
+          <i class="fas fa-forward"></i>
+        </button>
+        <section class="audio-controls">
+          <button class="video-btns" @click="toggleMute">
+            <i v-if="isPlayerMuted" class="fas fa-volume-mute"></i>
+            <i v-else class="fas fa-volume-up"></i>
+          </button>
+          <input type="range" min="0" max="100" v-model="playerVolume" @input="updatePlayerVolume" />
+        </section>
       </section>
 
       <section class="video-sec">
         <img class="needle" src="../assets/img/needl1.png"/>
         <div class="video-container ratio-square">
-          <youtube ref="youtube" width="100%" height="100%" :player-vars="playerVars" @ready="sendSongRequst"
-            @ended="playNextSong" @playing="youtubePlaying" @paused="youtubePaused"
+          <youtube ref="youtube" width="100%" height="100%" :player-vars="playerVars" @ready="initPlayer"
+            @ended="newSongPlayed(nextSong, false)" @playing="youtubePlaying" @paused="youtubePaused"
           ></youtube>
         </div>
-           <div class="vinyl"></div>
+        <div class="vinyl"></div>
       </section>
     </article>
 
@@ -101,13 +106,15 @@ export default {
     return {
       windowWidth: 0,
       mobileMode: false,
-      playingSongId: '',
+      playingSong: null,
       songDuration: 0,
       playerProgress: 0,
       playerVars: {
         controls: 0,
         disablekb: 1
       },
+      playerVolume: 100,
+      isPlayerMuted: false,
       isAddSongOpen: false,
       isSongPlaying: false,
       interval: null,
@@ -124,12 +131,14 @@ export default {
     socketService.on('player pauseSong', this.pauseSong);
     socketService.on('player playSong', this.playSong);
     socketService.on('player updateSongTime', this.updateSongTime);
+    socketService.on('player playNewSong', this.playNewSong);
   },
   destroyed() {
     socketService.off('playlist updatePlaylist', this.updatePlaylist);
     socketService.off('player pauseSong', this.pauseSong);
     socketService.off('player playSong', this.playSong);
     socketService.off('player updateSongTime', this.updateSongTime);
+    socketService.off('player playNewSong', this.playNewSong);
     socketService.terminate();
     this.$store.commit({ type: 'unsetStation' });
     window.removeEventListener('resize', this.handleResize);
@@ -150,14 +159,17 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
+    playingSongId() {
+      return (this.playingSong) ? this.playingSong.id : '';
+    },
     nextSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSong.id);
       idx++;
       if (idx === this.station.songs.length) idx = 0;
       return this.station.songs[idx];
     },
     prevSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSong.id);
       idx--;
       if (idx < 0) idx = this.station.songs.length - 1;
       return this.station.songs[idx];
@@ -178,15 +190,6 @@ export default {
       const stationId = this.$route.params.id;
       await this.$store.dispatch({ type: 'loadStation', stationId });
     },
-    sendSongRequst() {
-      const songId = this.station.songs[0].id;
-      this.loadSong(songId);
-    },
-    loadSong(songId) {
-      this.playerProgress = 0;
-      this.playingSongId = songId;
-      this.player.loadVideoById(this.playingSongId);
-    },
     async youtubePlaying() {
       this.isSongPlaying = true;
       this.songDuration = await this.player.getDuration();
@@ -203,20 +206,36 @@ export default {
     stopProgress() {
       clearInterval(this.interval);
     },
-    playNewSong(songId) {
-      this.loadSong(songId);
-    },
-    playNextSong() {
-      this.loadSong(this.nextSong.id);
-    },
-    playPrevSong() {
-      this.loadSong(this.prevSong.id);
-    },
     async advancePlayerProgress() {
       const songCurrTime = await this.player.getCurrentTime();
       this.playerProgress = (songCurrTime / this.songDuration) * 100;
     },
-    async toggleSong() {
+    async initPlayer() {
+      socketService.emit('player firstSongRequsted');
+      setTimeout(() => {
+        if(!this.playingSong) {
+          this.playNewSong()
+        }
+      }, 3000);
+    },
+    newSongPlayed(song, userInitiated) {
+      this.playNewSong(song);
+      socketService.emit('player newSongPlayed', { song, userInitiated });
+    },
+    toggleMute() {
+      if (this.isPlayerMuted) this.player.unMute();
+      else this.player.mute();
+      this.isPlayerMuted = !this.isPlayerMuted;
+    },
+    updatePlayerVolume() {
+      this.player.setVolume(this.playerVolume);
+    },
+    playNewSong(song) {
+      this.playerProgress = 0;
+      this.playingSong = (song) ? song : this.station.songs[0];
+      this.player.loadVideoById(this.playingSong.id);
+    },
+    async songToggled() {
       const playerState = await this.player.getPlayerState();
       if (playerState === 1 /* PLAYING */) {
         this.pauseSong();
@@ -242,14 +261,12 @@ export default {
       this.player.seekTo(time);
     },
     async playlistUpdated(songs) {
-      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
-      if (playingSongIdx === -1) this.playNextSong();
+      const playingSongIdx = songs.findIndex(song => song.id === this.playingSong.id);
+      if (playingSongIdx === -1) this.newSongPlayed(this.nextSong, true);
       await this.$store.dispatch({ type: 'updatePlaylist', songs });
       socketService.emit('player playlistUpdated', songs);
     },
     updatePlaylist(songs) {
-      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
-      if (playingSongIdx === -1) this.playNextSong();
       this.$store.commit({ type: 'updatePlaylist', songs });
     },
     shuffleSongs() {

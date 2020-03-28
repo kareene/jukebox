@@ -1,6 +1,7 @@
 module.exports = connectSockets
 
 function connectSockets(io) {
+    var stationMap = {};
     io.on('connection', socket => {
         socket.on('joinStation', ({ stationId, user }) => {
             if (socket.myStation) {
@@ -8,6 +9,9 @@ function connectSockets(io) {
             }
             socket.join(stationId);
             socket.myStation = stationId;
+            if (!stationMap[socket.myStation]) stationMap[socket.myStation] = {};
+            if (!stationMap[socket.myStation].users) stationMap[socket.myStation].users = [user];
+            else stationMap[socket.myStation].users.push(user);
         });
         socket.on('chat newMsg', msg => {
             // io.emit('chat addMsg', msg)
@@ -29,8 +33,19 @@ function connectSockets(io) {
         socket.on('player songTimeUpdated', time => {
             socket.broadcast.to(socket.myStation).emit('player updateSongTime', time);
         });
-        socket.on('player newSongPlayed', songId => {
-            socket.broadcast.to(socket.myStation).emit('player playNewSong', songId);
+        socket.on('player newSongPlayed', evData => {
+            if (!stationMap[socket.myStation].songId || stationMap[socket.myStation].songId !== evData.songId) {
+                stationMap[socket.myStation].songId = evData.songId;
+                console.log(stationMap)
+                console.log('save new song id', evData.songId);
+            }
+            if (!evData.userInitiated) return;
+            socket.broadcast.to(socket.myStation).emit('player playNewSong', evData.songId);
         });
+        socket.on('player firstSongRequsted', () => {
+            const songId = (stationMap[socket.myStation].songId) ? stationMap[socket.myStation].songId : '';
+            socket.emit('player playNewSong', songId);
+        });
+        
     })
 }

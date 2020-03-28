@@ -25,7 +25,7 @@
       <section class="songs-sec" v-if="!chatIsOn || (chatIsOn && !mobileMode)">
         <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
         <songAdd v-if="isAddSongOpen" @add-song="addSong" />
-        <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
+        <songList v-else :songs="station.songs" :playingSongId="playingSongId" :isSongPlaying="isSongPlaying"
           @play-song="newSongPlayed($event, true)" @update-playlist="playlistUpdated" />
       </section>
 
@@ -39,14 +39,14 @@
 
     <article class="player-container flex align-center space-around">
       <section class="song-info-container">
-        <p>Now playing</p>
-        <p>Up next</p>
+        <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p>
+        <p>Up next: <span v-if="playingSong">{{nextSong.title}}</span></p>
       </section>
 
       <section class="video-btns-container">
         <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
           @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
-        <button class="next-song-btn video-btns" @click="newSongPlayed(prevSong.id, true)">
+        <button class="next-song-btn video-btns" @click="newSongPlayed(prevSong, true)">
           <i class="fas fa-backward"></i>
         </button>
         <button v-if="isSongPlaying" @click="songToggled" class="play-song-btn video-btns">
@@ -55,16 +55,23 @@
         <button v-else @click="songToggled" class="play-song-btn video-btns">
           <i class="fas fa-play"></i>
         </button>
-        <button class="prev-song-btn video-btns" @click="newSongPlayed(nextSong.id, true)">
+        <button class="prev-song-btn video-btns" @click="newSongPlayed(nextSong, true)">
           <i class="fas fa-forward"></i>
         </button>
+        <section class="audio-controls">
+          <button class="video-btns" @click="toggleMute">
+            <i v-if="isPlayerMuted" class="fas fa-volume-mute"></i>
+            <i v-else class="fas fa-volume-up"></i>
+          </button>
+          <input type="range" min="0" max="100" v-model="playerVolume" @input="updatePlayerVolume" />
+        </section>
       </section>
 
       <section class="video-sec">
         <img class="needle" src="../assets/img/needl1.png"/>
         <div class="video-container ratio-square">
-          <youtube ref="youtube" width="100%" height="100%" :player-vars="playerVars" @ready="firstSongRequsted"
-            @ended="newSongPlayed(nextSong.id, false)" @playing="youtubePlaying" @paused="youtubePaused"
+          <youtube ref="youtube" width="100%" height="100%" :player-vars="playerVars" @ready="initPlayer"
+            @ended="newSongPlayed(nextSong, false)" @playing="youtubePlaying" @paused="youtubePaused"
           ></youtube>
         </div>
         <div class="vinyl"></div>
@@ -87,13 +94,15 @@ export default {
     return {
       windowWidth: 0,
       mobileMode: false,
-      playingSongId: '',
+      playingSong: null,
       songDuration: 0,
       playerProgress: 0,
       playerVars: {
         controls: 0,
         disablekb: 1
       },
+      playerVolume: 100,
+      isPlayerMuted: false,
       isAddSongOpen: false,
       isSongPlaying: false,
       interval: null,
@@ -138,14 +147,17 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
+    playingSongId() {
+      return (this.playingSong) ? this.playingSong.id : '';
+    },
     nextSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSong.id);
       idx++;
       if (idx === this.station.songs.length) idx = 0;
       return this.station.songs[idx];
     },
     prevSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSong.id);
       idx--;
       if (idx < 0) idx = this.station.songs.length - 1;
       return this.station.songs[idx];
@@ -186,17 +198,30 @@ export default {
       const songCurrTime = await this.player.getCurrentTime();
       this.playerProgress = (songCurrTime / this.songDuration) * 100;
     },
-    firstSongRequsted() {
+    async initPlayer() {
       socketService.emit('player firstSongRequsted');
+      setTimeout(() => {
+        if(!this.playingSong) {
+          this.playNewSong()
+        }
+      }, 3000);
     },
-    newSongPlayed(songId, userInitiated) {
-      this.playNewSong(songId);
-      socketService.emit('player newSongPlayed', { songId, userInitiated });
+    newSongPlayed(song, userInitiated) {
+      this.playNewSong(song);
+      socketService.emit('player newSongPlayed', { song, userInitiated });
     },
-    playNewSong(songId) {
+    toggleMute() {
+      if (this.isPlayerMuted) this.player.unMute();
+      else this.player.mute();
+      this.isPlayerMuted = !this.isPlayerMuted;
+    },
+    updatePlayerVolume() {
+      this.player.setVolume(this.playerVolume);
+    },
+    playNewSong(song) {
       this.playerProgress = 0;
-      this.playingSongId = (songId) ? songId : this.station.songs[0].id;
-      this.player.loadVideoById(this.playingSongId);
+      this.playingSong = (song) ? song : this.station.songs[0];
+      this.player.loadVideoById(this.playingSong.id);
     },
     async songToggled() {
       const playerState = await this.player.getPlayerState();
@@ -224,8 +249,8 @@ export default {
       this.player.seekTo(time);
     },
     async playlistUpdated(songs) {
-      const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
-      if (playingSongIdx === -1) this.newSongPlayed(this.nextSong.id, true);
+      const playingSongIdx = songs.findIndex(song => song.id === this.playingSong.id);
+      if (playingSongIdx === -1) this.newSongPlayed(this.nextSong, true);
       await this.$store.dispatch({ type: 'updatePlaylist', songs });
       socketService.emit('player playlistUpdated', songs);
     },

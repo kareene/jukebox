@@ -34,17 +34,15 @@ function connectSockets(io) {
             socket.broadcast.to(socket.myStation).emit('player updateSongTime', time);
         });
         socket.on('player newSongPlayed', evData => {
-            if (!stationMap[socket.myStation].songId || stationMap[socket.myStation].songId !== evData.songId) {
-                stationMap[socket.myStation].songId = evData.songId;
-                console.log(stationMap)
-                console.log('save new song id', evData.songId);
+            if (!stationMap[socket.myStation].song || stationMap[socket.myStation].song.id !== evData.song.id) {
+                stationMap[socket.myStation].song = evData.song;
             }
             if (!evData.userInitiated) return;
-            socket.broadcast.to(socket.myStation).emit('player playNewSong', evData.songId);
+            socket.broadcast.to(socket.myStation).emit('player playNewSong', evData.song);
         });
         socket.on('player firstSongRequsted', () => {
-            const songId = (stationMap[socket.myStation].songId) ? stationMap[socket.myStation].songId : '';
-            socket.emit('player playNewSong', songId);
+            const song = (stationMap[socket.myStation].song) ? stationMap[socket.myStation].song : null;
+            socket.emit('player playNewSong', song);
         });
         
     })

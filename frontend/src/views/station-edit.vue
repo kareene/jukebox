@@ -67,7 +67,7 @@ export default {
   },
   async created() {
     await this.loadStation();
-    if (!this.isStationCreator) this.$router.push('/');
+    if (this.station.createdBy && !this.isStationCreator) this.$router.push('/');
   },
   destroyed() {
     this.$store.commit({ type: 'unsetStation' });

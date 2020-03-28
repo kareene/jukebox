@@ -26,7 +26,7 @@
         <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
         <songAdd v-if="isAddSongOpen" @add-song="addSong" />
         <songList v-else :songs="station.songs" :playingSongId="playingSongId" 
-          @play-song="playSong" @update-playlist="playlistUpdated" />
+          @play-song="playNewSong" @update-playlist="playlistUpdated" />
       </section>
 
       <chat-room :mobileMode="mobileMode" @chatClosed="toggleChat" v-if="chatIsOn || !mobileMode" :currStation="station"></chat-room>
@@ -44,6 +44,8 @@
       </section>
 
       <section class="video-btns-container">
+        <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
+          @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
         <button class="next-song-btn video-btns" @click="playPrevSong">
           <i class="fas fa-backward"></i>
         </button>
@@ -61,8 +63,8 @@
       <section class="video-sec">
         <img class="needle" src="../assets/img/needl1.png"/>
         <div class="video-container ratio-square">
-          <youtube ref="youtube" width="100%" height="100%" @ready="sendSongRequst"
-            @ended="playNextSong" @playing="sendPlaying" @paused="sendPaused"
+          <youtube ref="youtube" width="100%" height="100%" :player-vars="playerVars" @ready="sendSongRequst"
+            @ended="playNextSong" @playing="youtubePlaying" @paused="youtubePaused"
           ></youtube>
         </div>
            <div class="vinyl"></div>
@@ -86,21 +88,34 @@ export default {
       windowWidth: 0,
       mobileMode: false,
       playingSongId: '',
+      songDuration: 0,
+      playerProgress: 0,
+      playerVars: {
+        controls: 0,
+        disablekb: 1
+      },
       isAddSongOpen: false,
       isSongPlaying: false,
+      interval: null,
       chatIsOn: false
     };
   },
   async created() {
+    socketService.setup();
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-    socketService.setup();
     await this.loadStation();
     socketService.emit('joinStation', { stationId: this.station._id, user: this.loggedinUser });
     socketService.on('player updatePlaylist', this.updatePlaylist);
+    socketService.on('player pauseSong', this.pauseSong);
+    socketService.on('player playSong', this.playSong);
+    socketService.on('player updateSongTime', this.updateSongTime);
   },
   destroyed() {
     socketService.off('playlist updatePlaylist', this.updatePlaylist);
+    socketService.off('player pauseSong', this.pauseSong);
+    socketService.off('player playSong', this.playSong);
+    socketService.off('player updateSongTime', this.updateSongTime);
     socketService.terminate();
     this.$store.commit({ type: 'unsetStation' });
     window.removeEventListener('resize', this.handleResize);
@@ -121,6 +136,18 @@ export default {
     player() {
       return this.$refs.youtube.player;
     },
+    nextSong() {
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      idx++;
+      if (idx === this.station.songs.length) idx = 0;
+      return this.station.songs[idx];
+    },
+    prevSong() {
+      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
+      idx--;
+      if (idx < 0) idx = this.station.songs.length - 1;
+      return this.station.songs[idx];
+    },
     listOrAddBtn(){
       return (this.isAddSongOpen)? 'Return to playlist' : 'Add a new song';
     }
@@ -137,54 +164,74 @@ export default {
       const stationId = this.$route.params.id;
       await this.$store.dispatch({ type: 'loadStation', stationId });
     },
-    loadSong(songId) {
-      this.playingSongId = songId;
-      this.player.loadVideoById(this.playingSongId);
-    },
     sendSongRequst() {
       const songId = this.station.songs[0].id;
       this.loadSong(songId);
     },
-    async toggleSong() {
-      const playerState = await this.player.getPlayerState();
-      if (playerState === 1 /* PLAYING */) this.player.pauseVideo();
-      else if (playerState === 2 /* PAUSED */) this.player.playVideo();
+    loadSong(songId) {
+      this.playerProgress = 0;
+      this.playingSongId = songId;
+      this.player.loadVideoById(this.playingSongId);
     },
-    playSong(songId) {
+    async youtubePlaying() {
+      this.isSongPlaying = true;
+      this.songDuration = await this.player.getDuration();
+      this.startProgress();
+    },
+    youtubePaused() {
+      this.isSongPlaying = false;
+      this.stopProgress();
+    },
+    startProgress() {
+      if (this.interval) clearInterval(this.interval);
+      this.interval = setInterval(this.advancePlayerProgress, 1000);
+    },
+    stopProgress() {
+      clearInterval(this.interval);
+    },
+    playNewSong(songId) {
       this.loadSong(songId);
     },
     playNextSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
-      idx++;
-      if (idx === this.station.songs.length) idx = 0;
-      const songId = this.station.songs[idx].id;
-      this.loadSong(songId);
+      this.loadSong(this.nextSong.id);
     },
     playPrevSong() {
-      var idx = this.station.songs.findIndex(song => song.id === this.playingSongId);
-      idx--;
-      if (idx < 0) idx = this.station.songs.length - 1;
-      const songId = this.station.songs[idx].id;
-      this.loadSong(songId);
+      this.loadSong(this.prevSong.id);
     },
-    sendPlaying() {
-      this.isSongPlaying = true;
+    async advancePlayerProgress() {
+      const songCurrTime = await this.player.getCurrentTime();
+      this.playerProgress = (songCurrTime / this.songDuration) * 100;
     },
-    sendPaused() {
-      this.isSongPlaying = false;
+    async toggleSong() {
+      const playerState = await this.player.getPlayerState();
+      if (playerState === 1 /* PLAYING */) {
+        this.pauseSong();
+        socketService.emit('player songPaused');
+      }
+      else if (playerState === 2 /* PAUSED */) {
+        this.playSong();
+        socketService.emit('player songPlayed');
+      }
     },
-    toggleAddSong() {
-      this.isAddSongOpen = !this.isAddSongOpen;
+    pauseSong() {
+      this.player.pauseVideo();
     },
-    addSong(song) {
-      this.toggleAddSong();
-      this.$store.dispatch({ type: 'addSong', song });
+    playSong() {
+      this.player.playVideo();
     },
-    playlistUpdated(songs) {
-      socketService.emit("player playlistUpdated", songs);
+    songTimeUpdated() {
+      const time = (this.playerProgress * this.songDuration) / 100;
+      this.updateSongTime(time);
+      socketService.emit('player songTimeUpdated', time);
+    },
+    updateSongTime(time) {
+      this.player.seekTo(time);
+    },
+    async playlistUpdated(songs) {
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
       if (playingSongIdx === -1) this.playNextSong();
-      this.$store.dispatch({ type: 'updatePlaylist', songs });
+      await this.$store.dispatch({ type: 'updatePlaylist', songs });
+      socketService.emit('player playlistUpdated', songs);
     },
     updatePlaylist(songs) {
       const playingSongIdx = songs.findIndex(song => song.id === this.playingSongId);
@@ -195,6 +242,14 @@ export default {
       const songs = JSON.parse(JSON.stringify(this.station.songs));
       shuffleArray(songs);
       this.playlistUpdated(songs);
+    },
+    toggleAddSong() {
+      this.isAddSongOpen = !this.isAddSongOpen;
+    },
+    async addSong(song) {
+      this.toggleAddSong();
+      await this.$store.dispatch({ type: 'addSong', song });
+      socketService.emit('player playlistUpdated', this.station.songs);
     },
     toggleChat(value) {
       this.chatIsOn=!this.chatIsOn;

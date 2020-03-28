@@ -20,5 +20,14 @@ function connectSockets(io) {
         socket.on('player playlistUpdated', playlist => {
             socket.broadcast.to(socket.myStation).emit('player updatePlaylist', playlist);
         });
+        socket.on('player songPaused', () => {
+            socket.broadcast.to(socket.myStation).emit('player pauseSong');
+        });
+        socket.on('player songPlayed', () => {
+            socket.broadcast.to(socket.myStation).emit('player playSong');
+        });
+        socket.on('player songTimeUpdated', time => {
+            socket.broadcast.to(socket.myStation).emit('player updateSongTime', time);
+        });
     })
 }

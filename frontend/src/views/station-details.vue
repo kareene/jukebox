@@ -1,5 +1,7 @@
 <template>
   <article v-if="station" class="station-details flex direction-column">
+      
+ <!-- v-bind:style="{ 'background-image': url(station.imgUrl) }" -->
 
     <header class="station-details-header">
       <div class="img-container ratio-square">
@@ -65,6 +67,7 @@
             @ended="playNextSong" @playing="youtubePlaying" @paused="youtubePaused"
           ></youtube>
         </div>
+           <div class="vinyl"></div>
       </section>
     </article>
 

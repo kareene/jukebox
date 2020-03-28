@@ -1,7 +1,7 @@
 .chat-room {
     flex-basis: 35%;
     height: 100%;
-    border: 1px solid rgb(226, 226, 226);
+    // border: 1px solid rgb(226, 226, 226);
     padding: 1%;
     // margin: 1%;
     margin-left: 0.5rem;
@@ -29,9 +29,10 @@
         flex-direction: column;
         flex-grow: 1;
         overflow-y: scroll;
+        background-image: url('../assets/img/2222.png');
+        background-size: cover;
         @include scrollbsr-design;
     }
-
     @include for-normal-layout {
         flex-basis: 100%;
         margin-left: 0;

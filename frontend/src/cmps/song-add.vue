@@ -1,11 +1,13 @@
 <template>
     <article class="song-add">
-        <h2>Add a great song</h2>
+        <!-- <h2>Add a great song</h2> -->
         <form @submit.prevent="searchForSongs">
-            <input type="text" v-model="searchStr" />
+            <input @focus="toggleFocus(true)" @blur="toggleFocus(false)" type="text" v-model="searchStr" />
             <button class="search-btn buttons">Search</button>
         </form>
-        <section class="songs-list-in-search" v-if="songSearchResults.length">
+
+
+        <section class="songs-list-in-search" :class="{'input-unfocused': !isFocused}" v-if="songSearchResults.length">
             <ul v-for="song in songSearchResults" :key="song.id">
                 <li>
                     <img :src="song.imgUrl" />
@@ -13,6 +15,21 @@
                     <button class="fas fa-plus" @click.stop="addSong(song)"></button>
                 </li>
             </ul>
+
+        
+            <!-- <select  class="songs-list-in-search" v-if="songSearchResults.length" v-model="selected">
+             
+
+                <option v-for="song in songSearchResults" :key="song.id">
+                    <img :src="song.imgUrl" />
+                    <p>{{song.title}}</p>
+                    <button class="fas fa-plus" @click.stop="addSong(song)"></button>
+                </option>
+                
+            </select> -->
+   
+
+            
         </section>
     </article>
 </template>
@@ -25,7 +42,8 @@ export default {
     data() {
         return {
             searchStr: '',
-            songSearchResults: []
+            songSearchResults: [],
+            isFocused: true
         }
     },
     methods: {
@@ -36,6 +54,10 @@ export default {
             this.$emit('add-song', song);
             const idx = this.songSearchResults.findIndex(currSong => currSong.id === song.id);
             if (idx !== -1) this.songSearchResults.splice(idx, 1);
+        },
+        toggleFocus(value){
+            this.isFocused=value;
+            console.log(this.isFocused)
         }
     }
 }

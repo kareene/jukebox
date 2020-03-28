@@ -9,7 +9,7 @@ async function getVideoSearchResults(string) {
     const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
     const PART = 'id,snippet';
     const TYPE = 'video';
-    const MAX_RESULTS = 20;
+    const MAX_RESULTS = 10;
     const QUERY = 'musicvideo ' + string;
 
     const res = await axios.get(`${BASE_URL}?part=${PART}&maxResults=${MAX_RESULTS}&type=${TYPE}&q=${QUERY}&key=${API_KEY}`);

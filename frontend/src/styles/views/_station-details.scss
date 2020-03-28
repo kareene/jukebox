@@ -72,8 +72,45 @@
     .player-container {
         border: 1px solid rgb(82, 41, 83);
         padding: 0.4rem;
-        .video-sec {
+        .song-info-container {
+            background-color: yellow;
+        }
+        .video-control-container {
+            // padding: 5%;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            justify-content: space-around;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            // width: 50%;
+            input {
+                margin: 0.8rem;
+            }
+            .video-btns-container {
+                margin-top: 0.8rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .play-song-btn {
+                    font-size: 50px;
+                }
+            }
+            .video-btns {
+                border: none;
+                font-size: 30px;
+                background-color: transparent;
+                color: $clr6;
+            }
+        }
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+        }
+        .video-sec {
+            // margin: 0 auto;
+            margin: 0;
             position: relative;
             width: fit-content;
             .video-container {
@@ -131,31 +168,6 @@
                 }
             }
         }
-        .video-control-container {
-            padding: 5%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            width: 50%;
-            input {
-                margin: 0.8rem;
-            }
-            .video-btns {
-                border: none;
-                font-size: 30px;
-                background-color: transparent;
-                color: $clr6;
-            }
-            .play-song-btn {
-                font-size: 50px;
-            }
-            .video-btns-container {
-                margin-top: 0.8rem;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-        }
     }
     // }
     @include for-normal-layout {
@@ -164,7 +176,11 @@
         }
         .player-container {
             order: -1;
+            align-items: center;
             flex-direction: column-reverse;
+            .video-container {
+                margin-bottom: 0.8rem;
+            }
         }
         .playlist-chat-container {
             height: 50vh;

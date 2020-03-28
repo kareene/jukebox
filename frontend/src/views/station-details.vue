@@ -49,27 +49,33 @@
       </div>
     </section>
 
-    <article class="player-container flex align-center space-around">
-      <section class="song-info-container">
-        <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p>
-        <p>Up next: <span v-if="playingSong">{{nextSong.title}}</span></p>
-      </section>
+    <article class="player-container flex space-around">
+     
+      <!-- <section class="song-info-container"> -->
+        <!-- <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p> -->
+        <!-- <p>Up next: <span v-if="playingSong">{{nextSong.title}}</span></p> -->
+      <!-- </section> -->
 
       <section class="video-control-container">
+         <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p>
         <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
           @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
-        <button class="next-song-btn video-btns" @click="newSongPlayed(prevSong, true)">
-          <i class="fas fa-backward"></i>
-        </button>
-        <button v-if="isSongPlaying" @click="songToggled" class="play-song-btn video-btns">
-          <i class="fas fa-pause"></i>
-        </button>
-        <button v-else @click="songToggled" class="play-song-btn video-btns">
-          <i class="fas fa-play"></i>
-        </button>
-        <button class="prev-song-btn video-btns" @click="newSongPlayed(nextSong, true)">
-          <i class="fas fa-forward"></i>
-        </button>
+        
+        <section class="video-btns-container">
+          <button class="next-song-btn video-btns" @click="newSongPlayed(prevSong, true)">
+            <i class="fas fa-backward"></i>
+          </button>
+          <button v-if="isSongPlaying" @click="songToggled" class="play-song-btn video-btns">
+            <i class="fas fa-pause"></i>
+          </button>
+          <button v-else @click="songToggled" class="play-song-btn video-btns">
+            <i class="fas fa-play"></i>
+          </button>
+          <button class="prev-song-btn video-btns" @click="newSongPlayed(nextSong, true)">
+            <i class="fas fa-forward"></i>
+          </button>
+        </section>
+
         <section class="audio-controls">
           <button class="video-btns" @click="toggleMute">
             <i v-if="isPlayerMuted" class="fas fa-volume-mute"></i>

@@ -1,7 +1,7 @@
 .chat-room {
     flex-basis: 35%;
     height: 100%;
-    border: 1px solid rgb(226, 226, 226);
+    // border: 1px solid rgb(226, 226, 226);
     padding: 1%;
     // margin: 1%;
     margin-left: 0.5rem;
@@ -15,6 +15,7 @@
     // grid-template-rows: auto auto;
     .chat-header {
         display: flex;
+        color: $clr2;
         justify-content: space-between;
         background-color: $clr3;
         // padding: 0.4em;
@@ -29,9 +30,10 @@
         flex-direction: column;
         flex-grow: 1;
         overflow-y: scroll;
+        background-image: url('../assets/img/2222.png');
+        background-size: cover;
         @include scrollbsr-design;
     }
-
     @include for-normal-layout {
         flex-basis: 100%;
         margin-left: 0;
@@ -44,8 +46,7 @@ form {
     display: flex;
     justify-content: space-between;
     bottom: 0;
-    margin-right: 0.4em;
-    margin-left: 0.4em;
+    margin: 0;
     max-width: inherit;
     .chat-input {
         width: 85%;

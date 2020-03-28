@@ -1,10 +1,14 @@
 <template>
   <article v-if="station" class="station-edit">
-    <h2>
-      {{(station._id)? 'Edit' : 'Add'}} station :
-      <span v-if="station.name">{{station.name}}</span>
-      <img v-if="station.imgUrl" :src="station.imgUrl" />
-    </h2>
+    <header  class="edit-header">
+      <h2>
+        {{(station._id)? 'Edit' : 'Add'}} station :
+        <span v-if="station.name">{{station.name}}</span>
+      </h2>
+      <div class="ratio-square img-container">
+        <img v-if="station.imgUrl" :src="station.imgUrl" />
+       </div>
+    </header>
 
     <div class="edit-form">
       <section class="change-name">
@@ -16,7 +20,7 @@
         <label v-if="station._id">Tags:</label>
         <ul class="tags-list">
           <li
-            class="li-tag"
+            class="li-tag buttons"
             :key="tag"
             v-for="tag in station.tags"
             data-hover="Remove"
@@ -32,10 +36,11 @@
         </div>
       </section>
 
-      <songList class="song-list-edit" :songs="station.songs" @update-playlist="updatePlaylist" />
       <section class="songs-add-sec">
-        <songAdd class="add-song-edit" @add-song="addSong" />
+        <h2>Add a great song</h2>
+        <songAdd class="add-song-edit song-add-in-edit" @add-song="addSong" />
       </section>
+      <songList class="song-list-edit" :songs="station.songs" @update-playlist="updatePlaylist" />
 
       <section class="add-img-sec">
         <label for="img">Enter station picture:</label>
@@ -44,6 +49,8 @@
 
       <button class="edit-btn buttons" @click="saveStation">{{(station._id)? 'Edit' : 'Add'}}</button>
     </div>
+
+    <!-- <pre>{{station}}</pre> -->
   </article>
 </template>
 
@@ -62,7 +69,7 @@ export default {
   },
   async created() {
     await this.loadStation();
-    if (!this.isStationCreator) this.$router.push('/');
+    if (this.station.createdBy && !this.isStationCreator) this.$router.push('/');
   },
   destroyed() {
     this.$store.commit({ type: 'unsetStation' });
@@ -111,6 +118,8 @@ export default {
       }
     },
     saveStation() {
+      const imgUrl='https://res.cloudinary.com/dpjz7lloq/image/upload/v1585406955/pp0wanpilvrujnlfntpu.jpg';
+      if(!this.station.imgUrl) this.$store.commit({ type: 'setStationImg', imgUrl: imgUrl });
       this.$store.dispatch({ type: "saveStation", station: this.station });
       this.$router.push("/");
     }

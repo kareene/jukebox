@@ -23,7 +23,10 @@ export default {
     var query = this.$route.query;
     var filterBy = stationService.getEmptyFilter();
     for (var key in query){
-      filterBy[key] = query[key]
+      if (key === 'searchTerm') {
+        filterBy.name = query[key]
+        filterBy.createdBy = query[key]
+      } else filterBy[key] = query[key]
     }
     await this.$store.dispatch({type: 'setFilterBy', filterBy});
     this.isStationLoaded = true;

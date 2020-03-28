@@ -1,13 +1,13 @@
 <template>
   <header class="main-header flex direction-column">
     <div class = "nav-container flex space-between">
-      <h1>Jukebox</h1>
-      <div class="search">
-        <input type="text" class="searchTerm" placeholder="Search">
+      <h1 class = "logo">JUKEBOX</h1>
+      <form class="search" @submit.prevent = "submitSearch">
+        <input type="text" class="searchTerm" placeholder="Search" v-model = "searchStr">
         <button type="submit" class="searchButton">
           <i class="fa fa-search"></i>
         </button>
-      </div>
+      </form>
       <nav class = "flex align-center">
 
         <router-link to="/" exact>Home</router-link> 
@@ -36,7 +36,8 @@ export default {
   name: 'mainHeader',
   data(){
     return {
-      isHomePage: false
+      isHomePage: false,
+      searchStr: ''
     }
   },
   created(){
@@ -51,6 +52,14 @@ export default {
   methods : {
     toggleMenu(){
       document.body.classList.toggle('menu-open');
+    },
+
+    submitSearch() {
+      this.$router.push({path: '/station', query: { searchTerm: this.searchStr}} )
+      this.searchStr = ''
+
+
+
     }
   },
 

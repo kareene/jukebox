@@ -106,6 +106,9 @@ function _buildFilterCriteria(params) {
         var regex = new RegExp(params.name, 'i');
         filterBy.name = { $regex: regex };
     }
+    if (params.createdBy) {
+        
+    }
     if (params.type) {
         filterBy.type = params.type;
     }

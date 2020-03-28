@@ -44,7 +44,6 @@ export default {
             state.currStation = null;
         },
         setFilterBy (state, { filterBy }) {
-            console.log(filterBy)
             state.filterBy = filterBy;
         },
         addStation(state, { station }) {

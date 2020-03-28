@@ -29,6 +29,7 @@ function getEmptyFilter() {
        
             name: '',
             tag: '',
+            createdBy: '',
             _sort: 'name',
             _order: 1
         }

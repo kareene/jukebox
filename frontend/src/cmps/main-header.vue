@@ -72,8 +72,6 @@ export default {
   watch: {
     '$route'(to, from) {
       this.isHomePage = (to.name === 'homePage') ? true : false;
-          // if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true;
-          // else this.isHomePage = false;
     }
   },
   components: {

@@ -23,6 +23,7 @@
     // background-image: linear-gradient(0deg,#ff705f 1%,#ff3a62);
     // background-image: linear-gradient( rgba(87, 84, 84, 0.603), rgba(255, 255, 255, 0.5) ), url('.././assets/img/hero3.jpg');
     // background-size: cover;
+    margin-bottom: 50px;
 
     .nav-container {
         align-items: center;
@@ -56,8 +57,6 @@
         height: 70vh;
         background-image: linear-gradient( rgba(87, 84, 84, 0.603), rgba(255, 255, 255, 0.5)), url('../assets/img/hero.jpg');
         background-size: cover;
-        margin-bottom: 50px;
-
     }
     .hero.small {
         // visibility: hidden;
@@ -117,7 +116,6 @@
 
 .logo {
     font-family: Monoton, cursive;
-    font-size: 2.3rem;
     color: #8067a2;
 }
 
@@ -144,14 +142,15 @@
                 flex-direction: column;
                 background-color: #ffffff;
                 position: absolute;
-                transform: translate(100%, 0);
-                transition: transform .8s, box-shadow .3s;
+                transform: translate(120%, 0);
+                transition: transform .8s, box-shadow .3s, display .1s;
                 box-shadow: 0px 0px 20px rgb(0, 0, 0);
                 top: 0;
                 right: 0;
                 height: 100vh;
                 z-index: 200;
                 width: 50vw;
+                display: none;
         
                 a{
                     margin: 0;
@@ -167,6 +166,7 @@
   
 
     .menu-open .main-header nav{
+        display: flex;
         transform: translate(0, 0);
     }
 
@@ -175,6 +175,6 @@
 @media (max-width: 540px){
     h1.logo {
         font-family: Monoton, cursive;
-        font-size: 1.4rem
+        font-size: 1.2rem
     }
 }

@@ -9,9 +9,9 @@ function connectSockets(io) {
             }
             socket.join(stationId);
             socket.myStation = stationId;
-            if (!stationMap[socket.myStation]) stationMap[socket.myStation] = {};
-            if (!stationMap[socket.myStation].users) stationMap[socket.myStation].users = [user];
-            else stationMap[socket.myStation].users.push(user);
+            if (!stationMap[socket.myStation]) stationMap[socket.myStation] = {song: null, users: []};
+            stationMap[socket.myStation].users.push(user);
+            console.log(stationMap[socket.myStation])
         });
         socket.on('chat newMsg', msg => {
             // io.emit('chat addMsg', msg)

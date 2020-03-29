@@ -117,7 +117,8 @@ export default {
       playerProgress: 0,
       playerVars: {
         controls: 0,
-        disablekb: 1
+        disablekb: 1,
+        playsinline: 1
       },
       playerVolume: 100,
       isPlayerMuted: false,

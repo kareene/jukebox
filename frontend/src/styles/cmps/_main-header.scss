@@ -17,38 +17,32 @@
     visibility: visible;
 }
 
-
 .main-header {
     // height: 85vh;
     // background-image: linear-gradient(0deg,#ff705f 1%,#ff3a62);
     // background-image: linear-gradient( rgba(87, 84, 84, 0.603), rgba(255, 255, 255, 0.5) ), url('.././assets/img/hero3.jpg');
     // background-size: cover;
-    margin-bottom: 50px;
-
+    // margin-bottom: 50px;
     .nav-container {
         align-items: center;
         padding: 0px 20px;
         background-color: white;
         box-shadow: 0px 5px 14px 0px rgba(0, 0, 0, 0.41);
-
-
-        .menu-btn{
+        .menu-btn {
             display: none;
-        }            
-
+        }
         nav a {
             margin-left: 30px;
             height: 65px;
             font-size: 20px;
             padding: 10px;
-            display:flex;
+            display: flex;
             align-items: center;
             justify-content: center;
             font-family: proxima;
             color: #5f5f63;
-
         }
-        nav .router-link-active{
+        nav .router-link-active {
             background-color: #a283cc42;
             font-family: proxima-bold;
         }
@@ -80,14 +74,12 @@
     .nav-container {
         background-color: white;
     }
-
-    .nav-container{
+    .nav-container {
         .search {
             display: flex;
             width: 250px;
         }
-          
-          .searchTerm {
+        .searchTerm {
             width: 100%;
             border: 1px solid $clr1;
             border-right: none;
@@ -95,11 +87,8 @@
             height: 36px;
             border-radius: 5px 0 0 5px;
             outline: none;
-          }
-          
-          
-          
-          .searchButton {
+        }
+        .searchButton {
             width: 40px;
             height: 36px;
             border: 1px solid $clr1;
@@ -109,8 +98,7 @@
             border-radius: 0 5px 5px 0;
             cursor: pointer;
             font-size: 20px;
-          }
-        
+        }
     }
 }
 
@@ -119,60 +107,48 @@
     color: #8067a2;
 }
 
-@media (max-width: 850px){
-    
-    
-    .main-header 
-        .nav-container {
-            padding: 10px;
-
-            .search {
-                width: 200px;
+@media (max-width: 850px) {
+    .main-header .nav-container {
+        padding: 10px;
+        .search {
+            width: 200px;
+        }
+        .menu-btn {
+            display: inline-block;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+        }
+        nav {
+            flex-direction: column;
+            background-color: #ffffff;
+            position: absolute;
+            transform: translate(120%, 0);
+            transition: transform .8s, box-shadow .3s, display .1s;
+            box-shadow: 0px 0px 20px rgb(0, 0, 0);
+            top: 0;
+            right: 0;
+            height: 100vh;
+            z-index: 200;
+            width: 50vw;
+            display: none;
+            a {
+                margin: 0;
+                width: 100%;
+                margin-left: 0;
             }
-
-            .menu-btn{
-                display: inline-block;
-                background-color: transparent;
-                border: none;
-                font-size: 20px;
+            .loggedin-user {
+                order: -1;
             }
-
-           
-            nav{
-                flex-direction: column;
-                background-color: #ffffff;
-                position: absolute;
-                transform: translate(120%, 0);
-                transition: transform .8s, box-shadow .3s, display .1s;
-                box-shadow: 0px 0px 20px rgb(0, 0, 0);
-                top: 0;
-                right: 0;
-                height: 100vh;
-                z-index: 200;
-                width: 50vw;
-                display: none;
-        
-                a{
-                    margin: 0;
-                    width: 100%;
-                    margin-left: 0;        }
-                .loggedin-user{
-                    order: -1;
-                }
-                
-        } 
+        }
     }
-
-  
-
-    .menu-open .main-header nav{
+    .menu-open .main-header nav {
         display: flex;
         transform: translate(0, 0);
     }
-
 }
 
-@media (max-width: 540px){
+@media (max-width: 540px) {
     h1.logo {
         font-family: Monoton, cursive;
         font-size: 1.2rem

@@ -116,6 +116,8 @@
             .video-container {
                 justify-self: center;
                 width: 240px;
+                // right: 0px; ///mob
+                right: 40px;
                 border-radius: 50%;
                 border: 60px solid transparent;
                 iframe {
@@ -127,7 +129,8 @@
                 position: absolute;
                 z-index: 1;
                 transform: scale(0.55) rotateZ(-9.5deg);
-                left: 109px;
+                // left: 109px;///mob
+                left: 70px;
                 top: -58px;
             }
             .vinyl {
@@ -141,7 +144,8 @@
                 border-radius: 50%;
                 border-width: 29px 0px;
                 border-left: 0;
-                animation: pull-out 1.3s 2s ease-out forwards, spin 1.3s 4s linear infinite;
+                animation: spin 1.3s linear infinite;
+                // animation: pull-out 1.3s 2s ease-out forwards, spin 1.3s 4s linear infinite;
                 box-shadow: 0px 0px 3px transparent, 0px 0px 0px 10px transparent, 0px 0px 15px white, 0px 0px 0px 16px #000, 0px 0px 0px 17px #252424, 0px 0px 0px 18px #000, 0px 0px 0px 19px #313030, 0px 0px 0px 20px #000, 0px 0px 0px 21px #3a3838, 0px 0px 0px 22px #000, 0px 0px 0px 23px #2b2a2a, 0px 0px 0px 24px #000, 0px 0px 0px 25px #313030, 0px 0px 0px 26px #000, 0px 0px 0px 27px #313030, 0px 0px 0px 28px #000, 0px 0px 0px 29px #333333, 0px 0px 0px 30px #000, 0px 0px 0px 31px #333232, 0px 0px 0px 32px #000, 0px 0px 0px 33px #4c4a4a, 0px 0px 0px 34px #000, 0px 0px 0px 35px #2f2e2e, 0px 0px 0px 36px #000, 0px 0px 0px 37px #252424, 0px 0px 0px 38px #000, 0px 0px 0px 39px #2f2e2e, 0px 0px 0px 40px #000, 0px 0px 0px 41px #2f2e2e, 0px 0px 0px 42px #000, 0px 0px 0px 55px #2f2e2e, 0px 0px 0px 56px #000, 0px 0px 0px 57px #2f2e2e, 0px 0px 0px 58px #cecece, 0px 0px 0px 59px #2f2e2e;
             }
             .vinyl:before {
@@ -156,13 +160,15 @@
             @keyframes spin {
                 0% {
                     transform: rotate(0deg);
-                    left: 60px;
+                    left: 20px;
+                    // left: 60px;//mob
                     bottom: 0;
                     top: 60px;
                 }
                 100% {
                     transform: rotate(360deg);
-                    left: 60px;
+                    left: 20px;
+                    // left: 60px;//mob
                     bottom: 0;
                     top: 60px;
                 }
@@ -178,8 +184,28 @@
             order: -1;
             align-items: center;
             flex-direction: column-reverse;
-            .video-container {
-                margin-bottom: 0.8rem;
+            .video-sec {
+                .video-container {
+                    right: 0px; ///mob
+                    margin-bottom: 0.8rem;
+                }
+                .needle {
+                    left: 109px; ///mob
+                }
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                        left: 60px; //mob
+                        bottom: 0;
+                        top: 60px;
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                        left: 60px; //mob
+                        bottom: 0;
+                        top: 60px;
+                    }
+                }
             }
         }
         .playlist-chat-container {

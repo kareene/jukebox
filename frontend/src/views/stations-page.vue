@@ -1,7 +1,5 @@
 <template>
   <article class="stations-page content-container">
-    <h2>Stations Page</h2>
-    <router-link to="/station/edit">Add New Station</router-link>
     <station-list :stations="stations" v-if = "isStationLoaded"/>
   </article>
 </template>

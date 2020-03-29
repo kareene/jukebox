@@ -1,7 +1,9 @@
 <template>
   <header class="main-header flex direction-column">
     <div class = "nav-container flex space-between">
-      <h1 class = "logo">JUKEBOX</h1>
+      <router-link to="/" exact >
+        <h1 class = "logo">JUKEBOX</h1>
+      </router-link> 
       <form class="search" @submit.prevent = "submitSearch">
         <input type="text" class="searchTerm" placeholder="Search" v-model = "searchStr">
         <button type="submit" class="searchButton">

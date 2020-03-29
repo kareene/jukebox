@@ -8,9 +8,9 @@
           <i class="fa fa-search"></i>
         </button>
       </form>
-      <nav class = "flex align-center">
+      <nav class = "flex align-center" @click = "closeMenu">
 
-        <router-link to="/" exact>Home</router-link> 
+        <router-link to="/" exact >Home</router-link> 
         <router-link to="/station">Stations</router-link> 
         <router-link to="/about">About</router-link>
         <loggedin-user />
@@ -41,7 +41,7 @@ export default {
     }
   },
   created(){
-    this.isHomePage = (this.$route.name =='homePage' || this.$route.name === 'stationsPage') ? true : false;
+    this.isHomePage = (this.$route.name =='homePage') ? true : false;
   },
   computed: {
     heroSize(){
@@ -52,6 +52,10 @@ export default {
   methods : {
     toggleMenu(){
       document.body.classList.toggle('menu-open');
+    },
+
+    closeMenu(){
+      document.body.classList.remove('menu-open');
     },
 
     submitSearch() {
@@ -65,7 +69,7 @@ export default {
 
   watch: {
     '$route'(to, from) {
-      this.isHomePage = (to.name === 'homePage' || to.name === 'stationsPage') ? true : false;
+      this.isHomePage = (to.name === 'homePage') ? true : false;
           // if(to.name === 'homePage' || to.name === 'stationsPage') this.isHomePage = true;
           // else this.isHomePage = false;
     }

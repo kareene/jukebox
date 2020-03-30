@@ -65,7 +65,7 @@
           <section class="video-control-container flex direction-column align-center">
             <h3 v-if="playingSong">{{playingSong.title}}</h3>
 
-            <input class="progress-bar" type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
+            <input class="progress-bar" type="range" min="0" max="100" v-model="playerProgress" @input="songTimeUpdated" 
               @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
             
             <section class="video-btns-container">

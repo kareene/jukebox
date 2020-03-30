@@ -25,6 +25,9 @@ app.use(session({
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve(__dirname, 'public')));
+    app.get(/(?!^\/api\/.*)(^.*$)/, function(req, res) {
+        res.sendfile(path.resolve(__dirname, 'public/index.html'));
+    });
 } else {
     const corsOptions = {
         origin: ['http://127.0.0.1:8080', 'http://localhost:8080', 'http://127.0.0.1:8081', 'http://localhost:8081'],

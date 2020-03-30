@@ -85,6 +85,7 @@
         </section>
       </section>
 
+    </article>
       <section class="video-sec">
         <img class="needle" src="../assets/img/needl1.png"/>
         <div class="video-container ratio-square">
@@ -94,7 +95,6 @@
         </div>
         <div class="vinyl"></div>
       </section>
-    </article>
 
   </article>
 </template>
@@ -117,7 +117,8 @@ export default {
       playerProgress: 0,
       playerVars: {
         controls: 0,
-        disablekb: 1
+        disablekb: 1,
+        playsinline: 1
       },
       playerVolume: 100,
       isPlayerMuted: false,

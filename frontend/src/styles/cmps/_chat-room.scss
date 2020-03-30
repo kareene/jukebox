@@ -30,9 +30,9 @@
         flex-direction: column;
         flex-grow: 1;
         overflow-y: scroll;
-        // background-color: lighten($color: $clr6, $amount: 12%);
-        background-image: url('../assets/img/1288080.jpg');
-        background-size: contain;
+        background-color: lighten($color: $clr6, $amount: 12%);
+        // background-image: url('../assets/img/1414.jpg');
+        // background-size: contain;
         @include scrollbsr-design;
     }
     @include for-normal-layout {

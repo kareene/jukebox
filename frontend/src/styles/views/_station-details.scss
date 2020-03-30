@@ -77,38 +77,48 @@
             }
         }
     }
-    .media-player-container {
-        display: flex;
-        width: 86%;
-        align-self: center;
+    // .media-player-container {
+    //     display: flex;
+    //     width: 86%;
+    //     align-self: center;
         .player-container {
-            background-color: #a892c5;
-            width: 100%;
+            margin-top: 50px;
+            margin-right: 100px;
+            position: relative;
+            background-color: $clr3;
+            width: 75%;
+            height: 120px;
             align-self: center;
             // margin-top: 30px;
             border-radius: 30px;
             ///////
             // border: 1px solid rgb(82, 41, 83);
             padding: 0.4rem;
-            .song-info-container {
-                background-color: yellow;
-            }
+            // .song-info-container {
+            //     background-color: yellow;
+            // }
             .video-control-container {
                 // margin-top: 20px;
-                margin: 0;
+                width: 60%;
                 ////////
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
+                // display: flex;
+                // flex-direction: column;
+                // justify-content: center;
+                // align-items: center;
                 margin: 0 auto;
-                display: flex;
-                flex-direction: column;
                 // width: 50%;
-                input {
-                    margin: 0.8rem;
+                h3 {
+                    text-align: center;
+                    margin: 0;
+                    color: $clr6;
+                }
+                .progress-bar {
+                    width: 100%;
+                    // margin: 0.8rem;
                 }
                 .video-btns-container {
-                    margin-top: 0.8rem;
+                    // margin-top: 0.8rem;
+                    width: 50%;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
@@ -124,128 +134,167 @@
                     background-color: transparent;
                     color: $clr6;
                 }
+                .audio-controls {
+                    width: 50%;
+                    display: flex;
+                    justify-content: center;
+                }
             }
-            .audio-controls {
-                display: flex;
-                justify-content: center;
+            .video-sec {
+                // bottom: 10px;
+                // left: 62px;
+                // bottom: -8px;
+                // right: 36.7px;
+                // bottom: -23px;
+                // margin: 0;
+                ///////
+                // position: relative;
+                position: absolute;
+                right: -30px;
+                // width: 100px;
+                // width: fit-content;
+                .video-container {
+                    // width: 220px;
+                    width: 90px;
+                    // right: 66px;
+                    // justify-self: center;
+                    // width: 240px;
+                    // right: 60px;
+                    border-radius: 50%;
+                    // border: 60px solid transparent;
+                    iframe {
+                        pointer-events: none;
+                        transform: scale(2.5);
+                    }
+                }
+                .needle {
+                    position: absolute;
+                    z-index: 1;
+                    transform-origin: 76% 21%;
+                    transform: scale(1.2) rotateZ(-9.5deg);
+                    animation: jitter 4s linear infinite;
+                    // transform: scale(0.55) rotateZ(-9.5deg);
+                    top: -50px;
+                    right: -85px;
+                    // left: 42px;
+                    // top: -33px;
+                    //// left: 46px;
+                    //// top: -58px;
+                    // width: 200px;
+                    // width: 92%;
+                    // top: 80px;
+                    // left: -40px;
+                }
+                @keyframes jitter {
+                    0% {
+                        transform: rotateZ(-9.5deg);
+                    }
+                    50% {
+                        transform: rotateZ(-20deg);
+                    }
+                    100% {
+                        transform: rotate(-9.5deg);
+                    }
+                }
+                .vinyl {
+                    width: 88px;
+                    height: 90px;
+                    bottom: 10px;
+                    left: 62px;
+                    /////
+                    position: absolute;
+                    -ms-transform: translate(69px);
+                    transform: translate(69px);
+                    //k top: 60px;
+                    left: -7px;
+                    // width: 118px;
+                    // height: 120px;
+                    border-radius: 50%;
+                    border-width: 29px 0px;
+                    border-left: 0;
+                    animation: spin 1.3s linear infinite;
+                    // animation: pull-out 1.3s 2s ease-out forwards, spin 1.3s 4s linear infinite;
+                    box-shadow: 0px 0px 3px transparent, 0px 0px 0px 10px transparent, 0px 0px 15px white, 0px 0px 0px 16px #000, 0px 0px 0px 17px #252424, 0px 0px 0px 18px #000, 0px 0px 0px 19px #313030, 0px 0px 0px 20px #000, 0px 0px 0px 21px #3a3838, 0px 0px 0px 22px #000, 0px 0px 0px 23px #2b2a2a, 0px 0px 0px 24px #000, 0px 0px 0px 25px #313030, 0px 0px 0px 26px #000, 0px 0px 0px 27px #313030, 0px 0px 0px 28px #000, 0px 0px 0px 29px #333333, 0px 0px 0px 30px #000, 0px 0px 0px 31px #333232, 0px 0px 0px 32px #000, 0px 0px 0px 33px #4c4a4a, 0px 0px 0px 34px #000, 0px 0px 0px 35px #2f2e2e, 0px 0px 0px 36px #000, 0px 0px 0px 37px #252424, 0px 0px 0px 38px #000, 0px 0px 0px 39px #2f2e2e, 0px 0px 0px 40px #000, 0px 0px 0px 41px #2f2e2e, 0px 0px 0px 42px #000, 0px 0px 0px 55px #2f2e2e, 0px 0px 0px 56px #000, 0px 0px 0px 57px #2f2e2e, 0px 0px 0px 58px #cecece, 0px 0px 0px 59px #2f2e2e;
+                }
+                // .vinyl:before {
+                //     content: "";
+                //     position: absolute;
+                //     width: 6px;
+                //     height: 6px;
+                //     top: calc(50% - 3px);
+                //     left: calc(50% - 3px);
+                //     border-radius: 50%;
+                // }
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                        // left: 20px;
+                        left: 0;
+                        // left: 60px;//mob
+                        bottom: 0;
+                        // top: 60px;
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                        left: 0;
+                        // left: 20px;
+                        // left: 60px;//mob
+                        bottom: 0;
+                        // top: 60px;
+                    }
+                }
             }
         }
-        .video-sec {
-            // bottom: 10px;
-            // left: 62px;
-            bottom: -8px;
-            right: 36.7px;
-            // bottom: -23px;
-            margin: 0;
-            ///////
-            position: relative;
-            // position: absolute;
-            width: 100px;
-            // width: fit-content;
-            .video-container {
-                width: 220px;
-                right: 66px;
-                justify-self: center;
-                // width: 240px;
-                // right: 60px;
-                border-radius: 50%;
-                border: 60px solid transparent;
-                iframe {
-                    pointer-events: none;
-                    transform: scale(2.5);
-                }
-            }
-            .needle {
-                position: absolute;
-                z-index: 1;
-                transform: scale(0.55) rotateZ(-9.5deg);
-                left: 42px;
-                top: -33px;
-                // left: 46px;
-                // top: -58px;
-                width: 200px;
-                // width: 92%;
-            }
-            .vinyl {
-                width: 88px;
-                height: 90px;
-                bottom: 10px;
-                left: 62px;
-                /////
-                position: absolute;
-                -ms-transform: translate(69px);
-                transform: translate(69px);
-                top: 60px;
-                left: -7px;
-                // width: 118px;
-                // height: 120px;
-                border-radius: 50%;
-                border-width: 29px 0px;
-                border-left: 0;
-                animation: spin 1.3s linear infinite;
-                // animation: pull-out 1.3s 2s ease-out forwards, spin 1.3s 4s linear infinite;
-                box-shadow: 0px 0px 3px transparent, 0px 0px 0px 10px transparent, 0px 0px 15px white, 0px 0px 0px 16px #000, 0px 0px 0px 17px #252424, 0px 0px 0px 18px #000, 0px 0px 0px 19px #313030, 0px 0px 0px 20px #000, 0px 0px 0px 21px #3a3838, 0px 0px 0px 22px #000, 0px 0px 0px 23px #2b2a2a, 0px 0px 0px 24px #000, 0px 0px 0px 25px #313030, 0px 0px 0px 26px #000, 0px 0px 0px 27px #313030, 0px 0px 0px 28px #000, 0px 0px 0px 29px #333333, 0px 0px 0px 30px #000, 0px 0px 0px 31px #333232, 0px 0px 0px 32px #000, 0px 0px 0px 33px #4c4a4a, 0px 0px 0px 34px #000, 0px 0px 0px 35px #2f2e2e, 0px 0px 0px 36px #000, 0px 0px 0px 37px #252424, 0px 0px 0px 38px #000, 0px 0px 0px 39px #2f2e2e, 0px 0px 0px 40px #000, 0px 0px 0px 41px #2f2e2e, 0px 0px 0px 42px #000, 0px 0px 0px 55px #2f2e2e, 0px 0px 0px 56px #000, 0px 0px 0px 57px #2f2e2e, 0px 0px 0px 58px #cecece, 0px 0px 0px 59px #2f2e2e;
-            }
-            .vinyl:before {
-                content: "";
-                position: absolute;
-                width: 6px;
-                height: 6px;
-                top: calc(50% - 3px);
-                left: calc(50% - 3px);
-                border-radius: 50%;
-            }
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                    // left: 20px;
-                    left: 0;
-                    // left: 60px;//mob
-                    bottom: 0;
-                    top: 60px;
-                }
-                100% {
-                    transform: rotate(360deg);
-                    left: 0;
-                    // left: 20px;
-                    // left: 60px;//mob
-                    bottom: 0;
-                    top: 60px;
-                }
-            }
-        }
-    }
+    // }
     // }
     @include for-normal-layout {
         .station-details-header {
             order: -1;
         }
         .player-container {
+            background-color: transparent;
+            width: 100%;
             order: -1;
             align-items: center;
             flex-direction: column-reverse;
+            height: 400px;
+            margin: 0 0 20px 0;
             .video-sec {
+                top: 20px;
+                right: 50%;
+                transform: translate(50%, 50%);
                 .video-container {
-                    right: 0px; ///mob
-                    margin-bottom: 0.8rem;
+                    width: 120px;
+                //     right: 0px; ///mob
+                //     margin-bottom: 0.8rem;
                 }
                 .needle {
-                    left: 109px; ///mob
+                //     left: 109px; ///mob
+                    top: -55px;
+                    right: -95px;
                 }
-                @keyframes spin {
-                    0% {
-                        transform: rotate(0deg);
-                        left: 60px; //mob
-                        bottom: 0;
-                        top: 60px;
-                    }
-                    100% {
-                        transform: rotate(360deg);
-                        left: 60px; //mob
-                        bottom: 0;
-                        top: 60px;
-                    }
+                .vinyl {
+                    width: 118px;
+                    height: 120px;
                 }
+                // @keyframes spin {
+                //     0% {
+                //         transform: rotate(0deg);
+                //         left: 60px; //mob
+                //         bottom: 0;
+                //         top: 60px;
+                //     }
+                //     100% {
+                //         transform: rotate(360deg);
+                //         left: 60px; //mob
+                //         bottom: 0;
+                //         top: 60px;
+                //     }
+                // }
+            }
+            .video-control-container {
+                margin-bottom: 20px;
+                width: 80%;
             }
         }
         .playlist-chat-container {

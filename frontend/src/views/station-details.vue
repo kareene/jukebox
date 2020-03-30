@@ -33,7 +33,7 @@
       </div>
     </header>
 
-    <section class="playlist-chat-container flex">
+    <section class="playlist-chat-container content-container flex">
       <section class="songs-sec" v-if="!chatIsOn || (chatIsOn && !mobileMode)">
         <button class="add-button buttons" @click="toggleAddSong">{{listOrAddBtn}}</button>
         <songAdd v-if="isAddSongOpen" @add-song="addSong" />

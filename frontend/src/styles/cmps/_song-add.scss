@@ -86,7 +86,8 @@
         }
         .songs-list-in-search {
             width: 90%;
-            overflow-y: unset;
+            height: 200px;
+            // overflow-y: unset;
             position: absolute;
             z-index: 1;
             background-color: aliceblue;

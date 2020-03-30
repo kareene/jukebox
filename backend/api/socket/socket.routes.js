@@ -11,7 +11,6 @@ function connectSockets(io) {
             socket.myStation = stationId;
             if (!stationMap[socket.myStation]) stationMap[socket.myStation] = {song: null, users: []};
             stationMap[socket.myStation].users.push(user);
-            console.log(stationMap[socket.myStation])
         });
         socket.on('chat newMsg', msg => {
             // io.emit('chat addMsg', msg)

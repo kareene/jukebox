@@ -19,13 +19,15 @@
         @include scrollbsr-design;
         // height: 100%;
         ul {
-            background-color: #f3f3f4;
-            border: 2px solid #e2e2e2;
-            display: flex;
-            justify-content: space-between;
-            flex-direction: column;
-            padding: 0 0.4em;
-            width: 100%;
+            margin: 0;
+            padding: 0;
+            // background-color: #f3f3f4;
+            // border: 2px solid #e2e2e2;
+            // display: flex;
+            // justify-content: space-between;
+            // flex-direction: column;
+            // padding: 0 0.4em;
+            // width: 100%;
         }
         .done {
             padding: 5px;
@@ -36,10 +38,13 @@
             cursor: pointer;
         }
         li {
+            background-color: #f3f3f4;
+            border: 2px solid #e2e2e2;
+            padding: 1%;
             display: flex;
             width: 100%;
             flex-direction: row;
-            position: relative;
+            // position: relative;
             justify-content: flex-start;
             align-items: center;
             img {
@@ -54,8 +59,11 @@
                 @include clear-button;
                 color: $clr3;
                 height: fit-content;
-                position: absolute;
-                right: 0;
+                margin-left: auto;
+                margin-right: 0.25rem
+                // position: absolute;
+                // right: 0;
+                // margin-right: ;
             }
         }
     }

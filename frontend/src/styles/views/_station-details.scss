@@ -83,14 +83,15 @@
     //     align-self: center;
         .player-container {
             margin-top: 50px;
-            margin-right: 100px;
+            margin-right: 135px;
             position: relative;
             background-color: $clr3;
             width: 75%;
+            max-width: calc(#{$break-wide} * 0.75);
             height: 120px;
             align-self: center;
             // margin-top: 30px;
-            border-radius: 30px;
+            border-radius: 100vh;
             ///////
             // border: 1px solid rgb(82, 41, 83);
             padding: 0.4rem;
@@ -149,8 +150,9 @@
                 // margin: 0;
                 ///////
                 // position: relative;
+                background-color: #000;
                 position: absolute;
-                right: -30px;
+                right: -45px;
                 // width: 100px;
                 // width: fit-content;
                 .video-container {
@@ -171,11 +173,14 @@
                     position: absolute;
                     z-index: 1;
                     transform-origin: 76% 21%;
-                    transform: scale(1.2) rotateZ(-9.5deg);
+                    transform: rotateZ(-9.5deg);
                     animation: jitter 4s linear infinite;
+                    width: 110px;
                     // transform: scale(0.55) rotateZ(-9.5deg);
-                    top: -50px;
-                    right: -85px;
+                    top: -55px;
+                    right: -95px;
+                    // top: -50px;
+                    // right: -85px;
                     // left: 42px;
                     // top: -33px;
                     //// left: 46px;
@@ -268,11 +273,11 @@
                 //     right: 0px; ///mob
                 //     margin-bottom: 0.8rem;
                 }
-                .needle {
-                //     left: 109px; ///mob
-                    top: -55px;
-                    right: -95px;
-                }
+                // .needle {
+                // //     left: 109px; ///mob
+                //     top: -55px;
+                //     right: -95px;
+                // }
                 .vinyl {
                     width: 118px;
                     height: 120px;

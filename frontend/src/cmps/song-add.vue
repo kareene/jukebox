@@ -8,9 +8,8 @@
 
 
         <section class="songs-list-in-search" v-if="songSearchResults.length && isSearchOpen">
-            <ul >
-                <li class = "done" @click = "closeSearch" v-if = "isEditPage">Done 
-</li>
+            <ul>
+                <li class = "done" @click = "closeSearch" v-if = "isEditPage">Done</li>
                 <li v-for="song in songSearchResults" :key="song.id">
                     <img :src="song.imgUrl" />
                     <p>{{song.title}}</p>

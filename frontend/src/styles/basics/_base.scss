@@ -5,12 +5,13 @@
 html {
     // font-family: OpenSans, sans-serif;
     // line-height: 1.8;
+    font-family: proxima;
     color: $clr2;
 }
 
 body {
     margin: 0;
-    font-family: proxima-bold;
+    // font-family: proxima-bold;
     background-color: $clr4;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -26,18 +27,23 @@ button {
 
 ////Fixed Elements 
 .buttons {
+    font-size: 0.8rem;
     border-radius: 0.25rem;
     border: none;
     background-color: $clr3;
     color: $clr2;
-    padding: 2%;
+    padding: 0.5rem 0.8rem;
 }
-h1,h2,h3,h4,h5,h6,p{
-    font-family: proxima-bold;
+
+h1,h2,h3,h4,h5,h6,p {
     font-weight: normal;
     margin: 0;
     padding: 0;
     font-size: 1rem;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: proxima-bold;
 }
 
 h1 {
@@ -76,11 +82,11 @@ a {
     text-decoration: none;
 }
 
-
 input[type=range] {
     -webkit-appearance: none;
     background: transparent;
 }
+
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: $clr1;
@@ -89,6 +95,7 @@ input[type=range]::-webkit-slider-thumb {
     margin-top: -8px;
     border-radius: 99px;
 }
+
 input[type=range]::-webkit-slider-runnable-track {
     width: 300px;
     height: 4px;

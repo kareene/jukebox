@@ -10,7 +10,7 @@ html {
 
 body {
     margin: 0;
-    font-family: proxima-bold;
+    font-family: proxima-bold, Varela_Round;
     background-color: $clr4;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -32,7 +32,14 @@ button {
     color: $clr2;
     padding: 2%;
 }
-h1,h2,h3,h4,h5,h6,p{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
     font-family: proxima-bold;
     font-weight: normal;
     margin: 0;
@@ -76,11 +83,11 @@ a {
     text-decoration: none;
 }
 
-
 input[type=range] {
     -webkit-appearance: none;
     background: transparent;
 }
+
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: $clr1;
@@ -89,6 +96,7 @@ input[type=range]::-webkit-slider-thumb {
     margin-top: -8px;
     border-radius: 99px;
 }
+
 input[type=range]::-webkit-slider-runnable-track {
     width: 300px;
     height: 4px;

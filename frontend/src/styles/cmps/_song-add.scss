@@ -15,8 +15,11 @@
         input {
             // margin-right: 1rem;
             width: 95%;
-            padding: 0.25rem;
-            border: 2px solid rgb(226, 226, 226);
+            // padding: 0.25rem;
+            // border: 2px solid rgb(226, 226, 226);
+            border-radius: 5px;
+            border: 2px solid #e2e2e2;
+            padding-left: 1rem;
         }
         .search-btn {
             margin-left: 1rem;
@@ -42,10 +45,8 @@
             width: fit-content;
             color: $clr3
         }
-
         .done:hover {
             cursor: pointer;
-
         }
         li {
             display: flex;

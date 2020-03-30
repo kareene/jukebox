@@ -60,11 +60,12 @@
         <!-- <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p> -->
         <!-- <p>Up next: <span v-if="playingSong">{{nextSong.title}}</span></p> -->
       <!-- </section> -->
-      <section class="media-player-container">
-        <article class="player-container flex space-around">
-          <section class="video-control-container">
-            <p>Now playing: <span v-if="playingSong">{{playingSong.title}}</span></p>
-            <input type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
+      <!-- <section class="media-player-container"> -->
+        <article class="player-container flex space-between align-center">
+          <section class="video-control-container flex direction-column align-center">
+            <h3 v-if="playingSong">{{playingSong.title}}</h3>
+
+            <input class="progress-bar" type="range" min="0" max="100" v-model="playerProgress" @change="songTimeUpdated" 
               @mousedown="stopProgress" @mouseup="startProgress" @touchstart="stopProgress" @touchend="startProgress" />
             
             <section class="video-btns-container">
@@ -91,7 +92,6 @@
             </section>
           </section>
 
-        </article>
           <section class="video-sec">
             <img class="needle" src="../assets/img/needl1.png"/>
             <div class="video-container ratio-square">
@@ -101,7 +101,8 @@
             </div>
             <div class="vinyl"></div>
           </section>
-      </section>
+        </article>
+      <!-- </section> -->
 
   </article>
 </template>

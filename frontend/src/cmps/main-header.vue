@@ -25,7 +25,7 @@
     </div>
     <div class = "hero flex direction-column align-center" :class = 'heroSize'>
        <h2 >Make and Discover Playlists</h2>
-       <router-link class = "buttons" to="/station/edit">Add New Station</router-link>
+       <router-link class = "buttons create-station-btn" to="/station/edit">Create A New Station</router-link>
 
     </div>
   </header>

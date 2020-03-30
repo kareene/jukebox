@@ -9,7 +9,13 @@
       </div>
       <section class="info-station-sec">
         <h2>{{station.name}}</h2>
-        <h3>{{station.createdBy.fullName}} add img of creator</h3>
+        <div class = "creator flex align-center space-between">
+          <p class ="creator-name">{{station.createdBy.fullName}}</p>
+          <div class = "ratio-square user-img">
+          <img  :src = "station.createdBy.imgUrl">
+          </div>
+        </div>
+        
         <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
       </section>
       <div class="sation-stats flex direction-column">
@@ -153,8 +159,15 @@ export default {
   },
   computed: {
     station() {
+      // console.log(this.$store.getters.currStation.createdBy.imgUrlimgUrl)
+      // var station1 = await this.$store.getters.currStation.createdBy.imgUrl
+      // console.log(station1)
       return this.$store.getters.currStation;
     },
+    getUserImg(){
+      return 
+    },
+
     loggedinUser() {
       return this.$store.getters.loggedinUser;
     },

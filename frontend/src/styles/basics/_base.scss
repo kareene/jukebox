@@ -90,6 +90,7 @@
                 }
                 
                 input[type=range] {
+                    border: none;
                     -webkit-appearance: none;
                     background: transparent;
                 }
@@ -113,7 +114,7 @@
                     padding: 0.25rem;
                     padding-left: 1rem;
                     border-radius: 0.25rem;
-                    border: 1px solid $clr3;
+                    border: 1px solid darken($color: $clr6, $amount: 12);
                 }
                 
                 .input-with-btn {

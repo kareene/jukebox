@@ -2,11 +2,11 @@
   <section class="user-login">
     <h2>User Login</h2>
     <form @submit.prevent="login">
-      <input type="email" placeholder="Email Address" v-model="credentials.email" required />
-      <input type="password" placeholder="Password" v-model="credentials.password" required />
-      <button>Login</button>
+      <input class="input" type="email" placeholder="Email Address" v-model="credentials.email" required />
+      <input class="input" type="password" placeholder="Password" v-model="credentials.password" required />
+      <button class="buttons">Login</button>
     </form>
-    <p>Not a user yet? <router-link to="/signup">Create an account</router-link></p>
+    <p>New around? <router-link to="/signup">Create an account</router-link></p>
   </section>
 </template>
 

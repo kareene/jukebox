@@ -49,7 +49,8 @@
     }
     .hero {
         height: 70vh;
-        background-image: linear-gradient( rgba(87, 84, 84, 0.603), rgba(255, 255, 255, 0.5)), url('../assets/img/hero.jpg');
+        background-image: url('../assets/img/hero.jpg');
+        // background-image: linear-gradient( rgba(87, 84, 84, 0.603), rgba(255, 255, 255, 0.5)), url('../assets/img/hero.jpg');
         background-size: cover;
     }
     .hero.small {

@@ -2,8 +2,8 @@
     <article class="song-add">
         <!-- <h2>Add a great song</h2> -->
         <form @submit.prevent="searchForSongs">
-            <input type="text" v-model="searchStr" />
-            <button class="search-btn buttons">Search</button>
+            <input class="input-with-btn" type="text" v-model="searchStr" />
+            <button class="button-of-input buttons">Search</button>
         </form>
 
 

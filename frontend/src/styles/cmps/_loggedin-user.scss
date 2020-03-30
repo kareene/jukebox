@@ -2,12 +2,11 @@
     padding: 10px;
     margin-left: auto;
     position: relative;
-    
     img {
         width: 40px;
     }
-    
     .user-options {
+        z-index: 1;
         min-width: 200px;
         position: absolute;
         top: 65px;
@@ -17,17 +16,14 @@
         display: none;
         flex-direction: column;
         justify-content: flex-start;
-
-        > * {
+        >* {
             text-align: start;
             margin-bottom: 0.25rem;
         }
-
         p {
             font-weight: bold;
         }
     }
-    
     &:hover .user-options {
         display: flex;
     }

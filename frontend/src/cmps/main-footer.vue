@@ -1,6 +1,6 @@
 <template>
   <footer class="main-footer">
-    <small>copyright &copy; 2020</small>
+    <small>copyright &copy; Rotem, Limor, Kareene 2020</small>
   </footer>
 </template>
 

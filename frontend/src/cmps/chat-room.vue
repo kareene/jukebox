@@ -16,13 +16,13 @@
 
     <form class="chat-room-form" @submit.prevent="sendMsg">
       <input
-        class="chat-input"
+        class="chat-input input-with-btn"
         v-model="newMessage.txt"
         type="text"
         placeholder="Enter your massage here..."
         @input="sendTyping"
       />
-      <button class="send-mgs-btn buttons">Send</button>
+      <button class="buttons button-of-input">Send</button>
     </form>
   </aside>
 </template>

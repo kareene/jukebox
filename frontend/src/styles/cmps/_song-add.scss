@@ -12,19 +12,6 @@
     form {
         display: flex;
         margin: 0 0 0.4em 0;
-        input {
-            // margin-right: 1rem;
-            width: 95%;
-            // padding: 0.25rem;
-            // border: 2px solid rgb(226, 226, 226);
-            border-radius: 5px;
-            border: 2px solid #e2e2e2;
-            padding-left: 1rem;
-        }
-        .search-btn {
-            margin-left: 1rem;
-            padding: 0.8em;
-        }
     }
     .songs-list-in-search {
         flex-grow: 1;

@@ -20,9 +20,10 @@
         color: $clr2;
         justify-content: space-between;
         background-color: $clr3;
+        border-radius: 0.25rem;
         // padding: 0.4em;
-        margin: 0;
         padding: 0.65em;
+        // margin: 0;
         button {
             @include clear-button;
         }
@@ -32,6 +33,7 @@
         flex-direction: column;
         flex-grow: 1;
         overflow-y: scroll;
+        overflow-x: hidden;
         // background-image: url('../assets/img/1414.jpg');
         // background-size: contain;
         @include scrollbsr-design;
@@ -45,20 +47,25 @@
 form {
     // grid-row: 2/3;
     // position: absolute;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     bottom: 0;
     margin: 0;
     max-width: inherit;
     .chat-input {
-        width: 85%;
+        // width: 85%;
+        width: 100%;
         padding: 0.4em;
-        padding-right: 9em;
+        // padding-right: 9em;
+        border-radius: 0.25rem 0 0 0.25rem;
+        border: 1px solid $clr3;
     }
-    // .send-mgs-btn {
+    .send-mgs-btn {
+        border-radius: 0 0.25rem 0.25rem 0;
     //     margin: 0.2em;
     //     padding: 0.65em;
-    // }
+    }
 }
 
 .chat-msg-line {

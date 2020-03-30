@@ -11,6 +11,19 @@
             width: 80px;
             margin-right: 0.8rem;
         }
+        .creator {
+            width: fit-content;
+                .user-img {
+                    width: 30px;
+                    border-radius: 40px;    
+                }
+                .creator-name{
+                    margin-right: 0.5rem;
+                    margin-bottom: 0;
+                }
+            
+        }
+        
         .sation-stats {
             display: flex;
             flex-direction: column;

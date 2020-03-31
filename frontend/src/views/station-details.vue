@@ -16,7 +16,7 @@
           </div>
         </div>
         
-        <router-link v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
+        <router-link class="edit-router" v-if="isStationCreator" :to="'/station/edit/' + station._id">Edit station</router-link>
       </section>
       <div class="sation-stats flex direction-column">
       <!-- <h4 class="station-tags">{{station.tags.join(", ")}}</h4> -->

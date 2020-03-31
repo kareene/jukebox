@@ -1,6 +1,5 @@
 .station-details {
     flex: 1;
-    // background-image: linear-gradient($clr3, #b9b9b9);
     .station-details-header {
         background-color: #e9eaea;
         padding: 0.4rem;
@@ -11,19 +10,22 @@
             width: 80px;
             margin-right: 0.8rem;
         }
-        .creator {
-            width: fit-content;
+        .info-station-sec {
+            .creator {
+                width: fit-content;
                 .user-img {
                     width: 30px;
-                    border-radius: 40px;    
+                    border-radius: 40px;
                 }
-                .creator-name{
+                .creator-name {
                     margin-right: 0.5rem;
                     margin-bottom: 0;
                 }
-            
+            }
+            .edit-router {
+                color: $clr1;
+            }
         }
-        
         .sation-stats {
             display: flex;
             flex-direction: column;
@@ -36,15 +38,14 @@
                 flex-direction: row;
                 margin: 0.8rem 0 0.8rem 0;
                 li {
-                    // background-color: $clr2;
                     background-color: transparent;
                     color: $clr3;
                     min-width: 100px;
                     max-width: fit-content;
+                    min-width: 50px;
                     text-align: center;
                     margin-right: 0.4rem;
                     padding: 0.4rem;
-                    // border-radius: 10px;
                     border-radius: 0.25rem;
                     border: 2px solid;
                 }
@@ -70,201 +71,124 @@
         }
     }
     .playlist-chat-container {
-        // width: 100%;
-        // height: 50vh;
         height: 58vh;
         flex: unset;
         .songs-sec {
             flex-basis: 65%;
-            // height: 100%;
             display: flex;
             flex-direction: column;
-            // padding-left: 0.4rem;
             .add-button {
                 align-self: flex-start;
                 margin-bottom: 0.5rem;
-                // width: fit-content;
-                // margin: 0.4rem 0 0.4rem 0;
-                // padding: 0.4rem;
                 ;
             }
         }
     }
-    // .media-player-container {
-    //     display: flex;
-    //     width: 86%;
-    //     align-self: center;
-        .player-container {
-            margin-top: 50px;
-            margin-right: 135px;
-            position: relative;
-            background-color: $clr3;
-            width: 75%;
-            max-width: calc(#{$break-wide} * 0.75);
-            height: 120px;
-            align-self: center;
-            // margin-top: 30px;
-            border-radius: 100vh;
-            ///////
-            // border: 1px solid rgb(82, 41, 83);
-            padding: 0.4rem;
-            // .song-info-container {
-            //     background-color: yellow;
-            // }
-            .video-control-container {
-                // margin-top: 20px;
-                width: 60%;
-                ////////
-                // display: flex;
-                // flex-direction: column;
-                // justify-content: center;
-                // align-items: center;
-                margin: 0 auto;
-                // width: 50%;
-                h3 {
-                    text-align: center;
-                    margin: 0;
-                    color: $clr6;
-                }
-                .progress-bar {
-                    width: 100%;
-                    // margin: 0.8rem;
-                }
-                .video-btns-container {
-                    // margin-top: 0.8rem;
-                    width: 50%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    .play-song-btn {
-                        // font-size: 50px;
-                        font-size: 1rem;
-                    }
-                }
-                .video-btns {
-                    border: none;
-                    // font-size: 30px;
+    .player-container {
+        margin-top: 50px;
+        margin-right: 135px;
+        position: relative;
+        background-color: $clr3;
+        width: 75%;
+        max-width: calc(#{$break-wide} * 0.75);
+        height: 120px;
+        align-self: center;
+        border-radius: 100vh;
+        padding: 0.4rem;
+        .video-control-container {
+            width: 60%;
+            margin: 0 auto;
+            h3 {
+                text-align: center;
+                margin: 0;
+                color: $clr6;
+            }
+            .progress-bar {
+                width: 100%;
+            }
+            .video-btns-container {
+                width: 50%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .play-song-btn {
                     font-size: 1rem;
-                    background-color: transparent;
-                    color: $clr6;
-                }
-                .audio-controls {
-                    width: 50%;
-                    display: flex;
-                    justify-content: center;
                 }
             }
-            .video-sec {
-                // bottom: 10px;
-                // left: 62px;
-                // bottom: -8px;
-                // right: 36.7px;
-                // bottom: -23px;
-                // margin: 0;
-                ///////
-                // position: relative;
-                background-color: #000;
+            .video-btns {
+                border: none;
+                font-size: 1rem;
+                background-color: transparent;
+                color: $clr6;
+            }
+            .audio-controls {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+        .video-sec {
+            background-color: #000;
+            position: absolute;
+            right: -45px;
+            .video-container {
+                width: 90px;
+                border-radius: 50%;
+                iframe {
+                    pointer-events: none;
+                    transform: scale(2.5);
+                }
+            }
+            .needle {
                 position: absolute;
-                right: -45px;
-                // width: 100px;
-                // width: fit-content;
-                .video-container {
-                    // width: 220px;
-                    width: 90px;
-                    // right: 66px;
-                    // justify-self: center;
-                    // width: 240px;
-                    // right: 60px;
-                    border-radius: 50%;
-                    // border: 60px solid transparent;
-                    iframe {
-                        pointer-events: none;
-                        transform: scale(2.5);
-                    }
-                }
-                .needle {
-                    position: absolute;
-                    z-index: 1;
-                    transform-origin: 76% 21%;
+                z-index: 1;
+                transform-origin: 76% 21%;
+                transform: rotateZ(-9.5deg);
+                animation: jitter 4s linear infinite;
+                width: 110px;
+                top: -55px;
+                right: -95px;
+            }
+            @keyframes jitter {
+                0% {
                     transform: rotateZ(-9.5deg);
-                    animation: jitter 4s linear infinite;
-                    width: 110px;
-                    // transform: scale(0.55) rotateZ(-9.5deg);
-                    top: -55px;
-                    right: -95px;
-                    // top: -50px;
-                    // right: -85px;
-                    // left: 42px;
-                    // top: -33px;
-                    //// left: 46px;
-                    //// top: -58px;
-                    // width: 200px;
-                    // width: 92%;
-                    // top: 80px;
-                    // left: -40px;
                 }
-                @keyframes jitter {
-                    0% {
-                        transform: rotateZ(-9.5deg);
-                    }
-                    50% {
-                        transform: rotateZ(-20deg);
-                    }
-                    100% {
-                        transform: rotate(-9.5deg);
-                    }
+                50% {
+                    transform: rotateZ(-20deg);
                 }
-                .vinyl {
-                    width: 88px;
-                    height: 90px;
-                    bottom: 10px;
-                    left: 62px;
-                    /////
-                    position: absolute;
-                    -ms-transform: translate(69px);
-                    transform: translate(69px);
-                    //k top: 60px;
-                    left: -7px;
-                    // width: 118px;
-                    // height: 120px;
-                    border-radius: 50%;
-                    border-width: 29px 0px;
-                    border-left: 0;
-                    animation: spin 1.3s linear infinite;
-                    // animation: pull-out 1.3s 2s ease-out forwards, spin 1.3s 4s linear infinite;
-                    box-shadow: 0px 0px 3px transparent, 0px 0px 0px 10px transparent, 0px 0px 15px white, 0px 0px 0px 16px #000, 0px 0px 0px 17px #252424, 0px 0px 0px 18px #000, 0px 0px 0px 19px #313030, 0px 0px 0px 20px #000, 0px 0px 0px 21px #3a3838, 0px 0px 0px 22px #000, 0px 0px 0px 23px #2b2a2a, 0px 0px 0px 24px #000, 0px 0px 0px 25px #313030, 0px 0px 0px 26px #000, 0px 0px 0px 27px #313030, 0px 0px 0px 28px #000, 0px 0px 0px 29px #333333, 0px 0px 0px 30px #000, 0px 0px 0px 31px #333232, 0px 0px 0px 32px #000, 0px 0px 0px 33px #4c4a4a, 0px 0px 0px 34px #000, 0px 0px 0px 35px #2f2e2e, 0px 0px 0px 36px #000, 0px 0px 0px 37px #252424, 0px 0px 0px 38px #000, 0px 0px 0px 39px #2f2e2e, 0px 0px 0px 40px #000, 0px 0px 0px 41px #2f2e2e, 0px 0px 0px 42px #000, 0px 0px 0px 55px #2f2e2e, 0px 0px 0px 56px #000, 0px 0px 0px 57px #2f2e2e, 0px 0px 0px 58px #cecece, 0px 0px 0px 59px #2f2e2e;
+                100% {
+                    transform: rotate(-9.5deg);
                 }
-                // .vinyl:before {
-                //     content: "";
-                //     position: absolute;
-                //     width: 6px;
-                //     height: 6px;
-                //     top: calc(50% - 3px);
-                //     left: calc(50% - 3px);
-                //     border-radius: 50%;
-                // }
-                @keyframes spin {
-                    0% {
-                        transform: rotate(0deg);
-                        // left: 20px;
-                        left: 0;
-                        // left: 60px;//mob
-                        bottom: 0;
-                        // top: 60px;
-                    }
-                    100% {
-                        transform: rotate(360deg);
-                        left: 0;
-                        // left: 20px;
-                        // left: 60px;//mob
-                        bottom: 0;
-                        // top: 60px;
-                    }
+            }
+            .vinyl {
+                width: 88px;
+                height: 90px;
+                bottom: 10px;
+                left: 62px;
+                position: absolute;
+                -ms-transform: translate(69px);
+                transform: translate(69px);
+                left: -7px;
+                border-radius: 50%;
+                border-width: 29px 0px;
+                border-left: 0;
+                animation: spin 1.3s linear infinite;
+                box-shadow: 0px 0px 3px transparent, 0px 0px 0px 10px transparent, 0px 0px 15px white, 0px 0px 0px 16px #000, 0px 0px 0px 17px #252424, 0px 0px 0px 18px #000, 0px 0px 0px 19px #313030, 0px 0px 0px 20px #000, 0px 0px 0px 21px #3a3838, 0px 0px 0px 22px #000, 0px 0px 0px 23px #2b2a2a, 0px 0px 0px 24px #000, 0px 0px 0px 25px #313030, 0px 0px 0px 26px #000, 0px 0px 0px 27px #313030, 0px 0px 0px 28px #000, 0px 0px 0px 29px #333333, 0px 0px 0px 30px #000, 0px 0px 0px 31px #333232, 0px 0px 0px 32px #000, 0px 0px 0px 33px #4c4a4a, 0px 0px 0px 34px #000, 0px 0px 0px 35px #2f2e2e, 0px 0px 0px 36px #000, 0px 0px 0px 37px #252424, 0px 0px 0px 38px #000, 0px 0px 0px 39px #2f2e2e, 0px 0px 0px 40px #000, 0px 0px 0px 41px #2f2e2e, 0px 0px 0px 42px #000, 0px 0px 0px 55px #2f2e2e, 0px 0px 0px 56px #000, 0px 0px 0px 57px #2f2e2e, 0px 0px 0px 58px #cecece, 0px 0px 0px 59px #2f2e2e;
+            }
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                    left: 0;
+                    bottom: 0;
+                }
+                100% {
+                    transform: rotate(360deg);
+                    left: 0;
+                    bottom: 0;
                 }
             }
         }
-    // }
-    // }
+    }
     @include for-normal-layout {
         .station-details-header {
             order: -1;
@@ -283,32 +207,11 @@
                 transform: translate(50%, 50%);
                 .video-container {
                     width: 120px;
-                //     right: 0px; ///mob
-                //     margin-bottom: 0.8rem;
                 }
-                // .needle {
-                // //     left: 109px; ///mob
-                //     top: -55px;
-                //     right: -95px;
-                // }
                 .vinyl {
                     width: 118px;
                     height: 120px;
                 }
-                // @keyframes spin {
-                //     0% {
-                //         transform: rotate(0deg);
-                //         left: 60px; //mob
-                //         bottom: 0;
-                //         top: 60px;
-                //     }
-                //     100% {
-                //         transform: rotate(360deg);
-                //         left: 60px; //mob
-                //         bottom: 0;
-                //         top: 60px;
-                //     }
-                // }
             }
             .video-control-container {
                 margin-bottom: 20px;
@@ -348,196 +251,3 @@
 .like-btn {
     @include clear-button;
 }
-
-// @media (max-width: $break-normal) {
-//     .station-details {
-//         position: relative;
-//         display: grid;
-//         grid-template-columns: 1fr;
-//         grid-template-rows: 10vh 30vh auto 55vh;
-//         gap: 1rem;
-//         .station-details-header {
-//             grid-column: 1/2;
-//             grid-row: 1/2;
-//             .ratio-square {
-//                 padding: 0.4rem;
-//             }
-//             .img-container {
-//                 width: 95px;
-//             }
-//         }
-//         .video-sec {
-//             grid-column: 1/2;
-//             grid-row: 2/3;
-//         }
-//         .video-btns-container {
-//             grid-column: 1/2;
-//             grid-row: 3/4;
-//             border: none;
-//         }
-//         .songs-sec {
-//             grid-column: 1/2;
-//             grid-row: 4/5;
-//         }
-//         .station-chat {
-//             grid-column: 1/2;
-//             grid-row: 4/5;
-//             border: 1px solid rgb(226, 226, 226);
-//             padding: 0 0 1% 0;
-//             margin: 0 0 1% 0;
-//         }
-//         .chat-open {
-//             font-size: 30px;
-//             position: absolute;
-//             bottom: 50px;
-//             right: 8px;
-//             background-color: $clr3;
-//             cursor: pointer;
-//             display: flex;
-//             padding: 20px;
-//             width: 75px;
-//             height: 75px;
-//             border: solid 2px $clr6;
-//             border-radius: 50%;
-//             h4 {
-//                 color: $clr5;
-//                 margin: 0 auto;
-//                 align-self: center;
-//                 text-align: center;
-//             }
-//         }
-//     }
-// }
-/////narrow layout 460px/////
-// @media (max-width: $break-normal) {
-//     .station-details {
-//         position: relative;
-//         display: grid;
-//         grid-template-columns: 1fr;
-//         grid-template-rows: auto auto 500px;
-//         gap: 1rem;
-//         .station-chat {
-//             grid-column: 1/2;
-//             grid-row: 3/4;
-//             border: 1px solid rgb(226, 226, 226);
-//             padding: 0 0 1% 0;
-//             margin: 0 0 1% 0;
-//         }
-//         .chat-open {
-//             font-size: 30px;
-//             position: absolute;
-//             bottom: 50px;
-//             right: 8px;
-//             background-color: $clr3;
-//             cursor: pointer;
-//             display: flex;
-//             padding: 20px;
-//             width: 75px;
-//             height: 75px;
-//             border: solid 2px $clr6;
-//             border-radius: 50%;
-//             h4 {
-//                 color: $clr5;
-//                 margin: 0 auto;
-//                 align-self: center;
-//                 text-align: center;
-//             }
-//         }
-//     }
-// }
-// .station-details {
-//     display: grid;
-//     grid-template-columns: 3fr 2fr;
-//     grid-template-rows: auto auto 500px;
-//     gap: 1rem;
-//     .station-details-header {
-//         grid-column: 1/-1;
-//         grid-row: 1/1;
-//     }
-//     .video-sec {
-//         grid-column: 1/-1;
-//         grid-row: 2/3;
-//     }
-//     .songs-sec {
-//         grid-column: 1/2;
-//         grid-row: 3/4;
-//         overflow-y: scroll;
-//         @include scrollbsr-design;
-//     }
-//     .station-chat {
-//         grid-column: 2/3;
-//         grid-row: 3/4;
-//         border: 1px solid rgb(226, 226, 226);
-//         padding: 1%;
-//         margin: 1%;
-//     }
-//     .chat-open {}
-// }
-// .video-container {
-//     min-width: 320px;
-//     min-height: 320px;
-// }
-// .video-btns-container {
-//     padding: 5%;
-//     margin: 0 auto;
-//     display: flex;
-//     justify-content: space-between;
-//     width: 50%;
-//     .video-btns {
-//         border: none;
-//         font-size: 30px;
-//         background-color: transparent;
-//         color: $clr6;
-//     }
-//     .play-song-btn {
-//         font-size: 50px;
-//     }
-// }
-// .songs-sec {
-//     display: flex;
-//     flex-direction: column;
-//     .add-button {
-//         align-self: flex-end;
-//         width: fit-content;
-//     }
-// }
-// .like-btn {
-//     @include clear-button;
-// }
-// /////narrow layout 460px/////
-// @media (max-width: $break-normal) {
-//     .station-details {
-//         position: relative;
-//         display: grid;
-//         grid-template-columns: 1fr;
-//         grid-template-rows: auto auto 500px;
-//         gap: 1rem;
-//         .station-chat {
-//             grid-column: 1/2;
-//             grid-row: 3/4;
-//             border: 1px solid rgb(226, 226, 226);
-//             padding: 0 0 1% 0;
-//             margin: 0 0 1% 0;
-//         }
-//         .chat-open {
-//             font-size: 30px;
-//             position: absolute;
-//             bottom: 50px;
-//             right: 8px;
-//             background-color: $clr3;
-//             cursor: pointer;
-//             display: flex;
-//             padding: 20px;
-//             width: 75px;
-//             height: 75px;
-//             border: solid 2px $clr6;
-//             border-radius: 50%;
-//             h4 {
-//                 color: $clr5;
-//                 margin: 0 auto;
-//                 align-self: center;
-//                 text-align: center;
-//             }
-//         }
-//     }
-// }

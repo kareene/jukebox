@@ -3,7 +3,7 @@ module.exports = connectSockets
 function connectSockets(io) {
     var stationMap = {};
     io.on('connection', socket => {
-        socket.on('joinStation', ({ stationId, user }) => {
+        socket.on('station join', ({ stationId, user }) => {
             if (socket.myStation) {
                 socket.leave(socket.myStation);
             }
@@ -11,6 +11,7 @@ function connectSockets(io) {
             socket.myStation = stationId;
             if (!stationMap[socket.myStation]) stationMap[socket.myStation] = {song: null, users: []};
             stationMap[socket.myStation].users.push(user);
+            io.to(socket.myStation).emit('station updateUsers', stationMap[socket.myStation].users);
         });
         socket.on('chat newMsg', msg => {
             // io.emit('chat addMsg', msg)

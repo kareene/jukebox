@@ -133,7 +133,8 @@ export default {
       isAddSongOpen: false,
       isSongPlaying: false,
       interval: null,
-      chatIsOn: false
+      chatIsOn: false,
+      connectedUsers: []
     };
   },
   async created() {
@@ -141,7 +142,7 @@ export default {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     await this.loadStation();
-    socketService.emit('joinStation', { stationId: this.station._id, user: this.loggedinUser });
+    socketService.emit('station join', { stationId: this.station._id, user: this.loggedinUser });
     socketService.on('player updatePlaylist', this.updatePlaylist);
     socketService.on('player pauseSong', this.pauseSong);
     socketService.on('player playSong', this.playSong);

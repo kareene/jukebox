@@ -10,7 +10,7 @@ async function getVideoSearchResults(string) {
     const PART = 'id,snippet';
     const TYPE = 'video';
     const MAX_RESULTS = 10;
-    const QUERY = 'musicvideo ' + string;
+    const QUERY = string;
 
     const res = await axios.get(`${BASE_URL}?part=${PART}&maxResults=${MAX_RESULTS}&type=${TYPE}&q=${QUERY}&key=${API_KEY}`);
     const videoSearchResults = res.data.items.map(video => {

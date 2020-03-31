@@ -11,7 +11,10 @@
               <p class="song-add-by-name">Added by: {{song.addedBy.fullName}}</p>
             </div>
           </section>
-          <img class="playing-song-gif" v-if="song.id === playingSongId && isSongPlaying" src="../../public/img/eq3.gif" />
+          <transition name="fade">
+            <img class="playing-song-gif" v-if="song.id === playingSongId && isSongPlaying" src="../../public/img/eq-play.gif" />
+          </transition>
+          <!-- <img class="playing-song-gif" v-else-if="song.id === playingSongId && !isSongPlaying" src="../../public/img/eq-pause.gif" /> -->
           <!-- <button class="fas fa-play" v-if="playingSongId" @click.stop="playSong(song.id)"></button> -->
 
           <!--<button class="remove-song-btn" @click.stop="removeSong(song.id)">X</button>-->

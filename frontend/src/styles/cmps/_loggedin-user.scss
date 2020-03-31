@@ -4,14 +4,17 @@
     position: relative;
     img {
         width: 40px;
+        border-radius: 50%;
     }
     .user-options {
         z-index: 1;
-        min-width: 200px;
+        min-width: 184px;
+        box-shadow: 0px 12px 18px -6px rgba(0, 0, 0, 0.3);
         position: absolute;
         top: 65px;
         right: -21px;
-        background-color: $clr6;
+        background-color: white;
+        // background-color: $clr6;
         padding: 10px;
         display: none;
         flex-direction: column;

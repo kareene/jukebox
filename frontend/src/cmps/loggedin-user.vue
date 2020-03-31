@@ -1,6 +1,6 @@
 <template>
   <section v-if="loggedinUser" class="loggedin-user">
-    <img :src="loggedinUser.imgUrl" />
+    <img :src="loggedinUser.imgUrl"/>
     <div class="user-options">
       <p>Hello {{loggedinUser.fullName}}</p>
       <template v-if="isGuestUser">

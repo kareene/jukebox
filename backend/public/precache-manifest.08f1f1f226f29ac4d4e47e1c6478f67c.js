@@ -1,7 +1,7 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6b30906b0a95263ac52b",
-    "url": "/css/app.cd8286a6.css"
+    "revision": "a6edaa286a3a8c546a03",
+    "url": "/css/app.d5f54c5e.css"
   },
   {
     "revision": "411051cb61bcda5517943601e8734cea",
@@ -14,6 +14,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "410504d49238e955ba7dc23a7f963021",
     "url": "/fonts/ProximaNova-Regular.410504d4.otf"
+  },
+  {
+    "revision": "be1378e67f651504d3552ce42a65f0b6",
+    "url": "/fonts/SecularOne-Regular.be1378e6.ttf"
+  },
+  {
+    "revision": "159cb67fc3bc762a8c3232f0a0c6728e",
+    "url": "/fonts/VarelaRound-Regular.159cb67f.ttf"
   },
   {
     "revision": "067595ad77ecc0db9c81c8905a7eef32",
@@ -64,16 +72,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fonts/fa-solid-900.cdfec5cf.woff"
   },
   {
-    "revision": "1e2d8fb975acee97f11272e1df69640d",
-    "url": "/img/2222.1e2d8fb9.png"
+    "revision": "17dd5e94d9c7450dac6a60e56f173208",
+    "url": "/img/1515.17dd5e94.jpeg"
+  },
+  {
+    "revision": "5381386784ba25114a89b7d133e56ef4",
+    "url": "/img/eq-pause.gif"
   },
   {
     "revision": "d1a782b3c17502381555dbba0d9ffbe9",
-    "url": "/img/eq3.d1a782b3.gif"
+    "url": "/img/eq-play.d1a782b3.gif"
   },
   {
     "revision": "d1a782b3c17502381555dbba0d9ffbe9",
-    "url": "/img/eq3.gif"
+    "url": "/img/eq-play.gif"
   },
   {
     "revision": "9d67fa1429375bd2a899a17eb77d0342",
@@ -88,8 +100,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/fa-solid-900.0724bb8b.svg"
   },
   {
-    "revision": "a65d880052662774b9bdc29806b46899",
-    "url": "/img/hero.a65d8800.jpg"
+    "revision": "94378622d7aa102d1ccdcc90abf9703e",
+    "url": "/img/hero.94378622.jpg"
   },
   {
     "revision": "c066beab47e036cfc568926152d88816",
@@ -100,12 +112,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/img/user-icon.png"
   },
   {
-    "revision": "36806e6e51b8d04a6dfc7b34b5e81cdb",
+    "revision": "4bbca113fcbf33711d3b0f6206c27688",
     "url": "/index.html"
   },
   {
-    "revision": "6b30906b0a95263ac52b",
-    "url": "/js/app.ec6afee3.js"
+    "revision": "a6edaa286a3a8c546a03",
+    "url": "/js/app.34ca0c99.js"
   },
   {
     "revision": "e2ee756b6c90455e36dc",

@@ -9,13 +9,13 @@
 @import 'basics/layout';
 // VIEWS
 @import 'views/home-page';
-// @import 'views/about-page';
+@import 'views/_about-page';
 @import 'views/stations-page';
 @import 'views/station-details';
 @import 'views/station-edit';
-// @import 'views/user-signup';
+@import 'views/user-signup';
 @import 'views/user-login';
-// @import 'views/user-profile';
+@import 'views/user-profile';
 // @import 'views/user-management';
 // COMPONENTS
 @import 'cmps/main-header';

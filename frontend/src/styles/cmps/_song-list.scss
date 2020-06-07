@@ -98,10 +98,10 @@
     }
 }
 
-@include for-normal-layout {
-    .song-list {
-        .container-of-song-list {
-            overflow-y: unset;
-        }
-    }
-}
+// @include for-normal-layout {
+//     .song-list {
+//         .container-of-song-list {
+//             overflow-y: unset;
+//         }
+//     }
+// }

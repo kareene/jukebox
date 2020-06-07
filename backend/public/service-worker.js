@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.ae99fb600dd207297d47146cc426bc1a.js"
+  "/precache-manifest.e2ed28c788066b592b08bc7f329372d2.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "jukebox"});

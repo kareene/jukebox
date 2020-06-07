@@ -43,7 +43,7 @@ export default {
         unsetStation(state) {
             state.currStation = null;
         },
-        setFilterBy (state, { filterBy }) {
+        setFilterBy(state, { filterBy }) {
             state.filterBy = filterBy;
         },
         addStation(state, { station }) {
